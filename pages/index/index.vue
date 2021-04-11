@@ -1,33 +1,106 @@
 <template>
 	<view>
-		<blogHome :isRefresh='isRefresh' v-if="PageCur=='blogHome'"></blogHome>
-		<view class="cu-bar tabbar bg-white shadow foot">
-
-			<view @click="NavChange" class="action" data-cur="blogHome">
-				<view class='cuIcon-cu-image'>
-					<image :src="'/static/tabbar/home' + [PageCur=='blogHome'?'_cur':''] + '.png'"></image>
+		<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block>
+			<block slot="content">智慧环保</block>
+		</cu-custom>
+		<view class="margin-top margin-left solid-bottom">
+			<view class="action">
+				<text class="cuIcon-title text-pink"></text>环保实时图
+			</view>
+		</view>
+			<swiper class="card-swiper" :class="dotStyle?'square-dot':'round-dot'" :indicator-dots="true" :circular="true"
+			:autoplay="true" interval="5000" duration="500" @change="cardSwiper" indicator-color="#8799a3"
+			indicator-active-color="#0081ff">
+				<swiper-item v-for="(item,index) in swiperList" :key="index" :class="cardCur==index?'cur':''">
+					<view class="swiper-item">
+						<image :src="item.url" mode="aspectFill" v-if="item.type=='image'"></image>
+						<video :src="item.url" autoplay loop muted :show-play-btn="false" :controls="false" objectFit="cover" v-if="item.type=='video'"></video>
+					</view>
+				</swiper-item>
+			</swiper>
+		<view class=" margin-top margin-left solid-bottom">
+			<view class="action">
+				<text class="cuIcon-title text-blue"></text>功能菜单
+			</view>
+		</view>
+		<view class="menu">
+			<view class="moudle" @click="surfaceWater">
+				<view class="bacimage1"></view>
+				<view style="text-align: center;">
+				 地表水
 				</view>
-				<view :class="PageCur=='blogHome'?'text-blue':'text-gray'">首页</view>
+			</view>
+			<view class="moudle"  @click="airPollution">
+				<view class="bacimage2"></view>
+				<view style="text-align: center;">
+				 空气
+				</view>
+			</view>
+			<view class="moudle">
+				<view class="bacimage3"></view>
+				<view style="text-align: center;">
+				 大气
+				</view>
+			</view>
+			<view class="moudle">
+				<view class="bacimage4"></view>
+				<view style="text-align: center;">
+				 地表水体污染源
+				</view>
+			</view>
+			<view class="moudle">
+				<view class="bacimage2"></view>
+				<view style="text-align: center;">
+				 智慧工地
+				</view>
+			</view>
+			<view class="moudle">
+				<view class="bacimage3"></view>
+				<view style="text-align: center;">
+				 监测站
+				</view>
 			</view>
 		</view>
 	</view>
+
 </template>
-
-
 <script>
 	import {getWebConfig} from "../../api/about.js";
 	export default {
 		data() {
 			return {
 				isRefresh: "",
-				PageCur: 'blogHome'
-			}
+				PageCur: 'blogHome',
+				cardCur: 0,
+				swiperList: [{
+					id: 0,
+					type: 'image',
+					url: '../../static/images/1.jpg'
+				}, {
+					id: 1,
+					type: 'image',
+					url: '../../static/images/2.jpg'
+				}, {
+					id: 2,
+					type: 'image',
+					url: '../../static/images/3.jpg'
+				}, {
+					id: 3,
+					type: 'image',
+					url: '../../static/images/4.jpg'
+				}, {
+					id: 4,
+					type: 'image',
+					url: '../../static/images/2.jpg'
+				}],
+				dotStyle: false,
+				towerStart: 0,
+				direction: ''
+			};
 		},
-		onLoad(options) {
-			console.log("传递到主页的内容", options)
-			if(options.PageCur) {
-				this.PageCur = options.PageCur
-			}
+		onLoad() {
+			this.TowerSwiper('swiperList');
+			// 初始化towerSwiper 传已有的数组名即可
 		},
 		onShow: function() {
 			console.log('显示APP')
@@ -54,24 +127,116 @@
 			// this.getWebConfigData();
 		},
 		methods: {
-			NavChange: function(e) {
-				this.PageCur = e.currentTarget.dataset.cur
-				console.log("跳转", this.PageCur)
+		surfaceWater(){
+			setTimeout(function() {
+				uni.navigateTo({
+					url: '/pages/surfaceWater/index',
+				});
+			}, 500);
+		localStorage.setItem("url","surfaceWater_index")
+		},
+		airPollution(){
+			setTimeout(function() {
+				uni.navigateTo({
+					url: '/pages/airPollution/index',
+				});
+			}, 500);
+		localStorage.setItem("url","airPollution_index")
+		},
+			DotStyle(e) {
+				this.dotStyle = e.detail.value
 			},
-			// getWebConfigData() {
-			// 	var that = this
-			// 	let params = {}
-			// 	getWebConfig(params).then(res =>{
-			// 		console.log("获取网站配置", res)
-			// 		if(res.code == "success") {
-			// 			uni.setStorageSync("webConfig", res.data)
-			// 		}
-			// 	})
-			// },
+			// cardSwiper
+			cardSwiper(e) {
+				this.cardCur = e.detail.current
+			},
+			// towerSwiper
+			// 初始化towerSwiper
+			TowerSwiper(name) {
+				let list = this[name];
+				for (let i = 0; i < list.length; i++) {
+					list[i].zIndex = parseInt(list.length / 2) + 1 - Math.abs(i - parseInt(list.length / 2))
+					list[i].mLeft = i - parseInt(list.length / 2)
+				}
+				this.swiperList = list
+			},
+
+			// towerSwiper触摸开始
+			TowerStart(e) {
+				this.towerStart = e.touches[0].pageX
+			},
+
+			// towerSwiper计算方向
+			TowerMove(e) {
+				this.direction = e.touches[0].pageX - this.towerStart > 0 ? 'right' : 'left'
+			},
+
+			// towerSwiper计算滚动
+			TowerEnd(e) {
+				let direction = this.direction;
+				let list = this.swiperList;
+				if (direction == 'right') {
+					let mLeft = list[0].mLeft;
+					let zIndex = list[0].zIndex;
+					for (let i = 1; i < this.swiperList.length; i++) {
+						this.swiperList[i - 1].mLeft = this.swiperList[i].mLeft
+						this.swiperList[i - 1].zIndex = this.swiperList[i].zIndex
+					}
+					this.swiperList[list.length - 1].mLeft = mLeft;
+					this.swiperList[list.length - 1].zIndex = zIndex;
+				} else {
+					let mLeft = list[list.length - 1].mLeft;
+					let zIndex = list[list.length - 1].zIndex;
+					for (let i = this.swiperList.length - 1; i > 0; i--) {
+						this.swiperList[i].mLeft = this.swiperList[i - 1].mLeft
+						this.swiperList[i].zIndex = this.swiperList[i - 1].zIndex
+					}
+					this.swiperList[0].mLeft = mLeft;
+					this.swiperList[0].zIndex = zIndex;
+				}
+				this.direction = ""
+				this.swiperList = this.swiperList
+			},
 		}
 	}
 </script>
 
 <style>
+.menu{
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+margin:20px;
+height:auto;
+background: #ffffff;
+box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+opacity: 1;
+border-radius: 12px;
+}
+.moudle{
+  width:20%;
+  height:80px;
+  margin:15px 20px;
+}
+.bacimage1{
+  height:50px;
+  background: url(../../static/images/icon/s1.png) no-repeat;
+  background-size: cover;
+}
+.bacimage2{
+  height:50px;
+  background: url(../../static/images/icon/s2.png) no-repeat;
+  background-size: cover;
+}
+.bacimage3{
+  height:50px;
+  background: url(../../static/images/icon/s3.png) no-repeat;
+  background-size: cover;
+}
+.bacimage4{
+  height:50px;
+  background: url(../../static/images/icon/s4.png) no-repeat;
+  background-size: cover;
+}
 
 </style>

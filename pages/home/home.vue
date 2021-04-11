@@ -1,7 +1,6 @@
 <template name="basics">
 	<view>
 		<scroll-view @scrolltolower="loadData" class="page" scroll-y>
-
 			 <swiper :autoplay="true" :circular="true" :indicator-dots="false" class="screen-swiper round-dot" duration="500"
 			  interval="5000">
 			 	<swiper-item :key="index" @tap="goInfo(item.uid)" v-for="(item,index) in fristData">
@@ -58,7 +57,6 @@
 			<view class="loadStyle" v-if="!isEnd && loading">正在加载中</view>
 			<view class="loadStyle" v-if="isEnd">我也是有底线的~</view>
 			<button @click="goLogin()" class="cu-btn bg-green shadow-blur round">登出</button>
-
 			<view class="cu-tabbar-height"></view>
 		</scroll-view>
 	</view>

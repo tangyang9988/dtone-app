@@ -2,9 +2,9 @@ import { appConfig } from '../config/config.js'
 import { tokenUtil } from './token'
 
 const send = (url, data = {}, method = 'POST', map={},showLoading = true) => {
-    uni.showLoading({
-        title: '加载中'
-    })
+    // uni.showLoading({
+    //     title: '加载中'
+    // })
     return new Promise((resolve) => {
         uni.request({
             method: method,

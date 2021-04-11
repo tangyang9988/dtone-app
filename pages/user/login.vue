@@ -110,7 +110,6 @@
 							icon: "none",
 							title: "登录成功",
 						})
-
 						// 跳转个人中心页
 						setTimeout(function() {
 							uni.navigateTo({

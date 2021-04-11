@@ -6,7 +6,7 @@ export const appConfig = {
 	captchaMode: true, // 是否开启验证码模式
 
 	// 开发环境
-    WEB_API: 'http://localhost:8607/api',
+    WEB_API: 'http://localhost:8607',
 	// PICTURE_API: 'http://localhost:8607/mogu-picture',
 
 	// 演示环境
