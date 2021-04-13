@@ -36,28 +36,28 @@
 				 空气
 				</view>
 			</view>
-			<view class="moudle">
+			<view class="moudle" @click="pollutionSurfaceWater">
 				<view class="bacimage3"></view>
-				<view style="text-align: center;">
-				 大气
-				</view>
-			</view>
-			<view class="moudle">
-				<view class="bacimage4"></view>
 				<view style="text-align: center;">
 				 地表水体污染源
 				</view>
 			</view>
 			<view class="moudle">
+				<view class="bacimage4"></view>
+				<view style="text-align: center;">
+				 大气[暂无]
+				</view>
+			</view>
+			<view class="moudle">
 				<view class="bacimage2"></view>
 				<view style="text-align: center;">
-				 智慧工地
+				 智慧工地[暂无]
 				</view>
 			</view>
 			<view class="moudle">
 				<view class="bacimage3"></view>
 				<view style="text-align: center;">
-				 监测站
+				 监测站[暂无]
 				</view>
 			</view>
 		</view>
@@ -127,22 +127,30 @@
 			// this.getWebConfigData();
 		},
 		methods: {
-		surfaceWater(){
-			setTimeout(function() {
-				uni.navigateTo({
-					url: '/pages/surfaceWater/index',
-				});
-			}, 500);
-		localStorage.setItem("url","surfaceWater_index")
-		},
-		airPollution(){
-			setTimeout(function() {
-				uni.navigateTo({
-					url: '/pages/airPollution/index',
-				});
-			}, 500);
-		localStorage.setItem("url","airPollution_index")
-		},
+			surfaceWater(){
+				setTimeout(function() {
+					uni.navigateTo({
+						url: '/pages/surfaceWater/index',
+					});
+				}, 500);
+			localStorage.setItem("url","surfaceWater_index")
+			},
+			airPollution(){
+				setTimeout(function() {
+					uni.navigateTo({
+						url: '/pages/airPollution/index',
+					});
+				}, 500);
+			localStorage.setItem("url","airPollution_index")
+			},
+			pollutionSurfaceWater(){
+				setTimeout(function() {
+					uni.navigateTo({
+						url: '/pages/pollutionSurfaceWater/index',
+					});
+				}, 500);
+			localStorage.setItem("url","pollutionSurfaceWater_index")
+			},
 			DotStyle(e) {
 				this.dotStyle = e.detail.value
 			},

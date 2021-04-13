@@ -63,6 +63,12 @@ export default {
               url: "/pages/surfaceWater/index",
             });
           }, 500);
+        }else if(localStorage.getItem("url")=="pollutionSurfaceWater_index"){
+          setTimeout(function () {
+            uni.navigateTo({
+              url: "/pages/pollutionSurfaceWater/index",
+            });
+          }, 500);
         }
 
       } else if (e.currentTarget.dataset.cur == "airPollution_history") {

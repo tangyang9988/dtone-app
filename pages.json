@@ -60,6 +60,13 @@
 				"navigationBarTitleText": "uni-app",
 				"enablePullDownRefresh": true
 			}
+		},
+		{
+			"path": "pages/pollutionSurfaceWater/index",			
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"enablePullDownRefresh": true
+			}
 		}
 
 	],
