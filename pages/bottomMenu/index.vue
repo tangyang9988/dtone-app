@@ -49,7 +49,7 @@ export default {
     };
   },
   methods: {
-    hisClick: function (e) {debugger
+    hisClick: function (e) {
       if (e.currentTarget.dataset.cur == "airPollution_index") {
         if(localStorage.getItem("url")=="airPollution_index"){
           setTimeout(function () {

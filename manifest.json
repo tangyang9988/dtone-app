@@ -66,10 +66,10 @@
         "title" : "h5",
 		"devServer" : {
 			"https" : false,
-			"port": 8607,
+			"port": 8080,
 			"proxy": {  
 				"/api": {
-					"target": "http://localhost",
+					"target": "58.216.249.82:1888",
 					"changeOrigin": true,   
 					"secure": false,
 					"pathRewrite": {

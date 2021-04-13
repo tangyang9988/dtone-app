@@ -215,26 +215,25 @@ border-radius: 12px;
 }
 .moudle{
   width:20%;
-  height:80px;
   margin:15px 20px;
 }
 .bacimage1{
-  height:50px;
+  height:70px;
   background: url(../../static/images/icon/s1.png) no-repeat;
   background-size: cover;
 }
 .bacimage2{
-  height:50px;
+  height:70px;
   background: url(../../static/images/icon/s2.png) no-repeat;
   background-size: cover;
 }
 .bacimage3{
-  height:50px;
+  height:70px;
   background: url(../../static/images/icon/s3.png) no-repeat;
   background-size: cover;
 }
 .bacimage4{
-  height:50px;
+  height:70px;
   background: url(../../static/images/icon/s4.png) no-repeat;
   background-size: cover;
 }

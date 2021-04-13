@@ -91,7 +91,6 @@
 				params.grant_type = "captcha";
 				params.scope = "all";
 				localLogin(params,{header:header}).then(response => {
-					console.log('登录返回',response);
 					if (response.error_description) {
 						uni.showToast({
 							icon: "none",
