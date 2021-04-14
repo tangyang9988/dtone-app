@@ -1,6 +1,5 @@
 let captchaMode = false;
 export  const appConfig = {
-
     tokenKey: 'Authorization',
 	tenantMode: false, // 是否开启租户模式
 	tenantId: "000000", // 管理组租户编号

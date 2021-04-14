@@ -65,11 +65,13 @@
     "h5" : {
         "title" : "h5",
 		"devServer" : {
-			"https" : false,
+            "https" : false,
+            "disableHostCheck": true,
 			"port": 8080,
 			"proxy": {  
 				"/api": {
-					"target": "58.216.249.82:1888", 
+                    "target": "58.216.249.82:1888", 
+                    "changeOrigin" : true,
 					"secure": false,
 					"pathRewrite": {
 						"^/api": ""  

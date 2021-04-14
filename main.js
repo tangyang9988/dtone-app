@@ -24,7 +24,6 @@ import 'static/css/index.css'
 // 工具类注册
 import prototype from './utils/prototype'
 Vue.use(prototype)
-debugger
 Vue.prototype.appConfig = appConfig;
 
 // Vue.directive('highlight', function (el) {

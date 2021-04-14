@@ -1,13 +1,13 @@
 import { appConfig } from '../config/config.js'
 import { tokenUtil } from './token'
-// import axios from './axios'
  
 
-const send = (url, data = {}, method = 'POST', map={},showLoading = true) => {
+const send = (url, data = {}, method = '', map={},showLoading = true) => {
     // uni.showLoading({
     //     title: '加载中'
     // })
     return new Promise((resolve) => {
+        debugger
         uni.request({
             method: method,
             url: url,
@@ -15,8 +15,7 @@ const send = (url, data = {}, method = 'POST', map={},showLoading = true) => {
             header: (() => {
                 const tokeValue = tokenUtil.get()
                 let config = {
-                    // 'Content-Type': 'application/x-www-form-urlencoded'
-					'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 }
                 if (tokeValue) {
                     config[appConfig.tokenKey] = tokeValue
@@ -55,6 +54,22 @@ const send = (url, data = {}, method = 'POST', map={},showLoading = true) => {
 //   }, error => {
 //     return Promise.reject(error)
 //   });
+
+export const post=function(url,data,callBack){
+    　　var ajaxData={
+    　　　　url: '/api/'+url,
+    　　　　method: "POST",
+    　　　　data:data,
+    　　　　dataType:'json',
+    　　　　header:{
+    　　　　　　'content-type':'application/x-www-form-urlencoded'
+    　　　　},
+    　　　　success: callBack
+    　　}
+    　　ajaxData = ajaxData;
+    　　uni.request(ajaxData)
+    }
+
 
 export const request = {
     get: (url, data,map) => {

@@ -98,7 +98,7 @@
 				params.type = this.loginForm.type;
 				params.grant_type = this.appConfig.grant_type;
 				params.scope = "all";
-				localLogin(params,{header:header}).then(response => {
+				localLogin(params,header).then(response => {
 					if (response.error_description) {
 						uni.showToast({
 							icon: "none",
@@ -136,8 +136,6 @@
 		}
 	}
 </script>
-
-
 <style scoped>
 	.page {
 		height: 100vh;
