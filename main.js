@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App'
+import  {appConfig}  from './config/config.js'
 
 import blogHome from './pages/home/home.vue'
 Vue.component('blogHome',blogHome)
@@ -23,6 +24,8 @@ import 'static/css/index.css'
 // 工具类注册
 import prototype from './utils/prototype'
 Vue.use(prototype)
+debugger
+Vue.prototype.appConfig = appConfig;
 
 // Vue.directive('highlight', function (el) {
 //   let blocks = el.querySelectorAll('pre code');

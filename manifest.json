@@ -69,11 +69,10 @@
 			"port": 8080,
 			"proxy": {  
 				"/api": {
-					"target": "58.216.249.82:1888",
-					"changeOrigin": true,   
+					"target": "58.216.249.82:1888", 
 					"secure": false,
 					"pathRewrite": {
-						"^/api": "/"  
+						"^/api": ""  
 					}  
 				}  
 			}  

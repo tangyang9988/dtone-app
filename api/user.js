@@ -16,7 +16,7 @@ export function addFeedback (params) {
 
 // 本地登录
 export function localLogin (params,header) {
-  return request.post('/api'+'/dutjt-auth/oauth/token?'+formatData(params),{},header);
+  return request.post(appConfig.WEB_API + '/api/dutjt-auth/oauth/token?'+formatData(params),{},header);
 }
 
 // 本地注册

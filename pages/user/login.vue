@@ -9,6 +9,12 @@
 			</view>
 
 			<form class="search-form margin-left margin-right">
+				<view  v-if="tenantMode"  class="cu-form-group margin">
+					<view class="title">
+						<text class="lg text-gray cuIcon-people"></text>
+					</view>
+					<input placeholder="租户id" v-model="loginForm.tenantId"></input>
+				</view>
 				<view class="cu-form-group margin">
 					<view class="title">
 						<text class="lg text-gray cuIcon-people"></text>
@@ -23,7 +29,7 @@
 					<input password="" placeholder="密码" v-model="loginForm.password"></input>
 				</view>
 
-				<view class="cu-form-group margin">
+				<view class="cu-form-group margin" v-if="this.appConfig.captchaMode">
 					<view class="title">
 						<text class="lg text-gray cuIcon-barcode"></text>
 					</view>
@@ -53,9 +59,11 @@
 		name: "login",
 		data() {
 			return {
+				tenantMode: this.appConfig.tenantMode,
 				loginForm: {
 					//租户ID
 					tenantId: "000000",
+					
 					userName: "admin",
 					password: "DtoneAdmin",
 					//账号类型
@@ -75,7 +83,7 @@
 		},
 		methods: {
 			login() {
-				if (this.loginForm.userName == "" || this.loginForm.password == "" || this.loginForm.code == "") {
+				if (this.loginForm.userName == "" || this.loginForm.password == "" || (this.appConfig.captchaMode && this.loginForm.code == "")) {
 					uni.showToast({
 						icon: "none",
 						title: "请先完善表单~",
@@ -88,7 +96,7 @@
 				params.username = this.loginForm.userName;
 				params.password = md5(this.loginForm.password);
 				params.type = this.loginForm.type;
-				params.grant_type = "captcha";
+				params.grant_type = this.appConfig.grant_type;
 				params.scope = "all";
 				localLogin(params,{header:header}).then(response => {
 					if (response.error_description) {
