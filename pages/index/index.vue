@@ -65,7 +65,6 @@
 
 </template>
 <script>
-	import {getWebConfig} from "../../api/about.js";
 	export default {
 		data() {
 			return {

@@ -63,7 +63,7 @@
 </template>
 
 <script>
-	import {getNewBlog, getBlogByLevel} from "../../api/index";
+	// import {getNewBlog, getBlogByLevel} from "../../api/index";
 	export default {
 		name: "basics",
 		props:{

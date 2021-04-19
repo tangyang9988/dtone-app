@@ -48,11 +48,7 @@
 <script>
 	import {
 		localLogin,
-		getCode,
-		authVerify,
-		decryptData,
-		code2Session
-	} from "../../api/user.js";
+	} from "../../api/login.js";
 	import {tokenUtil} from '../../utils/token.js'
 	import md5 from '../../utils/md5.js'
 	export default {
@@ -91,14 +87,14 @@
 					return;
 				}
 				var params = {};
-				let header ={'Captcha-Key':this.loginForm.key,'Captcha-Code':this.loginForm.code,'Tenant-Id':this.loginForm.tenantId,'Authorization': 'Basic c2FiZXI6c2FiZXJfc2VjcmV0'};
+				// let header =;
 				params.tenantId = this.loginForm.tenantId;
 				params.username = this.loginForm.userName;
 				params.password = md5(this.loginForm.password);
 				params.type = this.loginForm.type;
 				params.grant_type = this.appConfig.grant_type;
 				params.scope = "all";
-				localLogin(params,header).then(response => {
+				localLogin(params).then(response => {
 					if (response.error_description) {
 						uni.showToast({
 							icon: "none",
@@ -111,6 +107,7 @@
 						})
 					} else {
 						const data = response;
+						localStorage.setItem('access-user',response.data.access_token)
 						// 设置token
 						tokenUtil.set(data);
 						uni.showToast({
@@ -127,11 +124,11 @@
 				});
 			},
 			refreshCode() {
-				getCode().then(res => {
-					const data = res;
-					this.loginForm.key = data.key;
-					this.loginForm.image = data.image;
-				})
+				// getCode().then(res => {
+				// 	const data = res;
+				// 	this.loginForm.key = data.key;
+				// 	this.loginForm.image = data.image;
+				// })
 			},
 		}
 	}

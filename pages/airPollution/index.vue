@@ -6,7 +6,7 @@
   <view class="chartTitle2 ">
     <view class="chartMainTitle abnormal">
         <view class="abnormalLine"></view>
-        <span id="testQuality" class="abnormalTitle">空气质量等级分布</span>
+        <span id="testQuality" class="abnormalTitle">全区AQI等级分布</span>
     </view>
   </view>
     <view class="wholeCard chartCardRadis">
@@ -90,15 +90,15 @@
             </view>
             <!-- <img  src="../../assets/images/icon_data.png" class="icon_data" @click="historyData(value)" style="float:right"></img> -->
           </view>
-          <view   class="factorList">
+          <view class="factorList">
             <view v-for = "(factorValue,factorKey) in value.facotrs" :factorKey="factorKey" class="singleFactor">
               <view class="factorName">{{ factorValue.factorName}}：</view>
               <view class="factorValue">{{factorValue.avgVal}}{{factorValue.unit}}</view>
             </view>
           </view>
           <view class="inlineFactor">
-            <view class="inlineFactorName">日期：</view>
-            <view class="factorValue">{{value.time}}</view>
+            <view class="inlineFactorName">更新日期：</view>
+            <view class="factorValue">{{value.updateTime}}</view>
           </view>
         </view>
       </view>
@@ -112,6 +112,7 @@
 import demodata from '@/mockdata/demodata.json';
 import mapdata from '@/mockdata/mapdata.json'
 import bottomMenu from '../bottomMenu/index'
+import {getAirRtdList,getAqiRank} from "../../api/airPollution.js"
 export default {
   components: {bottomMenu },
   name: "about",
@@ -127,7 +128,6 @@ export default {
       data: [],
       barData: [],
       portRecord: [],
-      factors: [],
       active: "",
       selectMenu: "index",
       mainFactor: [],
@@ -469,28 +469,58 @@ export default {
             that.drawChart();
           },
           function (err) {
-            Toast.fail("请求异常");
             that.isHide = false;
           }
         )
     },
-    // getPortDetail() {
+    // 实时数据
+    getPortDetail() {
+      let that = this;
+      getAirRtdList()
+        .then(
+          function (result) {
+            //1.对象的属性
+            let allRecords = result.data.data; //记录数组
+            for (let i = 0; i < allRecords.length; i++) {
+              //几个卡片
+              that.portRecord.push(allRecords[i]);
+            }
+          },
+          function (err) {
+            console.log(err);
+            that.isHide = false;
+          }
+        )
+        .catch(function (error) {
+          console.log(error);
+          that.isHide = false;
+        });
+    },
+    getAqiRank(site) {
+      //卡片
+      let that = this;
+      getAqiRank()
+        .then(
+          function (result) {
+            that.aqiArr = result.data.data;
+          },
+          function (err) {
+            that.isHide = false;
+          }
+        )
+        .catch(function (error) {
+          Toast.fail("登录异常");
+          that.isHide = false;
+        });
+    },
+    //getAllSiteData
+    // getAllAQIData() {
     //   //卡片
     //   let that = this;
-    //   portDetail(5, that.platFormId)
+    //   getAllSiteData(this.platFormId)
     //     .then(
     //       function (result) {
-    //         //拼凑卡片对象
-    //         let portCards = [];
-    //         //1.对象的属性
-    //         let allRecords = result.data.data; //记录数组
-    //         for (let i = 0; i < allRecords.length; i++) {
-    //           //几个卡片
-
-    //           that.portRecord.push(allRecords[i]);
-    //           that.factors.push(allRecords[i].factorMap);
-    //         }
-    //         // //2.对象的值
+    //         that.allAqiData = result.data.data;
     //       },
     //       function (err) {
     //         console.log(err);
@@ -504,47 +534,6 @@ export default {
     //       that.isHide = false;
     //     });
     // },
-    getAQI(site) {
-      //卡片
-      let that = this;
-      latestAQI(this.platFormId, site)
-        .then(
-          function (result) {
-            that.aqiArr = result.data.data;
-          },
-          function (err) {
-            console.log(err);
-            Toast.fail("请求异常");
-            that.isHide = false;
-          }
-        )
-        .catch(function (error) {
-          console.log(error);
-          Toast.fail("登录异常");
-          that.isHide = false;
-        });
-    },
-    //getAllSiteData
-    getAllAQIData() {
-      //卡片
-      let that = this;
-      getAllSiteData(this.platFormId)
-        .then(
-          function (result) {
-            that.allAqiData = result.data.data;
-          },
-          function (err) {
-            console.log(err);
-            Toast.fail("请求异常");
-            that.isHide = false;
-          }
-        )
-        .catch(function (error) {
-          console.log(error);
-          Toast.fail("登录异常");
-          that.isHide = false;
-        });
-    },
     //获取站点
     getSites() {
       //卡片
@@ -596,8 +585,9 @@ export default {
     
   },
   mounted() {
-    this.platFormId = localStorage.getItem("platFormId");
-    var v = this;
+    this.getPortDetail()
+    this.getAqiRank()
+
   },
   onLoad() {
   },

@@ -686,45 +686,12 @@ export default {
     },
     // 获取列表
     getList() {
-      var platFormId = localStorage.getItem("platFormId");
       var that = this;
-      if (platFormId == 99) {
-        getLamHistoryList(
-          that.deptId,
-          that.platFormId,
-          that.start,
-          that.end,
-          that.current,
-          that.size
-        ).then(
-          function (result) {
-            if (result.data.data.records) {
-              that.totalPage=result.data.data.pages;
-              let list = result.data.data.records;
-              if (list.length == 0) {
-                that.isNoData = true;
-              }
-              for (let i = 0; i < list.length; i++) {
-                that.tableFactorList.push(list[i]);
-              }
-            }
-          },
-          function (err) {
-            Toast.fail("请求异常");
-          }
-        );
-      } else {
         getHistoryList(
-          that.deptId,
-          that.platFormId,
-          that.start,
-          that.end,
-          that.current,
-          that.size
         ).then(
           function (result) {
-            that.totalPage=result.data.data.pages;
-            let list = result.data.data.records;
+            // that.totalPage=result.data.data.pages;
+            let list = result.data.data;
             if (list.length == 0) {
               that.isNoData = true;
               console.log(that.isNoData);
@@ -736,40 +703,10 @@ export default {
           function (err) {
             Toast.fail("请求异常");
           }
-        );
-      }
-    },
-    getRouteParams() {
-      this.platFormId = localStorage.getItem("platFormId");
+        )
     },
   },
   mounted: function () {
-    this.getRouteParams();
-      if (this.platFormId == "99") {
-        if(this.$route.query.groupId==undefined){
-          this.pageStart = this.formatSelectDate(new Date(this.pageStart));
-          this.pageEnd = this.formatSelectDate(new Date(this.pageEnd));
-          this.start = this.formatSelectDate(new Date(this.start)) + " 00:00:00";
-          this.end = this.formatSelectDate(new Date(this.end)) + " 23:59:59";
-          // this.pointsList();
-        }else{
-          this.point=this.$route.query.point
-          this.deptId=this.$route.query.groupId
-          if(this.$route.query.start=="" ||this.$route.query.end==""){
-            this.pageStart = this.formatSelectDate(new Date());
-            this.pageEnd = this.formatSelectDate(new Date());
-            this.start = this.pageStart + " 00:00:00";
-            this.end = this.pageEnd + " 23:59:59";
-            this.getList();
-          }else{
-            this.pageStart = this.$route.query.start;
-            this.pageEnd = this.$route.query.end;
-            this.start = this.$route.query.start + " 00:00:00";
-            this.end = this.$route.query.end + " 23:59:59";
-            this.getList();
-          }
-        }
-      }else{
         if(this.$route.query.groupId==undefined){
         this.pageStart = this.formatSelectDate(new Date(this.pageStart));
         this.pageEnd = this.formatSelectDate(new Date(this.pageEnd));
@@ -793,7 +730,6 @@ export default {
             this.getList();
           }
         }
-      }
   },
 };
 </script>
