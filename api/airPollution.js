@@ -11,11 +11,11 @@ export const getAirRtdList = () =>{
   });
 }
 // 全区aqi等级（取小时数据）
-export const getAqiRank = () =>{
+export const getAqiRank = (siteId) =>{
   return request({
     url: appConfig.WEB_API + '/api/bu/airdetection/dataSearch/realvalue/aqi/hour',
     method: 'get',
-    params: {}
+    params: {siteId}
   });
 }
 // 历史数据 天

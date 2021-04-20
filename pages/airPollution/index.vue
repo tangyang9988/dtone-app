@@ -24,13 +24,13 @@
         <text id="testQuality" class="abnormalTitle">空气污染因子</text>
     </view>
 	
-    <view class="AQIcards">
+  <view class="AQIcards">
 	<view class="moudle">
 		<view style="text-align: center;">
 		 PM2.5
 		</view>
 		<view class="colorBar">
-			<text>10</text>
+			<text>15.2</text>
 		</view>
 	</view>
 	<view class="moudle">
@@ -38,7 +38,7 @@
 		 PM10
 		</view>
 		<view class="colorBar" style="background-color:#39B54A;">
-			<text>88</text>
+			<text>46.5</text>
 		</view>
 	</view>
 	<view class="moudle">
@@ -46,7 +46,7 @@
 		 SO2
 		</view>
 		<view class="colorBar"  style="background-color:green;">
-			<text>12</text>
+			<text>4.3</text>
 		</view>
 	</view>
 	<view class="moudle">
@@ -54,7 +54,7 @@
 		 NO2
 		</view>
 		<view class="colorBar" style="background-color:red;">
-			<text>59</text>
+			<text>17.89</text>
 		</view>
 	</view>
 	<view class="moudle">
@@ -70,7 +70,7 @@
 		 O3
 		</view>
 		<view class="colorBar"  style="background-color:#39B54A;">
-			<text>29</text>
+			<text>102.8</text>
 		</view>
 	</view>
     </view>
@@ -82,23 +82,49 @@
     <view>
       <!-- 卡片开始 -->
       <view  class="detailCards">
-        <view v-for = "(value,key) in allAqiData" :key="key" class="detailCard">
+        <view v-for = "(value,key) in portRecord" :key="key" class="detailCard">
           <view class="cardTitle">
             <view class="cardTitleLeft">
-              <view class="cardTitleIcon" :class="changeColor(value.aqiLevel)"></view>
               <view class="cardTitleWord">{{value.siteName}}</view>
             </view>
             <!-- <img  src="../../assets/images/icon_data.png" class="icon_data" @click="historyData(value)" style="float:right"></img> -->
           </view>
           <view class="factorList">
-            <view v-for = "(factorValue,factorKey) in value.facotrs" :factorKey="factorKey" class="singleFactor">
-              <view class="factorName">{{ factorValue.factorName}}：</view>
-              <view class="factorValue">{{factorValue.avgVal}}{{factorValue.unit}}</view>
+            <view class="singleFactor">
+              <view class="factorName">PM2.5：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.pm25)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.pm25.value}}{{value.pm25.unit}}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName" >PM10：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.pm10)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.pm10.value}}{{value.pm10.unit}}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName" >SO2：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.so2)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.so2.value}}{{value.so2.unit}}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName" >NO2：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.no2)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.no2.value}}{{value.no2.unit}}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName" >CO：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.co)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.co.value}}{{value.pm10.unit}}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName" >O3：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.o3)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.o3.value}}{{value.o3.unit}}</view>
             </view>
           </view>
           <view class="inlineFactor">
             <view class="inlineFactorName">更新日期：</view>
-            <view class="factorValue">{{value.updateTime}}</view>
+            <view class="factorValue" v-if="value.updateTime==''">--</view>
+            <view class="factorValue" v-else>{{value.updateTime}}</view>
           </view>
         </view>
       </view>
@@ -106,7 +132,6 @@
 <!-- 引入自定义菜单组件 -->
 <bottomMenu url="airPollution_index"></bottomMenu>
 </view>
-
 </template>
 <script>
 import demodata from '@/mockdata/demodata.json';
@@ -120,203 +145,19 @@ export default {
     return {
 	  column1:{},
 	  chartsData: {},	
-	pixelRatio: 1,
-	cWidth2:'',//圆弧进度图
-	cHeight2:'',//圆弧进度图
-	arcbarWidth: '',
+    pixelRatio: 1,
+    cWidth2:'',//圆弧进度图
+    cHeight2:'',//圆弧进度图
+    arcbarWidth: '',
       platFormId:"",
       data: [],
       barData: [],
       portRecord: [],
+      aqiArr: [],
       active: "",
       selectMenu: "index",
       mainFactor: [],
-      aqiArr: [],
-      allAqiData: [
- {
-    "totalDays": null,
-    "excellent": null,
-    "good": null,
-    "mild": null,
-    "medium": null,
-    "severe": null,
-    "serious": null,
-    "time": "2021-02-03 14:00",
-    "siteName": "梁溪区行政服务中心站点",
-    "facotrs": [
-      {
-        "factorCode": "a21026",
-        "aqiVal": "3",
-        "aqiLevel": 1,
-        "avgVal": "7.024",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "SO₂",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a21004",
-        "aqiVal": "9",
-        "aqiLevel": 1,
-        "avgVal": "17.626",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "NO₂",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a21005",
-        "aqiVal": "6",
-        "aqiLevel": 1,
-        "avgVal": "0.550",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(mg/m³)",
-        "factorName": "CO",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a05024",
-        "aqiVal": null,
-        "aqiLevel": null,
-        "avgVal": null,
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "O₃",
-        "statTime": "",
-        "num": -1
-      },
-      {
-        "factorCode": "a34004",
-        "aqiVal": "18",
-        "aqiLevel": 1,
-        "avgVal": "12.423",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "PM2.5",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a34002",
-        "aqiVal": "45",
-        "aqiLevel": 1,
-        "avgVal": "44.268",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "PM10",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      }
-    ],
-    "aqiLevel": 1,
-    "aqiVal": "45",
-    "word": "优",
-    "deptName": "",
-    "primary": "",
-    "siteInfoId": -1
-  },
-  {
-    "totalDays": null,
-    "excellent": null,
-    "good": null,
-    "mild": null,
-    "medium": null,
-    "severe": null,
-    "serious": null,
-    "time": "2021-04-09 21:00",
-    "siteName": "广益小学监测站点",
-    "facotrs": [
-      {
-        "factorCode": "a21026",
-        "aqiVal": "2",
-        "aqiLevel": 1,
-        "avgVal": "5.577",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "SO₂",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a21004",
-        "aqiVal": "6",
-        "aqiLevel": 1,
-        "avgVal": "10.603",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "NO₂",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a21005",
-        "aqiVal": "4",
-        "aqiLevel": 1,
-        "avgVal": "0.373",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(mg/m³)",
-        "factorName": "CO",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a05024",
-        "aqiVal": "18",
-        "aqiLevel": 1,
-        "avgVal": "34.304",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "O₃",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a34004",
-        "aqiVal": "15",
-        "aqiLevel": 1,
-        "avgVal": "10.330",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "PM2.5",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a34002",
-        "aqiVal": "26",
-        "aqiLevel": 1,
-        "avgVal": "25.226",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "PM10",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      }
-    ],
-    "aqiLevel": 1,
-    "aqiVal": "26",
-    "word": "优",
-    "deptName": "",
-    "primary": "",
-    "siteInfoId": -1
-  },
 
-      ],
       siteData: [],
       site1Value1: "",
       site1Value2: "",
@@ -496,8 +337,8 @@ export default {
           that.isHide = false;
         });
     },
-    getAqiRank(site) {
-      //卡片
+    // 排名
+    getAqiRank() {
       let that = this;
       getAqiRank()
         .then(

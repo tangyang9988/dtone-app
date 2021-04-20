@@ -25,28 +25,69 @@
      <view class="chartMainTitle abnormal">
              <view class="abnormalLine"></view>
              <span id="testQuality" class="abnormalTitle">实时数据</span>
-          </view>
+      </view>
     <!-- 真实记录 开始 -->
     <view>
       <!-- 卡片开始 -->
       <view  class="detailCards">
-        <view v-for = "(value,key) in allAqiData" :key="key" class="detailCard">
+        <view v-for = "(value,key) in portRecord" :key="key" class="detailCard">
           <view class="cardTitle">
             <view class="cardTitleLeft">
-              <view class="cardTitleIcon" :class="changeColor(value.aqiLevel)"></view>
+              <!-- <view class="cardTitleIcon" :class="changeColor(value.aqiLevel)"></view> -->
               <view class="cardTitleWord">{{value.siteName}}</view>
             </view>
             <!-- <img  src="../../assets/images/icon_data.png" class="icon_data" @click="historyData(value)" style="float:right"></img> -->
           </view>
-          <view   class="factorList">
-            <view v-for = "(factorValue,factorKey) in value.facotrs" :factorKey="factorKey" class="singleFactor">
-              <view class="factorName">{{ factorValue.factorName}}：</view>
-              <view class="factorValue">{{factorValue.avgVal}}{{factorValue.unit}}</view>
+          <view class="factorList">
+            <view class="singleFactor">
+              <view class="factorName">AD：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.ad)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.ad.value}}{{value.ad.unit}}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName" >COD：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.codmn)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.codmn.value}}{{value.codmn.unit}}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName" >EC：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.ec)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.ec.value}}{{value.ec.unit}}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName" >FHW：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.fhw)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.fhw.value}}{{value.fhw.unit}}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName" >PH：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.ph)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.ph.value}}{{value.ph.unit}}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName" >RJY：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.rjy)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.rjy.value}}{{value.rjy.unit}}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName" >SW：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.sw)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.sw.value}}{{value.sw.unit}}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName" >ZD：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.zd)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.zd.value}}{{value.zd.unit}}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName" >ZL：</view>
+              <view class="factorValue" v-if="JSON.stringify(value.zl)=='{}'">--</view>
+              <view class="factorValue" v-else>{{value.zl.value}}{{value.zl.unit}}</view>
             </view>
           </view>
           <view class="inlineFactor">
             <view class="inlineFactorName">日期：</view>
-            <view class="factorValue">{{value.time}}</view>
+            <view class="factorValue">{{value.ad.updateTime}}</view>
           </view>
         </view>
       </view>
@@ -60,6 +101,7 @@
 import demodata from '@/mockdata/demodata.json';
 import mapdata from '@/mockdata/mapdata.json'
 import bottomMenu from '../bottomMenu/index'
+import {getWaterRtdList} from "../../api/surfaceWater.js"
 export default {
   components: {bottomMenu },
   name: "about",
@@ -80,191 +122,6 @@ export default {
       selectMenu: "index",
       mainFactor: [],
       aqiArr: [],
-      allAqiData: [
- {
-    "totalDays": null,
-    "excellent": null,
-    "good": null,
-    "mild": null,
-    "medium": null,
-    "severe": null,
-    "serious": null,
-    "time": "2021-02-03 14:00",
-    "siteName": "梁溪区行政服务中心站点",
-    "facotrs": [
-      {
-        "factorCode": "a21026",
-        "aqiVal": "3",
-        "aqiLevel": 1,
-        "avgVal": "7.024",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "SO₂",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a21004",
-        "aqiVal": "9",
-        "aqiLevel": 1,
-        "avgVal": "17.626",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "NO₂",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a21005",
-        "aqiVal": "6",
-        "aqiLevel": 1,
-        "avgVal": "0.550",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(mg/m³)",
-        "factorName": "CO",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a05024",
-        "aqiVal": null,
-        "aqiLevel": null,
-        "avgVal": null,
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "O₃",
-        "statTime": "",
-        "num": -1
-      },
-      {
-        "factorCode": "a34004",
-        "aqiVal": "18",
-        "aqiLevel": 1,
-        "avgVal": "12.423",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "PM2.5",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a34002",
-        "aqiVal": "45",
-        "aqiLevel": 1,
-        "avgVal": "44.268",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "PM10",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      }
-    ],
-    "aqiLevel": 1,
-    "aqiVal": "45",
-    "word": "优",
-    "deptName": "",
-    "primary": "",
-    "siteInfoId": -1
-  },
-  {
-    "totalDays": null,
-    "excellent": null,
-    "good": null,
-    "mild": null,
-    "medium": null,
-    "severe": null,
-    "serious": null,
-    "time": "2021-04-09 21:00",
-    "siteName": "广益小学监测站点",
-    "facotrs": [
-      {
-        "factorCode": "a21026",
-        "aqiVal": "2",
-        "aqiLevel": 1,
-        "avgVal": "5.577",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "SO₂",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a21004",
-        "aqiVal": "6",
-        "aqiLevel": 1,
-        "avgVal": "10.603",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "NO₂",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a21005",
-        "aqiVal": "4",
-        "aqiLevel": 1,
-        "avgVal": "0.373",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(mg/m³)",
-        "factorName": "CO",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a05024",
-        "aqiVal": "18",
-        "aqiLevel": 1,
-        "avgVal": "34.304",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "O₃",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a34004",
-        "aqiVal": "15",
-        "aqiLevel": 1,
-        "avgVal": "10.330",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "PM2.5",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a34002",
-        "aqiVal": "26",
-        "aqiLevel": 1,
-        "avgVal": "25.226",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "PM10",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      }
-    ],
-    "aqiLevel": 1,
-    "aqiVal": "26",
-    "word": "优",
-    "deptName": "",
-    "primary": "",
-    "siteInfoId": -1
-  },
-
-      ],
       siteData: [],
       site1Value1: "",
       site1Value2: "",
@@ -391,36 +248,27 @@ export default {
           }
         )
     },
-    // getPortDetail() {
-    //   //卡片
-    //   let that = this;
-    //   portDetail(5, that.platFormId)
-    //     .then(
-    //       function (result) {
-    //         //拼凑卡片对象
-    //         let portCards = [];
-    //         //1.对象的属性
-    //         let allRecords = result.data.data; //记录数组
-    //         for (let i = 0; i < allRecords.length; i++) {
-    //           //几个卡片
-
-    //           that.portRecord.push(allRecords[i]);
-    //           that.factors.push(allRecords[i].factorMap);
-    //         }
-    //         // //2.对象的值
-    //       },
-    //       function (err) {
-    //         console.log(err);
-    //         Toast.fail("请求异常");
-    //         that.isHide = false;
-    //       }
-    //     )
-    //     .catch(function (error) {
-    //       console.log(error);
-    //       Toast.fail("登录异常");
-    //       that.isHide = false;
-    //     });
-    // },
+    getPortDetail() {
+      //卡片
+      let that = this;
+      getWaterRtdList()
+        .then(
+          function (result) {
+            //拼凑卡片对象
+            //1.对象的属性
+            let allRecords = result.data.data; //记录数组
+            for (let i = 0; i < allRecords.length; i++) {
+              that.portRecord.push(allRecords[i]);
+            }
+          },
+          function (err) {
+            that.isHide = false;
+          }
+        )
+        .catch(function (error) {
+          that.isHide = false;
+        });
+    },
     getAQI(site) {
       //卡片
       let that = this;
@@ -428,27 +276,6 @@ export default {
         .then(
           function (result) {
             that.aqiArr = result.data.data;
-          },
-          function (err) {
-            console.log(err);
-            Toast.fail("请求异常");
-            that.isHide = false;
-          }
-        )
-        .catch(function (error) {
-          console.log(error);
-          Toast.fail("登录异常");
-          that.isHide = false;
-        });
-    },
-    //getAllSiteData
-    getAllAQIData() {
-      //卡片
-      let that = this;
-      getAllSiteData(this.platFormId)
-        .then(
-          function (result) {
-            that.allAqiData = result.data.data;
           },
           function (err) {
             console.log(err);
@@ -513,8 +340,7 @@ export default {
     
   },
   mounted() {
-    this.platFormId = localStorage.getItem("platFormId");
-    var v = this;
+    this.getPortDetail()
   },
   onLoad() {
   },

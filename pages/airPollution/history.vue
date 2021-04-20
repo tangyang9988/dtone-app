@@ -27,9 +27,9 @@
     <view class="header_search">
 		<button class="cu-btn shadow-blur round" id="auto" :color="active == 'auto' ? '#ADC6FF' : ''" @tap="selected($event)">自定义</button>
 		<button class="cu-btn shadow-blur round" id="fiveMinute" :color="active == 'auto' ? '#ADC6FF' : ''" @click="selected($event)">5分钟</button>
-		<button class="cu-btn shadow-blur round" id="hour" :color="active == 'auto' ? '#ADC6FF' : ''" @click="selected($event)">小时</button>
+		<button class="cu-btn shadow-blur round bg-green" id="hour" @click="selected($event)">小时</button>
 		<button class="cu-btn shadow-blur round" id="day" :color="active == 'auto' ? '#ADC6FF' : ''" @click="selected($event)">日</button>
-		<button class="cu-btn shadow-blur round" id="threedays":color="active == 'auto' ? '#ADC6FF' : ''" @click="selected($event)">前3日</button>
+		<button class="cu-btn shadow-blur round" id="threedays" :color="active == 'auto' ? '#ADC6FF' : ''" @click="selected($event)">前3日</button>
       <view class="calendar">
         <view style="display: flex; margin: 10px">
           <span @click="startShow = true" class="timeStyle" v-if="isAuto">{{
@@ -110,6 +110,7 @@
 <script>
 import Vue from 'vue'
 import bottomMenu from '../bottomMenu/index'
+import {getAqiRank} from "../../api/airPollution.js"
 export default {
   components: {bottomMenu },
   data() {
@@ -687,10 +688,8 @@ export default {
     // 获取列表
     getList() {
       var that = this;
-        getHistoryList(
-        ).then(
+        getAqiRank("1349263116055089153").then(
           function (result) {
-            // that.totalPage=result.data.data.pages;
             let list = result.data.data;
             if (list.length == 0) {
               that.isNoData = true;
@@ -707,29 +706,11 @@ export default {
     },
   },
   mounted: function () {
-        if(this.$route.query.groupId==undefined){
-        this.pageStart = this.formatSelectDate(new Date(this.pageStart));
-        this.pageEnd = this.formatSelectDate(new Date(this.pageEnd));
-        this.start = this.formatSelectDate(new Date(this.start)) + " 00:00:00";
-        this.end = this.formatSelectDate(new Date(this.end)) + " 23:59:59";
-        // this.pointsList();
-        }else{
-          this.point=this.$route.query.point
-          this.deptId=this.$route.query.groupId
-          if(this.$route.query.start=="" ||this.$route.query.end==""){
-            this.pageStart = this.formatSelectDate(new Date());
-            this.pageEnd = this.formatSelectDate(new Date());
-            this.start = this.pageStart + " 00:00:00";
-            this.end = this.pageEnd + " 23:59:59";
-            this.getList();
-          }else{
-            this.pageStart = this.$route.query.start;
-            this.pageEnd = this.$route.query.end;
-            this.start = this.$route.query.start + " 00:00:00";
-            this.end = this.$route.query.end + " 23:59:59";
-            this.getList();
-          }
-        }
+      this.pageStart = this.formatSelectDate(new Date(this.pageStart));
+      this.pageEnd = this.formatSelectDate(new Date(this.pageEnd));
+      this.start = this.formatSelectDate(new Date(this.start)) + " 00:00:00";
+      this.end = this.formatSelectDate(new Date(this.end)) + " 23:59:59";
+      this.getList()
   },
 };
 </script>
