@@ -11,8 +11,8 @@
   </view>
     <view class="wholeCard chartCardRadis">
       <view  class="chartsCard">
-		<text class="totalDays">城市:常州</text>
-        <text class="totalDays">更新时间:2021-04-10 18:00:00</text>
+		<text class="totalDays">城市:金坛</text>
+        <text class="totalDays">更新时间:{{formatDate(new Date())}}</text>
 		<!-- <view class="charts-box">
 		  <qiun-data-charts type="arcbar" :opts="{title:{name:'65',color:'#2fc25b',fontSize:20},subtitle:{name:'AQI',color:'#666666',fontSize:18}}" :chartData="chartsData.Arcbar1"/>
 		</view> -->
@@ -107,7 +107,6 @@ export default {
   name: "about",
   data() {
     return {
-	  column1:{},
 	  chartsData: {},	
 	pixelRatio: 1,
 	cWidth2:'',//圆弧进度图
@@ -130,9 +129,21 @@ export default {
     };
   },
   methods: {
+    formatDate(date) {
+      return `${date.getFullYear()}-${this.timeAdd(
+        date.getMonth() + 1
+      )}-${this.timeAdd(date.getDate())} ${this.timeAdd(
+        date.getHours()
+      )}:${this.timeAdd(date.getMinutes())}:${this.timeAdd(date.getSeconds())}`;
+    },
+    timeAdd(str) {
+      if (str <= 9) {
+        str = "0" + str;
+      }
+      return str;
+    },
     getServerData() {
       setTimeout(() => {
-        this.column1=JSON.parse(JSON.stringify(demodata.Column))
       	this.chartsData.Arcbar1=JSON.parse(JSON.stringify(demodata.Arcbar1))
       	this.chartsData.Rose1=JSON.parse(JSON.stringify(demodata.PieA))
       	this.$forceUpdate();
@@ -254,8 +265,6 @@ export default {
       getWaterRtdList()
         .then(
           function (result) {
-            //拼凑卡片对象
-            //1.对象的属性
             let allRecords = result.data.data; //记录数组
             for (let i = 0; i < allRecords.length; i++) {
               that.portRecord.push(allRecords[i]);

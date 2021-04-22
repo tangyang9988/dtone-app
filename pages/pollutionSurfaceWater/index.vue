@@ -11,8 +11,8 @@
   </view>
     <view class="wholeCard chartCardRadis">
       <view  class="chartsCard">
-		<text class="totalDays">城市:常州</text>
-        <text class="totalDays">更新时间:2021-04-10 18:00:00</text>
+		<text class="totalDays">城市:金坛</text>
+        <text class="totalDays">更新时间:{{formatDate(new Date())}}</text>
 		<!-- <view class="charts-box">
 		  <qiun-data-charts type="arcbar" :opts="{title:{name:'65',color:'#2fc25b',fontSize:20},subtitle:{name:'AQI',color:'#666666',fontSize:18}}" :chartData="chartsData.Arcbar1"/>
 		</view> -->
@@ -30,23 +30,46 @@
     <view>
       <!-- 卡片开始 -->
       <view  class="detailCards">
-        <view v-for = "(value,key) in allAqiData" :key="key" class="detailCard">
+        <view v-for = "(value,key) in portRecord" :key="key" class="detailCard">
           <view class="cardTitle">
             <view class="cardTitleLeft">
-              <view class="cardTitleIcon" :class="changeColor(value.aqiLevel)"></view>
-              <view class="cardTitleWord">{{value.siteName}}</view>
+              <view class="cardTitleWord">{{value.enterpriseName}}</view>
             </view>
             <!-- <img  src="../../assets/images/icon_data.png" class="icon_data" @click="historyData(value)" style="float:right"></img> -->
           </view>
-          <view   class="factorList">
-            <view v-for = "(factorValue,factorKey) in value.facotrs" :factorKey="factorKey" class="singleFactor">
-              <view class="factorName">{{ factorValue.factorName}}：</view>
-              <view class="factorValue">{{factorValue.avgVal}}{{factorValue.unit}}</view>
+          <view class="factorList">
+            <view class="singleFactor" v-if="JSON.stringify(value.ad)!='{}'">
+              <view class="factorName">{{value.ad.factorDict}}:</view>
+              <view class="factorValue" >{{value.ad.value}}{{value.ad.unit}}</view>
+            </view>
+            <view class="singleFactor" v-if="JSON.stringify(value.cod)!='{}'">
+              <view class="factorName">{{value.cod.factorDict}}:</view>
+              <view class="factorValue" >{{value.cod.value}}{{value.cod.unit}}</view>
+            </view>
+            <view class="singleFactor" v-if="JSON.stringify(value.ph)!='{}'">
+              <view class="factorName">{{value.ph.factorDict}}:</view>
+              <view class="factorValue" >{{value.ph.value}}{{value.ph.unit}}</view>
+            </view>
+            <view class="singleFactor" v-if="JSON.stringify(value.ws)!='{}'">
+              <view class="factorName">{{value.ws.factorDict}}:</view>
+              <view class="factorValue" >{{value.ws.value}}{{value.ws.unit}}</view>
+            </view>
+            <view class="singleFactor" v-if="JSON.stringify(value.zd)!='{}'">
+              <view class="factorName">{{value.zd.factorDict}}:</view>
+              <view class="factorValue" >{{value.zd.value}}{{value.zd.unit}}</view>
+            </view>
+            <view class="singleFactor" v-if="JSON.stringify(value.zl)!='{}'">
+              <view class="factorName">{{value.zl.factorDict}}:</view>
+              <view class="factorValue" >{{value.zl.value}}{{value.zl.unit}}</view>
+            </view>
+            <view class="singleFactor" v-if="JSON.stringify(value.zzn)!='{}'">
+              <view class="factorName">{{value.zzn.factorDict}}:</view>
+              <view class="factorValue" >{{value.zzn.value}}{{value.zzn.unit}}</view>
             </view>
           </view>
           <view class="inlineFactor">
             <view class="inlineFactorName">日期：</view>
-            <view class="factorValue">{{value.time}}</view>
+            <view class="factorValue">{{value.updateTime}}</view>
           </view>
         </view>
       </view>
@@ -57,8 +80,8 @@
 
 </template>
 <script>
+import {getPollutionWaterRtdList} from "../../api/pollutionSurfaceWater.js"
 import demodata from '@/mockdata/demodata.json';
-import mapdata from '@/mockdata/mapdata.json'
 import bottomMenu from '../bottomMenu/index'
 export default {
   components: {bottomMenu },
@@ -80,191 +103,6 @@ export default {
       selectMenu: "index",
       mainFactor: [],
       aqiArr: [],
-      allAqiData: [
- {
-    "totalDays": null,
-    "excellent": null,
-    "good": null,
-    "mild": null,
-    "medium": null,
-    "severe": null,
-    "serious": null,
-    "time": "2021-02-03 14:00",
-    "siteName": "梁溪区行政服务中心站点",
-    "facotrs": [
-      {
-        "factorCode": "a21026",
-        "aqiVal": "3",
-        "aqiLevel": 1,
-        "avgVal": "7.024",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "SO₂",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a21004",
-        "aqiVal": "9",
-        "aqiLevel": 1,
-        "avgVal": "17.626",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "NO₂",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a21005",
-        "aqiVal": "6",
-        "aqiLevel": 1,
-        "avgVal": "0.550",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(mg/m³)",
-        "factorName": "CO",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a05024",
-        "aqiVal": null,
-        "aqiLevel": null,
-        "avgVal": null,
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "O₃",
-        "statTime": "",
-        "num": -1
-      },
-      {
-        "factorCode": "a34004",
-        "aqiVal": "18",
-        "aqiLevel": 1,
-        "avgVal": "12.423",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "PM2.5",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a34002",
-        "aqiVal": "45",
-        "aqiLevel": 1,
-        "avgVal": "44.268",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "PM10",
-        "statTime": "2021-02-03T14:00:00",
-        "num": -1
-      }
-    ],
-    "aqiLevel": 1,
-    "aqiVal": "45",
-    "word": "优",
-    "deptName": "",
-    "primary": "",
-    "siteInfoId": -1
-  },
-  {
-    "totalDays": null,
-    "excellent": null,
-    "good": null,
-    "mild": null,
-    "medium": null,
-    "severe": null,
-    "serious": null,
-    "time": "2021-04-09 21:00",
-    "siteName": "广益小学监测站点",
-    "facotrs": [
-      {
-        "factorCode": "a21026",
-        "aqiVal": "2",
-        "aqiLevel": 1,
-        "avgVal": "5.577",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "SO₂",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a21004",
-        "aqiVal": "6",
-        "aqiLevel": 1,
-        "avgVal": "10.603",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "NO₂",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a21005",
-        "aqiVal": "4",
-        "aqiLevel": 1,
-        "avgVal": "0.373",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(mg/m³)",
-        "factorName": "CO",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a05024",
-        "aqiVal": "18",
-        "aqiLevel": 1,
-        "avgVal": "34.304",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "O₃",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a34004",
-        "aqiVal": "15",
-        "aqiLevel": 1,
-        "avgVal": "10.330",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "PM2.5",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      },
-      {
-        "factorCode": "a34002",
-        "aqiVal": "26",
-        "aqiLevel": 1,
-        "avgVal": "25.226",
-        "lower": -1,
-        "ceiling": -1,
-        "unit": "(μg/m³)",
-        "factorName": "PM10",
-        "statTime": "2021-04-09T21:00:00",
-        "num": -1
-      }
-    ],
-    "aqiLevel": 1,
-    "aqiVal": "26",
-    "word": "优",
-    "deptName": "",
-    "primary": "",
-    "siteInfoId": -1
-  },
-
-      ],
       siteData: [],
       site1Value1: "",
       site1Value2: "",
@@ -273,6 +111,19 @@ export default {
     };
   },
   methods: {
+    formatDate(date) {
+      return `${date.getFullYear()}-${this.timeAdd(
+        date.getMonth() + 1
+      )}-${this.timeAdd(date.getDate())} ${this.timeAdd(
+        date.getHours()
+      )}:${this.timeAdd(date.getMinutes())}:${this.timeAdd(date.getSeconds())}`;
+    },
+    timeAdd(str) {
+      if (str <= 9) {
+        str = "0" + str;
+      }
+      return str;
+    },
     getServerData() {
       setTimeout(() => {
         this.column1=JSON.parse(JSON.stringify(demodata.Column))
@@ -281,211 +132,18 @@ export default {
       	this.$forceUpdate();
       }, 1500);
     },
-    historyData(e) {
-      var groupId = e.siteId;
-      var start = e.collectTime.split(" ")[0];
-      var end = e.collectTime.split(" ")[0];
-      var point = e.deptName +"-" + e.siteName;
-      this.$router.push({
-        path: "/surfaceWater/history",
-        query: { groupId: groupId, point: point, start: start, end: end },
-      });
-    },
-    selected(e) {
-      let id = e.currentTarget.id;
-      // this.active = "#587DF7";
-      this.active = id;
-      if (id == "index") {
-        this.$router.push("/airQuality/index");
-      } else if (id == "his") {
-        this.$router.push("/surfaceWater/history");
-      } else if (id == "warning") {
-        this.$router.push("/surfaceWater/abnormal");
-      } else if (id == "point") {
-        this.$router.push("/surfaceWater/report");
-      }
-    },
-
-    drawChart() {
-      // Step 1: 创建 Chart 对象
-      const chart = new F2.Chart({
-        id: "myChart",
-        pixelRatio: window.devicePixelRatio, // 指定分辨率
-        plugins: PieLabel,
-      });
-      chart.source(this.data);
-      chart.legend({
-        position: "right",
-      });
-      chart.coord("polar", {
-        transposed: true,
-        innerRadius: 0.7,
-      });
-      chart.axis(false);
-      chart
-        .interval()
-        .position("a*proportion")
-        .color("name", [
-          "#00E300",
-          "#FFFF00",
-          "#FF7D00",
-          "#FF0000",
-          "#99004B",
-          "#7D0022",
-        ])
-        .adjust("stack");
-
-      chart.render();
-    },
-    getCycleChartData(siteId) {
-      //水质环图
-      let that = this;
-      cycleChart(this.platFormId, siteId)
-        .then(
-          function (result) {
-            that.data = [];
-            let resData = result.data.data;
-            let excellentPercentage = {
-              name: "优 " + resData.excellent,
-              proportion: resData.excellent,
-              a: "1",
-            };
-            that.data.push(excellentPercentage);
-            let goodPercentage = {
-              name: "良 " + resData.good,
-              proportion: resData.good,
-              a: "1",
-            };
-            that.data.push(goodPercentage);
-            let mildPercentage = {
-              name: "轻度污染 " + resData.mild,
-              proportion: resData.mild,
-              a: "1",
-            };
-            that.data.push(mildPercentage);
-            let mediumPercentage = {
-              name: "中度污染 " + resData.medium,
-              proportion: resData.medium,
-              a: "1",
-            };
-            that.data.push(mediumPercentage);
-            let severePercentage = {
-              name: "重度污染 " + resData.severe,
-              proportion: resData.severe,
-              a: "1",
-            };
-            that.data.push(severePercentage);
-            let seriousPercentage = {
-              name: "严重污染 " + resData.serious,
-              proportion: resData.serious,
-              a: "1",
-            };
-            that.data.push(seriousPercentage);
-            that.mainFactor = resData.facotrs;
-            that.totalDays = resData.totalDays;
-            that.drawChart();
-          },
-          function (err) {
-            Toast.fail("请求异常");
-            that.isHide = false;
-          }
-        )
-    },
-    // getPortDetail() {
-    //   //卡片
-    //   let that = this;
-    //   portDetail(5, that.platFormId)
-    //     .then(
-    //       function (result) {
-    //         //拼凑卡片对象
-    //         let portCards = [];
-    //         //1.对象的属性
-    //         let allRecords = result.data.data; //记录数组
-    //         for (let i = 0; i < allRecords.length; i++) {
-    //           //几个卡片
-
-    //           that.portRecord.push(allRecords[i]);
-    //           that.factors.push(allRecords[i].factorMap);
-    //         }
-    //         // //2.对象的值
-    //       },
-    //       function (err) {
-    //         console.log(err);
-    //         Toast.fail("请求异常");
-    //         that.isHide = false;
-    //       }
-    //     )
-    //     .catch(function (error) {
-    //       console.log(error);
-    //       Toast.fail("登录异常");
-    //       that.isHide = false;
-    //     });
-    // },
-    getAQI(site) {
+    getPortDetail() {
       //卡片
       let that = this;
-      latestAQI(this.platFormId, site)
+      getPollutionWaterRtdList()
         .then(
           function (result) {
-            that.aqiArr = result.data.data;
-          },
-          function (err) {
-            console.log(err);
-            Toast.fail("请求异常");
-            that.isHide = false;
-          }
-        )
-        .catch(function (error) {
-          console.log(error);
-          Toast.fail("登录异常");
-          that.isHide = false;
-        });
-    },
-    //getAllSiteData
-    getAllAQIData() {
-      //卡片
-      let that = this;
-      getAllSiteData(this.platFormId)
-        .then(
-          function (result) {
-            that.allAqiData = result.data.data;
-          },
-          function (err) {
-            console.log(err);
-            Toast.fail("请求异常");
-            that.isHide = false;
-          }
-        )
-        .catch(function (error) {
-          console.log(error);
-          Toast.fail("登录异常");
-          that.isHide = false;
-        });
-    },
-    //获取站点
-    getSites() {
-      //卡片
-      let that = this;
-      getSites(this.platFormId)
-        .then(
-          function (result) {
-            let resData = result.data.data;
-            for (let i = 0; i < resData.length; i++) {
-              let singleSite = {
-                text: resData[i].siteName,
-                value: resData[i].siteId,
-              };
-              that.siteData.push(singleSite);
+            let allRecords = result.data.data.records; //记录数组
+            for (let i = 0; i < allRecords.length; i++) {
+              that.portRecord.push(allRecords[i]);
             }
-            //默认使用第一个站点
-            that.site1Value1 = that.siteData[0].value;
-            that.site1Value2 = that.siteData[0].value;
-            that.getCycleChartData(that.siteData[0].value);
-            that.getAQI(that.siteData[0].value);
           },
           function (err) {
-            console.log(err);
-            Toast.fail("请求异常");
             that.isHide = false;
           }
         )
@@ -494,33 +152,16 @@ export default {
           Toast.fail("登录异常");
           that.isHide = false;
         });
-    },
-    //更换站点
-    changeSite(e, type) {
-      this.sum++;
-      if (type == 1) {
-        this.getCycleChartData(e);
-      } else if (type == 2) {
-        this.getAQI(e);
-      }
-    },
-    switchColor(level) {
-      return `AQICardBottom${level}`;
-    },
-    changeColor(level) {
-      return `cardTitleIcon${level}`;
     },
     
   },
   mounted() {
-    this.platFormId = localStorage.getItem("platFormId");
-    var v = this;
+    this.getServerData()
+    this.getPortDetail()
   },
   onLoad() {
   },
   onReady() {
-    //模拟从服务器获取数据
-    this.getServerData()
   },
   created() {},
 };

@@ -133,7 +133,7 @@ switch.checked::before {
 
 /* #ifndef MP-ALIPAY */
 radio::before,
-checkbox::before {
+/* checkbox::before {
 	font-family: "cuIcon";
 	content: "\e645";
 	position: absolute;
@@ -147,10 +147,10 @@ checkbox::before {
 	transform: scale(1, 1);
 	transition: all 0.3s ease-in-out 0s;
 	z-index: 9;
-}
+} */
 
 radio .wx-radio-input,
-checkbox .wx-checkbox-input,
+/* checkbox .wx-checkbox-input, */
 radio .uni-radio-input,
 checkbox .uni-checkbox-input {
 	margin: 0;
@@ -227,7 +227,7 @@ checkbox .wx-checkbox-input::before,
 radio .wx-radio-input::before,
 switch .uni-switch-input::before,
 radio.radio::before,
-checkbox .uni-checkbox-input::before,
+/* checkbox .uni-checkbox-input::before, */
 radio .uni-radio-input::before {
 	display: none;
 }

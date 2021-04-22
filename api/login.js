@@ -9,7 +9,7 @@ export const localLogin = (params) =>{
     method: 'post',
     headers: {
       'Tenant-Id': params.tenantId,
-      'Authorization': 'Basic c2FiZXI6c2FiZXJfc2VjcmV0'
+      'Authorization': 'Basic c2FiZXI6c2FiZXJfc2VjcmV0',
     },
     params: {}
   });

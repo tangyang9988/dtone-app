@@ -12,9 +12,9 @@
     <view class="wholeCard chartCardRadis">
       <view  class="chartsCard">
 		<text class="totalDays">城市:金坛</text>
-        <text class="totalDays">更新时间:2021-04-08 18:00:00</text>
+        <text class="totalDays">更新时间:{{formatDate(new Date())}}</text>
 		<view class="charts-box">
-		  <qiun-data-charts type="arcbar" :opts="{title:{name:'65',color:'#2fc25b',fontSize:20},subtitle:{name:'AQI',color:'#666666',fontSize:18}}" :chartData="chartsData.Arcbar1"/>
+		  <qiun-data-charts type="arcbar" :opts="{title:{name:aqiArr.aqi,fontSize:20},subtitle:{name:'AQI',fontSize:18}}" :chartData="charts" />
 		</view>
 	  </view>
     </view>
@@ -30,7 +30,7 @@
 		 PM2.5
 		</view>
 		<view class="colorBar">
-			<text>15.2</text>
+			<text>{{aqiArr.pm25}}</text>
 		</view>
 	</view>
 	<view class="moudle">
@@ -38,7 +38,7 @@
 		 PM10
 		</view>
 		<view class="colorBar" style="background-color:#39B54A;">
-			<text>46.5</text>
+			<text>{{aqiArr.pm10}}</text>
 		</view>
 	</view>
 	<view class="moudle">
@@ -46,7 +46,7 @@
 		 SO2
 		</view>
 		<view class="colorBar"  style="background-color:green;">
-			<text>4.3</text>
+			<text>{{aqiArr.so2}}</text>
 		</view>
 	</view>
 	<view class="moudle">
@@ -54,7 +54,7 @@
 		 NO2
 		</view>
 		<view class="colorBar" style="background-color:red;">
-			<text>17.89</text>
+			<text>{{aqiArr.no2}}</text>
 		</view>
 	</view>
 	<view class="moudle">
@@ -62,7 +62,7 @@
 		 CO
 		</view>
 		<view class="colorBar"  style="background-color:#39B54A;">
-			<text>1.0</text>
+			<text>{{aqiArr.co}}</text>
 		</view>
 	</view>
 	<view class="moudle">
@@ -70,7 +70,7 @@
 		 O3
 		</view>
 		<view class="colorBar"  style="background-color:#39B54A;">
-			<text>102.8</text>
+			<text>{{aqiArr.o3}}</text>
 		</view>
 	</view>
     </view>
@@ -78,8 +78,7 @@
              <view class="abnormalLine"></view>
              <span id="testQuality" class="abnormalTitle">实时数据</span>
           </view>
-    <!-- 真实记录 开始 -->
-    <view>
+    <scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll">
       <!-- 卡片开始 -->
       <view  class="detailCards">
         <view v-for = "(value,key) in portRecord" :key="key" class="detailCard">
@@ -128,14 +127,12 @@
           </view>
         </view>
       </view>
-    </view>
+    </scroll-view>
 <!-- 引入自定义菜单组件 -->
 <bottomMenu url="airPollution_index"></bottomMenu>
 </view>
 </template>
 <script>
-import demodata from '@/mockdata/demodata.json';
-import mapdata from '@/mockdata/mapdata.json'
 import bottomMenu from '../bottomMenu/index'
 import {getAirRtdList,getAqiRank} from "../../api/airPollution.js"
 export default {
@@ -143,8 +140,7 @@ export default {
   name: "about",
   data() {
     return {
-	  column1:{},
-	  chartsData: {},	
+	  charts: {},	
     pixelRatio: 1,
     cWidth2:'',//圆弧进度图
     cHeight2:'',//圆弧进度图
@@ -153,11 +149,10 @@ export default {
       data: [],
       barData: [],
       portRecord: [],
-      aqiArr: [],
+      aqiArr: {},
       active: "",
       selectMenu: "index",
       mainFactor: [],
-
       siteData: [],
       site1Value1: "",
       site1Value2: "",
@@ -166,17 +161,29 @@ export default {
     };
   },
   methods: {
+    formatDate(date) {
+      return `${date.getFullYear()}-${this.timeAdd(
+        date.getMonth() + 1
+      )}-${this.timeAdd(date.getDate())} ${this.timeAdd(
+        date.getHours()
+      )}:${this.timeAdd(date.getMinutes())}:${this.timeAdd(date.getSeconds())}`;
+    },
+    timeAdd(str) {
+      if (str <= 9) {
+        str = "0" + str;
+      }
+      return str;
+    },
     getServerData() {
-      setTimeout(() => {
-        this.column1=JSON.parse(JSON.stringify(demodata.Column))
-      	//因部分数据格式一样，这里不同图表引用同一数据源的话，需要深拷贝一下构造不同的对象
-      	//开发者需要自行处理服务器返回的数据，应与标准数据格式一致，注意series的data数值应为数字格式
-      	//***注意***我是为了演示数据看起来有条理，才把chartData挂载到一个对象中，您实际项目一定***不要这么做***，应该每个图形一个根节点属性，***例如上面this.column1这种做法***
-      	this.chartsData.Arcbar1=JSON.parse(JSON.stringify(demodata.Arcbar1))
-      	//这里的chartsData原本是空对象，因Vue不允许在已经创建的实例上动态添加新的根级响应式属性，所以这里使用this.$forceUpdate()强制视图更新。当然也可以使用this.$set()方法将相应属性添加到嵌套的对象上。
-      	//所以，不建议我这样的做法，建议直接把数据绑定到this上
-      	this.$forceUpdate();
-      }, 1500);
+       let Arcbar1={
+        "series": [{
+          "name": "正确率",
+          "data": 0.7,
+          "color": "#2fc25b"
+        }]
+	    }
+      this.charts=JSON.parse(JSON.stringify(Arcbar1))
+      this.$forceUpdate();
     },
     historyData(e) {
       var groupId = e.siteId;
@@ -343,38 +350,17 @@ export default {
       getAqiRank()
         .then(
           function (result) {
-            that.aqiArr = result.data.data;
+
+            that.aqiArr = result.data;
           },
           function (err) {
             that.isHide = false;
           }
         )
         .catch(function (error) {
-          Toast.fail("登录异常");
           that.isHide = false;
         });
     },
-    //getAllSiteData
-    // getAllAQIData() {
-    //   //卡片
-    //   let that = this;
-    //   getAllSiteData(this.platFormId)
-    //     .then(
-    //       function (result) {
-    //         that.allAqiData = result.data.data;
-    //       },
-    //       function (err) {
-    //         console.log(err);
-    //         Toast.fail("请求异常");
-    //         that.isHide = false;
-    //       }
-    //     )
-    //     .catch(function (error) {
-    //       console.log(error);
-    //       Toast.fail("登录异常");
-    //       that.isHide = false;
-    //     });
-    // },
     //获取站点
     getSites() {
       //卡片
@@ -398,13 +384,10 @@ export default {
           },
           function (err) {
             console.log(err);
-            Toast.fail("请求异常");
             that.isHide = false;
           }
         )
         .catch(function (error) {
-          console.log(error);
-          Toast.fail("登录异常");
           that.isHide = false;
         });
     },
@@ -426,6 +409,7 @@ export default {
     
   },
   mounted() {
+    this.getServerData()
     this.getPortDetail()
     this.getAqiRank()
 
@@ -433,16 +417,14 @@ export default {
   onLoad() {
   },
   onReady() {
-    //模拟从服务器获取数据
-    this.getServerData()
   },
   created() {},
 };
 </script>
 <style scoped lang="scss">
 // @import "../../assets/styles/common.scss";
-.van-search {
-  padding: 2px 12px 5px 12px;
+.scroll-Y {
+  height: 700rpx;
 }
 .header {
   margin: 10px 15px;
