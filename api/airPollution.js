@@ -36,11 +36,12 @@ export const getAqiRank = () =>{
   });
 }
 // 历史数据
-export const getHistoryList = (rowr) =>{
+export const getHistoryList = (stations,from,end,type,fromHour,endHour) =>{
   return request({
     url: appConfig.WEB_API + '/api/bu/airdetection/dataSearch/air/dataQuery',
     method: 'post',
-    data:rowr
+    // data:rowr
+    params: {stations,from,end,type,fromHour,endHour}
   });
 }
 // 预警
@@ -49,7 +50,7 @@ export const getWarningList = (obj) =>{
     url: appConfig.WEB_API + '/api/bu/warning/list',
     method: 'post',
     data:obj
-    // params: obj
+    // params: {stations,from,end,kong,level}
   });
 }
 

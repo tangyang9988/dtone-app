@@ -10,5 +10,21 @@ export const getPollutionWaterRtdList = () =>{
     params: {}
   });
 }
+// // 小时
+// export const getPollutionWaterHourList = (stations,from,end,fromHour,endHour) =>{
+//   return request({
+//     url: appConfig.WEB_API + '/api/bu/pollutemonitor/wasteWater/realvalue/hour?timeType=2',
+//     method: 'post',
+//     params: {stations,from,end,fromHour,endHour}
+//   });
+// }
+// 历史数据
+export const getPollutionSurfaceWaterHistoryList = (row) =>{
+  return request({
+    url: appConfig.WEB_API + '/api/bu/pollutemonitor/sewageOutlet/water/dataQuery',
+    method: 'post',
+    data:row
+  });
+}
 
 

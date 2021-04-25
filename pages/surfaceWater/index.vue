@@ -101,7 +101,7 @@
 import demodata from '@/mockdata/demodata.json';
 import mapdata from '@/mockdata/mapdata.json'
 import bottomMenu from '../bottomMenu/index'
-import {getWaterRtdList} from "../../api/surfaceWater.js"
+import {getHourlyWaterQualityData} from "../../api/surfaceWater.js"
 export default {
   components: {bottomMenu },
   name: "about",
@@ -262,7 +262,7 @@ export default {
     getPortDetail() {
       //卡片
       let that = this;
-      getWaterRtdList()
+      getHourlyWaterQualityData()
         .then(
           function (result) {
             let allRecords = result.data.data; //记录数组

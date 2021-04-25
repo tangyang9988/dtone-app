@@ -1,50 +1,109 @@
 <template>
   <view class="main">
-	<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block>
-		<block slot="content">历史数据</block>
-	</cu-custom>
+    <cu-custom bgColor="bg-gradual-pink" :isBack="true"
+      ><block slot="backText">返回</block>
+      <block slot="content">历史数据</block>
+    </cu-custom>
 
-	<view class="cu-bar search bg-white">
-		<view class="search-form round">
-      <picker @change="bindPickerChange" :range="siteList" :value="index" :range-key="'stationName'">
-        <text class="content_value_name" style="margin-left:20px">请选择站点：</text>
-        <text class="content_value_name" v-if="siteList[index]">{{siteList[index].stationName}}</text>
-      </picker>
-		</view>
-	</view>
+    <view class="cu-bar search bg-white">
+      <view class="search-form round">
+        <picker
+          @change="bindPickerChange"
+          :range="siteList"
+          :value="index"
+          :range-key="'stationName'"
+        >
+          <text class="content_value_name" style="margin-left: 20px"
+            >请选择站点：</text
+          >
+          <text class="content_value_name" v-if="siteList[index]">{{
+            siteList[index].stationName
+          }}</text>
+        </picker>
+      </view>
+    </view>
     <view class="header_search">
-		<button :class=" active == 'auto' ? 'cu-btn shadow-blur round bg-green' : 'cu-btn shadow-blur round'" data-cur="auto" @click="selected($event)">自定义</button>
-		<button :class=" active == 'fiveMinute' ? 'cu-btn shadow-blur round bg-green' : 'cu-btn shadow-blur round'" data-cur="fiveMinute" @click="selected($event)">5分钟</button>
-		<button :class=" active == 'hour' ? 'cu-btn shadow-blur round bg-green' : 'cu-btn shadow-blur round'" data-cur="hour" @click="selected($event)">小时</button>
-		<button :class=" active == 'day' ? 'cu-btn shadow-blur round bg-green' : 'cu-btn shadow-blur round'" data-cur="day"  @click="selected($event)">日</button>
-		<button :class=" active == 'threedays' ? 'cu-btn shadow-blur round bg-green' : 'cu-btn shadow-blur round'" data-cur="threedays"  @click="selected($event)">前3日</button>
+      <button
+        :class="
+          active == 'auto'
+            ? 'cu-btn shadow-blur round bg-green'
+            : 'cu-btn shadow-blur round'
+        "
+        data-cur="auto"
+        @click="selected($event)"
+      >
+        自定义
+      </button>
+      <button
+        :class="
+          active == 'fiveMinute'
+            ? 'cu-btn shadow-blur round bg-green'
+            : 'cu-btn shadow-blur round'
+        "
+        data-cur="fiveMinute"
+        @click="selected($event)"
+      >
+        5分钟
+      </button>
+      <button
+        :class="
+          active == 'hour'
+            ? 'cu-btn shadow-blur round bg-green'
+            : 'cu-btn shadow-blur round'
+        "
+        data-cur="hour"
+        @click="selected($event)"
+      >
+        小时
+      </button>
+      <button
+        :class="
+          active == 'day'
+            ? 'cu-btn shadow-blur round bg-green'
+            : 'cu-btn shadow-blur round'
+        "
+        data-cur="day"
+        @click="selected($event)"
+      >
+        日
+      </button>
+      <button
+        :class="
+          active == 'threedays'
+            ? 'cu-btn shadow-blur round bg-green'
+            : 'cu-btn shadow-blur round'
+        "
+        data-cur="threedays"
+        @click="selected($event)"
+      >
+        前3日
+      </button>
       <view class="calendar">
         <view style="display: flex; margin: 10px">
-          <span @click="startopen" class="timeStyle">{{pageStart}}</span>
-          <uni-calendar 
-          ref="calendar"
-          :insert="false"
-          @confirm="onStartConfirm"/>
+          <span @click="startopen" class="timeStyle">{{ pageStart }}</span>
+          <uni-calendar
+            ref="calendar"
+            :insert="false"
+            @confirm="onStartConfirm"
+          />
         </view>
       </view>
       <span style="margin: 17px 10px; font-size: 14px">至</span>
       <view class="calendar">
         <view style="display: flex; margin: 10px">
-          <span @click="endopen" class="timeStyle">{{
-            pageEnd
-          }}</span>
-          <uni-calendar 
-          ref="calendar2"
-          :insert="false"
-          @confirm="onEndConfirm"/>
+          <span @click="endopen" class="timeStyle">{{ pageEnd }}</span>
+          <uni-calendar
+            ref="calendar2"
+            :insert="false"
+            @confirm="onEndConfirm"
+          />
         </view>
       </view>
     </view>
     <!-- 卡片列表 -->
-    <view
-      class="lists">
+    <view class="lists">
       <view v-for="(item, itemIndex) in tableFactorList" :key="itemIndex">
-        <view class="detailCard">
+        <view class="detailCard" v-if="menuType == 'airPollution_index'">
           <view class="detailCard_header">
             <view class="header_title">
               {{ item.stationName }}
@@ -53,7 +112,7 @@
               {{ item.updateTime }}
             </view>
           </view>
-          <view  class="content">
+          <view class="content">
             <view class="singleFactor">
               <view class="content_value_name">AQI：</view>
               <view class="content_value">
@@ -104,36 +163,106 @@
             </view>
           </view>
         </view>
+        <view class="detailCard" v-else>
+          <view class="detailCard_header">
+            <view class="header_title">
+              {{ item.stationName }}
+            </view>
+            <view class="header_title">
+              {{ item.updateTime }}
+            </view>
+          </view>
+          <view class="content">
+            <view class="singleFactor">
+              <view class="content_value_name">ad：</view>
+              <view class="content_value">
+                <view>{{ item.ad }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">cf：</view>
+              <view class="content_value">
+                <view>{{ item.cf }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">codmn：</view>
+              <view class="content_value">
+                <view>{{ item.codmn }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">do：</view>
+              <view class="content_value">
+                <view>{{ item.do }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">ec：</view>
+              <view class="content_value">
+                <view>{{ item.ec }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">ph：</view>
+              <view class="content_value">
+                <view>{{ item.ph }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">sw：</view>
+              <view class="content_value">
+                <view>{{ item.sw }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">tub：</view>
+              <view class="content_value">
+                <view>{{ item.tub }}</view>
+              </view>
+            </view>
+          </view>
+        </view>
       </view>
     </view>
-  <!-- 引入自定义菜单组件 -->
-<bottomMenu url="airPollution_history"></bottomMenu>
+    <!-- 暂无数据 -->
     <view class="noData" v-if="isNoData">暂无数据</view>
+    <!-- 引入自定义菜单组件 -->
+    <bottomMenu url="airPollution_history"></bottomMenu>
   </view>
 </template>
 <script>
-import Vue from 'vue'
-import bottomMenu from '../bottomMenu/index'
-import {selectSiteByType,selectWaterSiteByType,getHistoryList} from "../../api/airPollution.js"
+import bottomMenu from "../bottomMenu/index";
+import {
+  selectSiteByType,
+  selectWaterSiteByType,
+  getHistoryList,
+} from "../../api/airPollution.js";
+import {
+  getSurfaceWaterHistoryList,
+} from "../../api/surfaceWater.js";
+import {
+  getPollutionSurfaceWaterHistoryList,
+} from "../../api/pollutionSurfaceWater.js";
+
 export default {
-  components: {bottomMenu },
+  components: { bottomMenu },
   data() {
     return {
-      siteList:[],
-      index:0,
+      siteList: [],
+      index: 0,
       siteId: "",
-      type:"day",
+      type: "day",
       active: "auto",
-      searchValue: "",
-      id: "",
+      isNoData: false,
       selectMenu: "his",
-
+      menuType:"",
       isAuto: true,
       startShow: false,
       endShow: false,
       current: 1,
       size: 10,
-      totalPage:0,
+      totalPage: 0,
       busy: false,
       start: new Date(),
       end: new Date(),
@@ -144,25 +273,21 @@ export default {
       loading: false,
       finished: false,
       tableFactorList: [],
-      isShowSearchContent: false,
-      searchContent: [],
-      platFormId: "",
-      isNoData: false,
     };
   },
   methods: {
-    startopen(){
-    this.$refs.calendar.open();
-        },
-    endopen(){
-    this.$refs.calendar.open();
+    startopen() {
+      this.$refs.calendar.open();
     },
-    bindPickerChange(e){
-      this.tableFactorList=[]
-      this.index=e.target.value
-      this.siteId=this.siteList[e.target.value].id
-      console.log(this.siteId)
-      this.getList(this.siteId)
+    endopen() {
+      this.$refs.calendar.open();
+    },
+    bindPickerChange(e) {
+      this.tableFactorList = [];
+      this.index = e.target.value;
+      this.siteId = this.siteList[e.target.value].id;
+      console.log(this.siteId);
+      this.getList(this.siteId);
     },
     formatSelectDate(date) {
       return `${date.getFullYear()}-${this.timeAdd(
@@ -195,15 +320,15 @@ export default {
       let id = e.currentTarget.dataset.cur;
       this.active = id;
       if (id == "auto") {
-        this.type="day"
+        this.type = "day";
       } else if (id == "hour") {
-        this.type="hour"
+        this.type = "hour";
       } else if (id == "fiveMinute") {
-        this.type="min"
+        this.type = "min";
       } else if (id == "day") {
-        this.type="day"
+        this.type = "day";
       }
-      this.tableFactorList=[]
+      this.tableFactorList = [];
       this.getList(this.siteId);
     },
     // 加载更多
@@ -222,70 +347,133 @@ export default {
     // },
     //选择站点
     selectPort(e) {
-      var that=this
-      if(localStorage.getItem("url")=="airPollution_index"){
+      var that = this;
+      if (localStorage.getItem("url") == "airPollution_index") {
         selectSiteByType().then(
           function (result) {
             let list = result.data.data;
             for (let i = 0; i < list.length; i++) {
-              that.siteList.push({"id":list[i].id,"stationName":list[i].stationName});
-              that.siteId=that.siteList[0].id
+              that.siteList.push({
+                id: list[i].id,
+                stationName: list[i].stationName,
+              });
+              that.siteId = that.siteList[0].id;
             }
-            that.getList(that.siteId)
+            that.getList(that.siteId);
           },
-          function (err) {
-          }
-        )
-      }else if(localStorage.getItem("url")=="surfaceWater_index" || localStorage.getItem("url")=="pollutionSurfaceWater_index"){
+          function (err) {}
+        );
+      } else if (
+        localStorage.getItem("url") == "surfaceWater_index" ||
+        localStorage.getItem("url") == "pollutionSurfaceWater_index"
+      ) {
         selectWaterSiteByType().then(
           function (result) {
             let list = result.data.data;
             for (let i = 0; i < list.length; i++) {
-              that.siteList.push({"id":list[i].id,"stationName":list[i].stationName});
-              that.siteId=that.siteList[0].id
+              that.siteList.push({
+                id: list[i].id,
+                stationName: list[i].stationName,
+              });
+              that.siteId = that.siteList[0].id;
             }
-            that.getList(that.siteId)
+            that.getList(that.siteId);
           },
-          function (err) {
-          }
-        )
+          function (err) {}
+        );
       }
     },
-    // 获取历史数据列表
+    // 空气--历史数据列表
     getList(siteId) {
-      var stations=[]
+      var stations = [];
       stations[0]=siteId
-      var row={
-        from:this.pageStart,
-        end:this.pageEnd,
-        type:this.type,
-        fromHour:9,
-        endHour:9,
-        stations:stations
-      }
+      // var row={
+      //   from:this.pageStart,
+      //   end:this.pageEnd,
+      //   type:this.type,
+      //   fromHour:9,
+      //   endHour:9,
+      //   stations:stations
+      // }
       var that = this;
-        getHistoryList(row).then(
+      if (localStorage.getItem("url") == "airPollution_index") {  
+        getHistoryList(
+          siteId,
+          this.pageStart,
+          this.pageEnd,
+          this.type,
+          9,
+          9
+        ).then(
           function (result) {
             let list = result.data;
-            if(list){
+            if (list.length == 0) {
+              that.isNoData = true;
+            }
+            if (list) {
               for (let i = 0; i < list.length; i++) {
                 that.tableFactorList.push(list[i]);
               }
             }
           },
-          function (err) {
-          }
-        )
+          function (err) {}
+        );
+        
+      }else if(localStorage.getItem("url") == "surfaceWater_index"){
+        var row={
+          stations:stations,
+          from:this.pageStart,
+          end:this.pageEnd,
+          type:this.type,
+        }
+        getSurfaceWaterHistoryList(row).then(
+          function (result) {
+            let list = result.data;
+            if (list.length == 0) {
+              that.isNoData = true;
+            }
+            if (list) {
+              for (let i = 0; i < list.length; i++) {
+                that.tableFactorList.push(list[i]);
+              }
+            }
+          },
+          function (err) {}
+        );
+      }else if(localStorage.getItem("url") == "pollutionSurfaceWater_index"){
+        var row={
+          stations:stations,
+          from:this.pageStart,
+          end:this.pageEnd,
+          type:this.type,
+        }
+        getPollutionSurfaceWaterHistoryList(row).then(
+          function (result) {
+            let list = result.data;
+            if (list.length == 0) {
+              that.isNoData = true;
+            }
+            if (list) {
+              for (let i = 0; i < list.length; i++) {
+                that.tableFactorList.push(list[i]);
+              }
+            }
+          },
+          function (err) {}
+        );
+      }
     },
   },
   mounted: function () {
-      this.selectPort()
-      this.pageStart = this.formatSelectDate(new Date(this.pageStart));
-      this.pageEnd = this.formatSelectDate(new Date(this.pageEnd));
+    this.selectPort();
+    this.pageStart = this.formatSelectDate(new Date(this.pageStart));
+    this.pageEnd = this.formatSelectDate(new Date(this.pageEnd));
+    this.menuType=localStorage.getItem("url")
   },
 };
 </script>
 <style scoped lang="scss">
+@import "../../static/css/index.css";
 .van-search {
   padding: 2px 12px;
 }
@@ -372,7 +560,7 @@ export default {
   font-size: 13px;
   font-weight: bold;
   line-height: 25px;
-  color: #FF0000;
+  color: #ff0000;
   opacity: 1;
 }
 .content {
@@ -421,12 +609,4 @@ export default {
   opacity: 1;
   margin: 6px 0px;
 }
-// .search{
-// height: 30px;
-// margin: 10px 15px;
-// background: #FFFFFF;
-// border: 1px solid #A5A5A5;
-// opacity: 1;
-// border-radius: 8px;
-// }
 </style>

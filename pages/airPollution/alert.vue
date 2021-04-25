@@ -1,38 +1,58 @@
 <template>
-<view class="main">
-	<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block>
-		<block slot="content">预警信息</block>
-	</cu-custom>
-	<view class="cu-bar search bg-white">
-		<view class="search-form round">
-      <picker @change="bindPickerChange" :range="siteList" :value="index" :range-key="'stationName'">
-        <text class="content_value_name" style="margin-left:20px">请选择站点：</text>
-        <text class="content_value_name" v-if="siteList[index]">{{siteList[index].stationName}}</text>
-      </picker>
-		</view>
-	</view>
+  <view class="main">
+    <cu-custom bgColor="bg-gradual-pink" :isBack="true"
+      ><block slot="backText">返回</block>
+      <block slot="content">预警信息</block>
+    </cu-custom>
+    <view class="cu-bar search bg-white">
+      <view class="search-form round">
+        <picker
+          @change="bindPickerChange"
+          :range="siteList"
+          :value="index"
+          :range-key="'stationName'"
+        >
+          <text class="content_value_name" style="margin-left: 20px"
+            >请选择站点：</text
+          >
+          <text class="content_value_name" v-if="siteList[index]">{{
+            siteList[index].stationName
+          }}</text>
+        </picker>
+      </view>
+    </view>
     <!-- 搜索框展示搜索内容  searchContent-->
-    <view  v-if="isShowSearchContent">
-        <van-cell size="large"  v-for="(retlist,index) in searchContent" :key="index" :label="retlist.groupName" :title="retlist.deptName" :value="retlist.siteName"  @click="selectPort(retlist)" />
+    <view v-if="isShowSearchContent">
+      <van-cell
+        size="large"
+        v-for="(retlist, index) in searchContent"
+        :key="index"
+        :label="retlist.groupName"
+        :title="retlist.deptName"
+        :value="retlist.siteName"
+        @click="selectPort(retlist)"
+      />
     </view>
     <view class="header_search">
       <view class="calendar">
         <view style="display: flex; margin: 10px">
-          <span @click="startopen" class="timeStyle">{{start}}</span>
-          <uni-calendar 
-          ref="calendar"
-          :insert="false"
-          @confirm="onStartConfirm"/>
+          <span @click="startopen" class="timeStyle">{{ start }}</span>
+          <uni-calendar
+            ref="calendar"
+            :insert="false"
+            @confirm="onStartConfirm"
+          />
         </view>
       </view>
       <span style="margin: 17px 10px; font-size: 14px">至</span>
       <view class="calendar">
         <view style="display: flex; margin: 10px">
-          <span @click="endopen" class="timeStyle">{{end}}</span>
-          <uni-calendar 
-          ref="calendar2"
-          :insert="false"
-          @confirm="onEndConfirm"/>
+          <span @click="endopen" class="timeStyle">{{ end }}</span>
+          <uni-calendar
+            ref="calendar2"
+            :insert="false"
+            @confirm="onEndConfirm"
+          />
         </view>
       </view>
     </view>
@@ -45,100 +65,135 @@
       </view>
     </radio-group> -->
     <view>
-        <checkbox-group class="header_search"  @change="checkboxChange">
-            <label style="margin-right:10px">
-                <checkbox value="1" style="transform:scale(0.7)" />国控
-            </label>
-            <label style="margin-right:10px">
-                <checkbox value="2"  style="transform:scale(0.7)"/>省控
-            </label>
-            <label style="margin-right:10px">
-                <checkbox value="3"  style="transform:scale(0.7)"/>市控
-            </label>
-            <label style="margin-right:10px">
-                <checkbox value="4" style="transform:scale(0.7)"/>区控
-            </label>
-        </checkbox-group>
+      <checkbox-group class="header_search" @change="checkboxChange">
+        <label style="margin-right: 10px">
+          <checkbox value="1" style="transform: scale(0.7)" />国控
+        </label>
+        <label style="margin-right: 10px">
+          <checkbox value="2" style="transform: scale(0.7)" />省控
+        </label>
+        <label style="margin-right: 10px">
+          <checkbox value="3" style="transform: scale(0.7)" />市控
+        </label>
+        <label style="margin-right: 10px">
+          <checkbox value="4" style="transform: scale(0.7)" />区控
+        </label>
+      </checkbox-group>
     </view>
     <!-- 预警 -->
-    <view style="margin:10px 0">
-        <checkbox-group class="header_search" @change="alertCheckboxChange">
-            <label style="margin-right:10px">
-                <checkbox value="1" color="#FFCC33" style="transform:scale(0.7)" />一级预警
-            </label>
-            <label style="margin-right:15px">
-                <checkbox value="2" color="#FFCC33" style="transform:scale(0.7)"/>二级预警
-            </label>
-            <label style="margin-right:10px">
-                <checkbox value="3" color="#FFCC33" style="transform:scale(0.7)"/>报警
-            </label>
-        </checkbox-group>
+    <view style="margin: 10px 0">
+      <checkbox-group class="header_search" @change="alertCheckboxChange">
+        <label style="margin-right: 10px">
+          <checkbox
+            value="1"
+            color="#FFCC33"
+            style="transform: scale(0.7)"
+          />一级预警
+        </label>
+        <label style="margin-right: 15px">
+          <checkbox
+            value="2"
+            color="#FFCC33"
+            style="transform: scale(0.7)"
+          />二级预警
+        </label>
+        <label style="margin-right: 10px">
+          <checkbox
+            value="3"
+            color="#FFCC33"
+            style="transform: scale(0.7)"
+          />报警
+        </label>
+      </checkbox-group>
     </view>
     <!-- 列表 -->
-    <scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll">
-        <view class="detailCards">
-          <view v-for="(item,iIndex) in tableFactorList" :key="iIndex"  class="detailCard">
-            <view class="inlineFactor">
-              <view class="inlineFactorName">站点名：</view>
-              <view class="inlineFactorValue ">{{item.stationName}}</view>
+    <scroll-view
+      :scroll-top="scrollTop"
+      scroll-y="true"
+      class="scroll-Y"
+      @scrolltoupper="upper"
+      @scrolltolower="lower"
+      @scroll="scroll"
+    >
+      <view class="detailCards">
+        <view
+          v-for="(item, iIndex) in tableFactorList"
+          :key="iIndex"
+          class="detailCard"
+        >
+          <view class="inlineFactor">
+            <view class="inlineFactorName">站点名：</view>
+            <view class="inlineFactorValue">{{ item.stationName }}</view>
+          </view>
+          <view class="factorList">
+            <view class="singleFactor">
+              <view class="factorName">预警编号：</view>
+              <view class="factorValue">{{ item.number }}</view>
             </view>
-            <view class="factorList">
-              <view class="singleFactor">
-                <view class="factorName">预警编号：</view>
-                <view class="factorValue">{{item.number}}</view>
-              </view>
-              <view class="singleFactor">
-                <view class="factorName">预警内容：</view>
-                <view class="factorValue">{{item.content}}</view>
-              </view>
+            <view class="singleFactor">
+              <view class="factorName">预警内容：</view>
+              <view class="factorValue">{{ item.content }}</view>
             </view>
-            <view class="factorList">
-                <view class="singleFactor">
-                  <view class="factorName">监控因子：</view>
-                  <view class="factorValue">{{item.name}}</view>
-                </view>
-                <view class="singleFactor">
-                  <view class="factorName">预警类型：</view>
-                  <view class="factorValue">{{item.type}}</view>
-                </view>
+          </view>
+          <view class="factorList">
+            <view class="singleFactor">
+              <view class="factorName">监控因子：</view>
+              <view class="factorValue">{{ item.name }}</view>
             </view>
-            <view class="inlineFactor">
-              <view class="inlineFactorName">预警值：</view>
-              <view class="inlineFactorValue ">{{item.value}}</view>
+            <view class="singleFactor">
+              <view class="factorName">预警类型：</view>
+              <view class="factorValue">{{ item.type }}</view>
             </view>
-                <view class="inlineFactor">
-                  <view class="inlineFactorName">创建时间：</view>
-                  <view class="inlineFactorValue ">{{item.createTime}}</view>
-                </view>
-                <view class="inlineFactor">
-                  <view class="inlineFactorName">更新时间：</view>
-                  <view class="inlineFactorValue ">{{item.updateTime}}</view>
-                </view>
-                <!-- <view class="factorList">
+          </view>
+          <view class="inlineFactor">
+            <view class="inlineFactorName">预警值：</view>
+            <view class="inlineFactorValue">{{ item.value }}</view>
+          </view>
+          <view class="inlineFactor">
+            <view class="inlineFactorName">创建时间：</view>
+            <view class="inlineFactorValue">{{ item.createTime }}</view>
+          </view>
+          <view class="inlineFactor">
+            <view class="inlineFactorName">更新时间：</view>
+            <view class="inlineFactorValue">{{ item.updateTime }}</view>
+          </view>
+          <!-- <view class="factorList">
                   <view class="singleFactor">
                       <view class="factorName">状态：</view>
                       <view class="factorValue">{{item.status==1?'已处理':'未处理'}}</view>
                   </view>
               </view> -->
-              <view class="cardButtons">
-                  <button class="cu-btn round bg-green" size="mini" v-if="item.status==1" @tab="showForm(item)" >查看</button>
-                  <button class="cu-btn round bg-red" v-else @tab="showForm(item)">审核</button>
-              </view>
-            </view>
+          <view class="cardButtons">
+            <button
+              class="cu-btn round bg-green"
+              size="mini"
+              v-if="item.status == 1"
+              @tab="showForm(item)"
+            >
+              查看
+            </button>
+            <button class="cu-btn round bg-red" v-else @tab="showForm(item)">
+              审核
+            </button>
+          </view>
+        </view>
       </view>
-    </scroll-view>
-<bottomMenu url="airPollution_alert"></bottomMenu>
     <view class="noData" v-if="isNoData">暂无数据</view>
-    <!-- 卡片结束 -->
+    </scroll-view>
+    <bottomMenu url="airPollution_alert"></bottomMenu>
     <!-- <view>
     <abnormal-form v-if="abnormalFormHShow" @poupClose='listenPoupClose' :message="chooseRecord" :isShow="abnormalFormHShow"></abnormal-form>
     </view> -->
-</view>
+  </view>
 </template>
 <script>
 // import abnormalForm from "@/components/abnormalForm"; //引入子组件
 import bottomMenu from "../bottomMenu/index";
-import {selectSiteByType,selectWaterSiteByType,getWarningList} from "../../api/airPollution.js"
+import {
+  selectSiteByType,
+  selectWaterSiteByType,
+  getWarningList,
+} from "../../api/airPollution.js";
 export default {
   components: { bottomMenu },
   data() {
@@ -148,15 +203,14 @@ export default {
       old: {
         scrollTop: 0,
       },
-      siteList:[],
-      index:0,
+      siteList: [],
+      index: 0,
       siteId: "",
-      type:"",
-      kong:[],
-      level:[],
-      searchValue: "",
+      type: "",
+      kong: [],
+      level: [],
+      isNoData: false,
       active: "",
-      selectMenu: "warning",
       date: "",
       show: false,
       current: 0,
@@ -168,7 +222,7 @@ export default {
       maxDate: new Date(),
       loading: false,
       finished: false,
-      tableFactorList:[],
+      tableFactorList: [],
       abnormalFormHShow: false,
       chooseRecord: {},
       alertType: "",
@@ -177,20 +231,14 @@ export default {
       st: "",
       startShow: false,
       endShow: false,
-      searchContent: [],
-      isShowSearchContent: false,
-      point: "",
-      deptId: localStorage.getItem("dept_id"),
-      platFormId: "",
-      isNoData: false,
     };
   },
   methods: {
-    startopen(){
-    this.$refs.calendar.open();
-        },
-    endopen(){
-    this.$refs.calendar.open();
+    startopen() {
+      this.$refs.calendar.open();
+    },
+    endopen() {
+      this.$refs.calendar.open();
     },
     upper: function (e) {
       console.log(e);
@@ -205,21 +253,21 @@ export default {
     RadioChange(e) {
       this.radio = e.detail.value;
     },
-    bindPickerChange(e){
-      this.tableFactorList=[]
-      this.index=e.target.value
-      this.siteId=this.siteList[e.target.value].id
-      this.getList(this.siteId)
+    bindPickerChange(e) {
+      this.tableFactorList = [];
+      this.index = e.target.value;
+      this.siteId = this.siteList[e.target.value].id;
+      this.getList(this.siteId);
     },
     checkboxChange(e) {
-      this.tableFactorList=[]
-      this.kong=e.detail.value
-      this.getList(this.siteId)
+      this.tableFactorList = [];
+      this.kong = e.detail.value;
+      this.getList(this.siteId);
     },
     alertCheckboxChange(e) {
-      this.tableFactorList=[]
-      this.level=e.detail.value
-      this.getList(this.siteId)
+      this.tableFactorList = [];
+      this.level = e.detail.value;
+      this.getList(this.siteId);
     },
     formatSelectDate(date) {
       return `${date.getFullYear()}-${this.timeAdd(
@@ -245,7 +293,7 @@ export default {
       return str;
     },
     onStartConfirm(date) {
-      debugger
+      debugger;
       this.tableFactorList = [];
       this.start = date.fulldate;
       if (this.start > this.end) {
@@ -291,59 +339,68 @@ export default {
       }
     },
     selectPort(e) {
-      var that=this
-      if(localStorage.getItem("url")=="airPollution_index"){
+      var that = this;
+      if (localStorage.getItem("url") == "airPollution_index") {
         selectSiteByType().then(
           function (result) {
             let list = result.data.data;
             for (let i = 0; i < list.length; i++) {
-              that.siteList.push({"id":list[i].id,"stationName":list[i].stationName});
-              that.siteId=that.siteList[0].id
+              that.siteList.push({
+                id: list[i].id,
+                stationName: list[i].stationName,
+              });
+              that.siteId = that.siteList[0].id;
             }
-            that.getList(that.siteId)
+            that.getList(that.siteId);
           },
-          function (err) {
-          }
-        )
-      }else if(localStorage.getItem("url")=="surfaceWater_index" ||localStorage.getItem("url")=="pollutionSurfaceWater_index"){
+          function (err) {}
+        );
+      } else if (
+        localStorage.getItem("url") == "surfaceWater_index" ||
+        localStorage.getItem("url") == "pollutionSurfaceWater_index"
+      ) {
         selectWaterSiteByType().then(
           function (result) {
             let list = result.data.data;
             for (let i = 0; i < list.length; i++) {
-              that.siteList.push({"id":list[i].id,"stationName":list[i].stationName});
-              that.siteId=that.siteList[0].id
+              that.siteList.push({
+                id: list[i].id,
+                stationName: list[i].stationName,
+              });
+              that.siteId = that.siteList[0].id;
             }
-            that.getList(that.siteId)
+            that.getList(that.siteId);
           },
-          function (err) {
-          }
-        )
+          function (err) {}
+        );
       }
     },
     // 获取列表
     getList(siteId) {
-      var stations=[]
-      stations[0]=siteId
-      var obj={
-        from:this.start,
-        end:this.end,
-        kong:this.kong,
-        level:this.level,
-        stations:stations
-      }
+      var stations = [];
+      stations[0] = siteId;
+      var obj = {
+        from: this.start,
+        end: this.end,
+        kong: this.kong,
+        level: this.level,
+        stations: stations,
+      };
       var that = this;
-        getWarningList(obj).then(
-          function (result) {
-            let list = result.data;
-            if(list){
-              for (let i = 0; i < list.length; i++) {
-                that.tableFactorList.push(list[i]);
-              }
-            }
-          },
-          function (err) {
+      getWarningList(obj).then(
+        function (result) {
+          let list = result.data;
+          if (list.length == 0) {
+            that.isNoData = true;
           }
-        )
+          if (list) {
+            for (let i = 0; i < list.length; i++) {
+              that.tableFactorList.push(list[i]);
+            }
+          }
+        },
+        function (err) {}
+      );
     },
     // listenPoupClose(data) {
     //   this.abnormalFormHShow = false;
@@ -354,16 +411,17 @@ export default {
     // },
   },
   mounted: function () {
-      this.selectPort()
-      this.start = this.formatSelectDate(new Date(this.start));
-      this.end = this.formatSelectDate(new Date(this.end));
+    this.selectPort();
+    this.start = this.formatSelectDate(new Date(this.start));
+    this.end = this.formatSelectDate(new Date(this.end));
   },
 };
 </script>
 <style scoped lang="scss">
-	.scroll-Y {
-		height: 730rpx;
-	}
+@import "../../static/css/index.css";
+.scroll-Y {
+  height: 730rpx;
+}
 .van-search {
   padding: 2px 12px 5px 12px;
 }
