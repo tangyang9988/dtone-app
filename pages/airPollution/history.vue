@@ -80,7 +80,9 @@
       </button>
       <view class="calendar">
         <view style="display: flex; margin: 10px">
-          <span @click="startopen" class="timeStyle">{{ pageStart }}</span>
+          <span @click="startopen" class="timeStyle">{{
+            pageStart
+          }}</span>
           <uni-calendar
             ref="calendar"
             :insert="false"
@@ -91,7 +93,9 @@
       <span style="margin: 17px 10px; font-size: 14px">至</span>
       <view class="calendar">
         <view style="display: flex; margin: 10px">
-          <span @click="endopen" class="timeStyle">{{ pageEnd }}</span>
+          <span @click="endopen" class="timeStyle">{{
+            pageEnd
+          }}</span>
           <uni-calendar
             ref="calendar2"
             :insert="false"
@@ -238,12 +242,8 @@ import {
   selectWaterSiteByType,
   getHistoryList,
 } from "../../api/airPollution.js";
-import {
-  getSurfaceWaterHistoryList,
-} from "../../api/surfaceWater.js";
-import {
-  getPollutionSurfaceWaterHistoryList,
-} from "../../api/pollutionSurfaceWater.js";
+import { getSurfaceWaterHistoryList } from "../../api/surfaceWater.js";
+import { getPollutionSurfaceWaterHistoryList } from "../../api/pollutionSurfaceWater.js";
 
 export default {
   components: { bottomMenu },
@@ -256,7 +256,7 @@ export default {
       active: "auto",
       isNoData: false,
       selectMenu: "his",
-      menuType:"",
+      menuType: "",
       isAuto: true,
       startShow: false,
       endShow: false,
@@ -277,10 +277,22 @@ export default {
   },
   methods: {
     startopen() {
-      this.$refs.calendar.open();
+      if (this.active != "auto") {
+        uni.showToast({
+          title: "不能点击",
+        });
+      } else {
+        this.$refs.calendar.open();
+      }
     },
     endopen() {
-      this.$refs.calendar.open();
+      if (this.active != "auto") {
+        uni.showToast({
+          title: "不能点击",
+        });
+      } else {
+        this.$refs.calendar.open();
+      }
     },
     bindPickerChange(e) {
       this.tableFactorList = [];
@@ -386,7 +398,7 @@ export default {
     // 空气--历史数据列表
     getList(siteId) {
       var stations = [];
-      stations[0]=siteId
+      stations[0] = siteId;
       // var row={
       //   from:this.pageStart,
       //   end:this.pageEnd,
@@ -396,15 +408,8 @@ export default {
       //   stations:stations
       // }
       var that = this;
-      if (localStorage.getItem("url") == "airPollution_index") {  
-        getHistoryList(
-          siteId,
-          this.pageStart,
-          this.pageEnd,
-          this.type,
-          9,
-          9
-        ).then(
+      if (localStorage.getItem("url") == "airPollution_index") {
+        getHistoryList(siteId, this.pageStart, this.pageEnd, this.type).then(
           function (result) {
             let list = result.data;
             if (list.length == 0) {
@@ -418,14 +423,13 @@ export default {
           },
           function (err) {}
         );
-        
-      }else if(localStorage.getItem("url") == "surfaceWater_index"){
-        var row={
-          stations:stations,
-          from:this.pageStart,
-          end:this.pageEnd,
-          type:this.type,
-        }
+      } else if (localStorage.getItem("url") == "surfaceWater_index") {
+        var row = {
+          stations: stations,
+          from: this.pageStart,
+          end: this.pageEnd,
+          type: this.type,
+        };
         getSurfaceWaterHistoryList(row).then(
           function (result) {
             let list = result.data;
@@ -440,13 +444,13 @@ export default {
           },
           function (err) {}
         );
-      }else if(localStorage.getItem("url") == "pollutionSurfaceWater_index"){
-        var row={
-          stations:stations,
-          from:this.pageStart,
-          end:this.pageEnd,
-          type:this.type,
-        }
+      } else if (localStorage.getItem("url") == "pollutionSurfaceWater_index") {
+        var row = {
+          stations: stations,
+          from: this.pageStart,
+          end: this.pageEnd,
+          type: this.type,
+        };
         getPollutionSurfaceWaterHistoryList(row).then(
           function (result) {
             let list = result.data;
@@ -468,7 +472,7 @@ export default {
     this.selectPort();
     this.pageStart = this.formatSelectDate(new Date(this.pageStart));
     this.pageEnd = this.formatSelectDate(new Date(this.pageEnd));
-    this.menuType=localStorage.getItem("url")
+    this.menuType = localStorage.getItem("url");
   },
 };
 </script>
