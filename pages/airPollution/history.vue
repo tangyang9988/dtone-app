@@ -105,7 +105,7 @@
       </view>
     </view>
     <!-- 卡片列表 -->
-    <view class="lists">
+    <view class="detailCards">
       <view v-for="(item, itemIndex) in tableFactorList" :key="itemIndex">
         <view class="detailCard" v-if="menuType == 'airPollution_index'">
           <view class="detailCard_header">
@@ -279,7 +279,7 @@ export default {
     startopen() {
       if (this.active != "auto") {
         uni.showToast({
-          title: "不能点击",
+          title: "点击无效",
         });
       } else {
         this.$refs.calendar.open();
@@ -288,7 +288,7 @@ export default {
     endopen() {
       if (this.active != "auto") {
         uni.showToast({
-          title: "不能点击",
+          title: "点击无效",
         });
       } else {
         this.$refs.calendar.open();
@@ -494,6 +494,14 @@ export default {
   // background: #A5A5A5;
   border-radius: 8px;
   border: 1px solid #a5a5a5;
+}
+.detailCards {
+  width: 100%;
+  margin-bottom: 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .detailCard {
   margin: 0px 15px 10px 15px;

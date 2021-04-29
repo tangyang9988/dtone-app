@@ -24,16 +24,16 @@
 			</view>
 		</view>
 		<view class="menu">
-			<view class="moudle" @click="surfaceWater">
-				<view class="bacimage1"></view>
-				<view style="text-align: center;">
-				 地表水
-				</view>
-			</view>
 			<view class="moudle"  @click="airPollution">
 				<view class="bacimage2"></view>
 				<view style="text-align: center;">
 				 空气
+				</view>
+			</view>
+			<view class="moudle" @click="surfaceWater">
+				<view class="bacimage1"></view>
+				<view style="text-align: center;">
+				 地表水
 				</view>
 			</view>
 			<view class="moudle" @click="pollutionSurfaceWater">
@@ -225,22 +225,23 @@ border-radius: 12px;
   margin:15px 20px;
 }
 .bacimage1{
-  height:70px;
+  width:100%;
+  height:60px;
   background: url(../../static/images/icon/s1.png) no-repeat;
   background-size: cover;
 }
 .bacimage2{
-  height:70px;
+  height:60px;
   background: url(../../static/images/icon/s2.png) no-repeat;
   background-size: cover;
 }
 .bacimage3{
-  height:70px;
+  height:60px;
   background: url(../../static/images/icon/s3.png) no-repeat;
   background-size: cover;
 }
 .bacimage4{
-  height:70px;
+  height:60px;
   background: url(../../static/images/icon/s4.png) no-repeat;
   background-size: cover;
 }

@@ -78,7 +78,7 @@
              <view class="abnormalLine"></view>
              <span id="testQuality" class="abnormalTitle">实时数据</span>
           </view>
-    <scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll">
+    <!-- <scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll"> -->
       <!-- 卡片开始 -->
       <view  class="detailCards">
         <view v-for = "(value,key) in portRecord" :key="key" class="detailCard">
@@ -91,43 +91,43 @@
           <view class="factorList">
             <view class="singleFactor">
               <view class="factorName">PM2.5：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.pm25)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.pm25)=='{}'"></view>
               <view class="factorValue" v-else>{{value.pm25.value}}{{value.pm25.unit}}</view>
             </view>
             <view class="singleFactor">
               <view class="factorName" >PM10：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.pm10)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.pm10)=='{}'"></view>
               <view class="factorValue" v-else>{{value.pm10.value}}{{value.pm10.unit}}</view>
             </view>
             <view class="singleFactor">
               <view class="factorName" >SO2：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.so2)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.so2)=='{}'"></view>
               <view class="factorValue" v-else>{{value.so2.value}}{{value.so2.unit}}</view>
             </view>
             <view class="singleFactor">
               <view class="factorName" >NO2：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.no2)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.no2)=='{}'"></view>
               <view class="factorValue" v-else>{{value.no2.value}}{{value.no2.unit}}</view>
             </view>
             <view class="singleFactor">
               <view class="factorName" >CO：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.co)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.co)=='{}'"></view>
               <view class="factorValue" v-else>{{value.co.value}}{{value.pm10.unit}}</view>
             </view>
             <view class="singleFactor">
               <view class="factorName" >O3：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.o3)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.o3)=='{}'"></view>
               <view class="factorValue" v-else>{{value.o3.value}}{{value.o3.unit}}</view>
             </view>
           </view>
           <view class="inlineFactor">
             <view class="inlineFactorName">更新日期：</view>
-            <view class="factorValue" v-if="value.updateTime==''">--</view>
+            <view class="factorValue" v-if="value.updateTime==''"></view>
             <view class="factorValue" v-else>{{value.updateTime}}</view>
           </view>
         </view>
       </view>
-    </scroll-view>
+    <!-- </scroll-view> -->
 <!-- 引入自定义菜单组件 -->
 <bottomMenu url="airPollution_index"></bottomMenu>
 </view>
@@ -422,14 +422,8 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-// @import "../../assets/styles/common.scss";
 .scroll-Y {
-  height: 700rpx;
-}
-.header {
-  margin: 10px 15px;
-  overflow-x: scroll;
-  white-space: nowrap;
+  height: 680rpx;
 }
 .header::-webkit-scrollbar {
   width: 0;
@@ -499,7 +493,7 @@ export default {
 
 .detailCards {
   width: 100%;
-  // height: 400px;
+  margin-bottom: 11%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -508,12 +502,12 @@ export default {
 
 .detailCard {
   margin-bottom: 15px;
-  // height: 110px;
   width: 90%;
-  // height: 290px;
   background-color: white;
-  border-radius: 3px;
-
+  opacity: 1;
+  border: 1px solid #efefef;
+  padding-bottom: 10px;
+  border-radius: 12px;
   box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.05); //阴影
 }
 

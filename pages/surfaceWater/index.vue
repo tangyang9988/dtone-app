@@ -41,47 +41,47 @@
           <view class="factorList">
             <view class="singleFactor">
               <view class="factorName">AD：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.ad)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.ad)=='{}'"></view>
               <view class="factorValue" v-else>{{value.ad.value}}{{value.ad.unit}}</view>
             </view>
             <view class="singleFactor">
               <view class="factorName" >COD：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.codmn)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.codmn)=='{}'"></view>
               <view class="factorValue" v-else>{{value.codmn.value}}{{value.codmn.unit}}</view>
             </view>
             <view class="singleFactor">
               <view class="factorName" >EC：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.ec)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.ec)=='{}'"></view>
               <view class="factorValue" v-else>{{value.ec.value}}{{value.ec.unit}}</view>
             </view>
             <view class="singleFactor">
               <view class="factorName" >FHW：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.fhw)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.fhw)=='{}'"></view>
               <view class="factorValue" v-else>{{value.fhw.value}}{{value.fhw.unit}}</view>
             </view>
             <view class="singleFactor">
               <view class="factorName" >PH：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.ph)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.ph)=='{}'"></view>
               <view class="factorValue" v-else>{{value.ph.value}}{{value.ph.unit}}</view>
             </view>
             <view class="singleFactor">
               <view class="factorName" >RJY：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.rjy)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.rjy)=='{}'"></view>
               <view class="factorValue" v-else>{{value.rjy.value}}{{value.rjy.unit}}</view>
             </view>
             <view class="singleFactor">
               <view class="factorName" >SW：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.sw)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.sw)=='{}'"></view>
               <view class="factorValue" v-else>{{value.sw.value}}{{value.sw.unit}}</view>
             </view>
             <view class="singleFactor">
               <view class="factorName" >ZD：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.zd)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.zd)=='{}'"></view>
               <view class="factorValue" v-else>{{value.zd.value}}{{value.zd.unit}}</view>
             </view>
             <view class="singleFactor">
               <view class="factorName" >ZL：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.zl)=='{}'">--</view>
+              <view class="factorValue" v-if="JSON.stringify(value.zl)=='{}'"></view>
               <view class="factorValue" v-else>{{value.zl.value}}{{value.zl.unit}}</view>
             </view>
           </view>
@@ -438,7 +438,7 @@ export default {
 
 .detailCards {
   width: 100%;
-  // height: 400px;
+  margin-bottom: 12%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -447,12 +447,12 @@ export default {
 
 .detailCard {
   margin-bottom: 15px;
-  // height: 110px;
   width: 90%;
-  // height: 290px;
   background-color: white;
-  border-radius: 3px;
-
+  opacity: 1;
+  border: 1px solid #efefef;
+  padding-bottom: 10px;
+  border-radius: 12px;
   box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.05); //阴影
 }
 
