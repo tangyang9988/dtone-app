@@ -41,6 +41,13 @@
 			}
 		},
 		{
+			"path": "pages/airPollution/trendanalysis",			
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
 			"path": "pages/airPollution/alert",			
 			"style": {
 				"navigationBarTitleText": "uni-app",

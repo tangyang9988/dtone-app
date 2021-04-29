@@ -21,18 +21,6 @@
         </picker>
       </view>
     </view>
-    <!-- 搜索框展示搜索内容  searchContent-->
-    <view v-if="isShowSearchContent">
-      <van-cell
-        size="large"
-        v-for="(retlist, index) in searchContent"
-        :key="index"
-        :label="retlist.groupName"
-        :title="retlist.deptName"
-        :value="retlist.siteName"
-        @click="selectPort(retlist)"
-      />
-    </view>
     <view class="header_search">
       <view class="calendar">
         <view style="display: flex; margin: 10px">
@@ -429,7 +417,7 @@ export default {
   margin: 0 20px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-left;
+  justify-content: space-between;
 }
 .calendar {
   margin: 10px 0px;

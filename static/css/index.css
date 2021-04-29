@@ -21,3 +21,10 @@
     line-height: 25px;
     margin-top: 5%;
   }
+  .icon_data {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    opacity: 1;
+    margin-right: 10px;;
+  }

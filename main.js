@@ -18,9 +18,9 @@ Vue.config.productionTip = false
 
 // import 'highlight.js/styles/zenburn.css'
 
-import 'static/css/ckeditor.css'
-import 'static/css/emoji.css'
-import 'static/css/index.css'
+// import 'static/css/ckeditor.css'
+// import 'static/css/emoji.css'
+// import 'static/css/index.css'
 
 // 工具类注册
 import prototype from './utils/prototype'

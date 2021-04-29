@@ -81,7 +81,7 @@
             </view>
             <view class="singleFactor">
               <view class="factorName" >ZL：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.zl)=='{}'"></view>
+              <view class="factorValue" v-if="JSON.stringify(value.zl)=='{}'">  </view>
               <view class="factorValue" v-else>{{value.zl.value}}{{value.zl.unit}}</view>
             </view>
           </view>

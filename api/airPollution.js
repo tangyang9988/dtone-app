@@ -53,6 +53,16 @@ export const getWarningList = (obj) =>{
     // params: {stations,from,end,kong,level}
   });
 }
+// 趋势分析
+export const comparativeAnalysis = (obj) =>{
+  return request({  
+    url: appConfig.WEB_API + '/api/bu/airdetection/dataSearch/air/comparativeAnalysis',
+    method: 'post',
+    data:obj
+    // params: {stations,from,end,kong,level}
+  });
+}
+
 
 
 

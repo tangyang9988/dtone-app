@@ -115,6 +115,10 @@
             <view class="header_title">
               {{ item.updateTime }}
             </view>
+            <view class="header_title">
+              <text>趋势分析</text>
+              <img  src="../../static/images/icon/icon_data.png" class="icon_data" @click="historyData(item)"></img>
+            </view>
           </view>
           <view class="content">
             <view class="singleFactor">
@@ -241,6 +245,7 @@ import {
   selectSiteByType,
   selectWaterSiteByType,
   getHistoryList,
+  comparativeAnalysis
 } from "../../api/airPollution.js";
 import { getSurfaceWaterHistoryList } from "../../api/surfaceWater.js";
 import { getPollutionSurfaceWaterHistoryList } from "../../api/pollutionSurfaceWater.js";
@@ -300,6 +305,7 @@ export default {
       this.siteId = this.siteList[e.target.value].id;
       console.log(this.siteId);
       this.getList(this.siteId);
+      this.getComparativeAnalysis(this.siteId);
     },
     formatSelectDate(date) {
       return `${date.getFullYear()}-${this.timeAdd(
@@ -313,6 +319,8 @@ export default {
         this.pageEnd = date.fulldate;
       }
       this.getList(this.siteId);
+      this.getComparativeAnalysis(this.siteId);
+      
     },
     timeAdd(str) {
       if (str <= 9) {
@@ -327,6 +335,7 @@ export default {
         this.pageStart = date.fulldate;
       }
       this.getList(this.siteId);
+      this.getComparativeAnalysis(this.siteId);
     },
     selected(e) {
       let id = e.currentTarget.dataset.cur;
@@ -342,6 +351,44 @@ export default {
       }
       this.tableFactorList = [];
       this.getList(this.siteId);
+    },
+    // 趋势分析
+    getComparativeAnalysis(siteId) {
+      var stations = [];
+      stations[0] = siteId;
+      var row={
+        from:this.pageStart,
+        end:this.pageEnd,
+        type:this.type,
+        stations:stations,
+        factors:["no"]
+      }
+      comparativeAnalysis(row)
+        .then(
+          function (result) {
+            let allRecords = result.data.data; //记录数组
+          },
+          function (err) {
+          }
+        )
+        .catch(function (error) {
+        });
+    },
+    historyData(item) {
+      const siteId =this.siteId
+        setTimeout(function () {
+          uni.navigateTo({
+            url: "/pages/airPollution/trendanalysis?item="+encodeURIComponent(JSON.stringify(item))+"&siteId="+encodeURIComponent(JSON.stringify(siteId)),
+          });
+        }, 500);
+      // var groupId = e.siteId;
+      // var start = e.collectTime.split(" ")[0];
+      // var end = e.collectTime.split(" ")[0];
+      // var point = e.deptName +"-" + e.siteName;
+      // this.$router.push({
+      //   path: "/surfaceWater/history",
+      //   query: { groupId: groupId, point: point, start: start, end: end },
+      // });
     },
     // 加载更多
     // loadMore() {
@@ -372,6 +419,7 @@ export default {
               that.siteId = that.siteList[0].id;
             }
             that.getList(that.siteId);
+            that.getComparativeAnalysis(that.siteId)
           },
           function (err) {}
         );
@@ -473,6 +521,7 @@ export default {
     this.pageStart = this.formatSelectDate(new Date(this.pageStart));
     this.pageEnd = this.formatSelectDate(new Date(this.pageEnd));
     this.menuType = localStorage.getItem("url");
+    this.getComparativeAnalysis()
   },
 };
 </script>

@@ -110,7 +110,13 @@ export default {
             url: "/pages/airPollution/siteReport",
           });
         }, 500);
-      } else if (e.currentTarget.dataset.cur == "home_page") {
+      } else if (e.currentTarget.dataset.cur == "trend_analysis") {
+        setTimeout(function () {
+          uni.navigateTo({
+            url: "/pages/airPollution/trendanalysis",
+          });
+        }, 500);
+      }else if (e.currentTarget.dataset.cur == "home_page") {
         setTimeout(function () {
           uni.navigateTo({
             url: "/pages/index/index",
