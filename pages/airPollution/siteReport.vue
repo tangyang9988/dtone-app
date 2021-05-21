@@ -1,135 +1,131 @@
 <template>
   <view class="main">
-    <cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block>
-      <block slot="content">站点报表</block>
+    <cu-custom bgColor="bg-gradual-pink" :isBack="true"
+      ><block slot="backText">返回</block>
+      <block slot="content">预警信息</block>
     </cu-custom>
     <view class="cu-bar search bg-white">
       <view class="search-form round">
-        <text class="cuIcon-search"></text>
-        <input @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" placeholder="请输入关键词" confirm-type="search"></input>
-      </view>
-      <view class="action">
-        <button class="cu-btn bg-green shadow-blur round">搜索</button>
-      </view>
-    </view>
-
-    <view class="header_search">
-      <view class="calendar">
-        <view style="display:flex;margin:10px">
-          <span class="timeStyle" @click="startShow = true">{{
-            pageStart
-          }}</span>
-          <!-- <span class="timeStyle" v-else>{{ start }}</span> -->
-          <!-- <van-calendar
-            v-model="startShow"
-            @confirm="onStartConfirm"
-            :min-date="minDate"
-            :max-date="maxDate"
-          /> -->
-        </view>
-      </view>
-      <button
-        class="cu-btn round"
-        :color="active == 'auto' ? '#ADC6FF' : ''"
-        @click="selected($event)"
-        >自定义</button>
-      <!-- <van-button
-        size="small"
-        class="button"
-        id="week"
-        :color="active == 'week' ? '#ADC6FF' : ''"
-        @click="selected($event)"
-        >周</van-button
-      >
-      <van-button
-        size="small"
-        class="button"
-        id="month"
-        :color="active == 'month' ? '#ADC6FF' : ''"
-        @click="selected($event)"
-        >月</van-button>
-      <van-button
-        size="small"
-        class="button"
-        id="year"
-        :color="active == 'year' ? '#ADC6FF' : ''"
-        @click="selected($event)"
-        >年</van-button> -->
-    </view>
-    <view class="detailCard_header_point">
-      <view class="header_title" style="margin-left:5%">
-        南湖小学监测站点1
+        <picker
+          @change="bindPickerChange"
+          :range="siteList"
+          :value="index"
+          :range-key="'stationName'"
+        >
+          <text class="content_value_name" style="margin-left: 20px"
+            >请选择站点：</text
+          >
+          <text class="content_value_name" v-if="siteList[index]">{{
+            siteList[index].stationName
+          }}</text>
+        </picker>
       </view>
     </view>
-    <!-- 空气列表 -->
-    <scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower">
-      <view class="lists">
-        <view v-for="(item, itIndex) in reportList" :key="itIndex">
-          <view class="detailCard">
-            <view class="detailCard_header">
-              <view class="header_title" style="margin-left:5%">
-                {{ item.statTime }}
-              </view>
+    <!-- 列表 -->
+    <scroll-view
+      :scroll-top="scrollTop"
+      scroll-y="true"
+      class="scroll-Y"
+      @scrolltoupper="upper"
+      @scrolltolower="lower"
+      @scroll="scroll"
+    >
+      <view class="detailCards">
+        <view
+          v-for="(item, iIndex) in tableFactorList"
+          :key="iIndex"
+          class="detailCard"
+        >
+          <view class="inlineFactor">
+            <view class="inlineFactorName">站点名：</view>
+            <view class="inlineFactorValue">{{ item.stationName }}</view>
+          </view>
+          <view class="factorList">
+            <view class="singleFactor">
+              <view class="factorName">预警编号：</view>
+              <view class="factorValue">{{ item.number }}</view>
             </view>
-            <view style="margin:0px;20px">
-              <view
-                v-for="(factor, factorIndex) in item.factorList"
-                :key="factorIndex"
-              >
-                <view class="content_factorName">
-                  {{ factor.head }}{{ factor.airType }}
-                </view>
-                <view class="display_row">
-                  <view style="width:70%">
-                    <span class="content_value_name" v-if="factor.avg==null"></span>
-                    <!-- <span class="content_value_name" v-esle> {{ factor.avg }}{{ factor.unit }}：</span> -->
-                    <span class="content_value">{{ factor.avgVal }}</span>
-                  </view>
-                  <view style="width:30%">
-                    <span class="content_value_name" v-if="factor.qi==null"></span>
-                    <span class="content_value_name" v-else>{{ factor.qi }}：</span>
-                    <span class="content_value">{{ factor.aqiVal }}</span>
-                  </view>
-                </view>
-                <view class="display_row" style="width: 57%">
-                </view>
-                <view class="line"></view>
-              </view>
+            <view class="singleFactor">
+              <view class="factorName">预警内容：</view>
+              <view class="factorValue">{{ item.content }}</view>
             </view>
+          </view>
+          <view class="factorList">
+            <view class="singleFactor">
+              <view class="factorName">监控因子：</view>
+              <view class="factorValue">{{ item.name }}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="factorName">预警类型：</view>
+              <view class="factorValue">{{ item.type }}</view>
+            </view>
+          </view>
+          <view class="inlineFactor">
+            <view class="inlineFactorName">预警值：</view>
+            <view class="inlineFactorValue">{{ item.value }}</view>
+          </view>
+          <view class="inlineFactor">
+            <view class="inlineFactorName">创建时间：</view>
+            <view class="inlineFactorValue">{{ item.createTime }}</view>
+          </view>
+          <view class="inlineFactor">
+            <view class="inlineFactorName">更新时间：</view>
+            <view class="inlineFactorValue">{{ item.updateTime }}</view>
+          </view>
+          <view class="cardButtons">
+            <button
+              class="cu-btn round bg-green"
+              size="mini"
+              v-if="item.status == 1"
+              @click="showForm(item)"
+            >
+              查看
+            </button>
+            <button class="cu-btn round bg-red" v-else @click="showForm(item)">
+              审核
+            </button>
           </view>
         </view>
       </view>
-    </scroll-view>
     <view class="noData" v-if="isNoData">暂无数据</view>
-<bottomMenu url="airPollution_siteReport"></bottomMenu>
+    </scroll-view>
+    <bottomMenu url="airPollution_siteReport"></bottomMenu>
+    <!-- <view>
+    <abnormalForm v-if="abnormalFormHShow" @poupClose='listenPoupClose' :message="chooseRecord" :isShow="abnormalFormHShow"></abnormalForm>
+    </view> -->
   </view>
 </template>
 <script>
-import bottomMenu from '../bottomMenu/index'
+import abnormalForm from "../components/abnormalForm"; //引入子组件
+import bottomMenu from "../bottomMenu/index";
+import {
+  selectSiteByType,
+  airWaringSelectPage,
+} from "../../api/airPollution.js";
 export default {
-  components: {bottomMenu},
+  components: { bottomMenu,abnormalForm },
   data() {
     return {
+      radio: "A",
       scrollTop: 0,
-      searchValue:"",
-      id: "",
-      deptId :"",
-      point: "",
-      active: "auto",
-      selectMenu:"point",
-      isAuto:true,
-      type:2,
-      busy:false,
+      old: {
+        scrollTop: 0,
+      },
+      siteList: [],
+      index: 0,
+      siteId: "",
+      kong: [],
+      level: [],
+      isNoData: false,
+      active: "",
+      date: "",
+      show: false,
       current: 0,
       size: 10,
-      startShow: false,
-      minDate: new Date(2010, 0, 1),
-      maxDate: new Date(),
-      start: new Date(),
-      pageStart: new Date(),
+      busy: false,
       loading: false,
       finished: false,
-      reportList: [
+      tableFactorList: [
           {
     "siteId": -1,
     "siteName": "南湖小学监测站点1",
@@ -469,285 +465,297 @@ export default {
     "word": "二级"
   },
       ],
-      factorList:[],
-      isShowSearchContent: false,
-      searchContent: [],
-      platFormId:"",
-      isNoData:false,
-      factorActive: 0,
-      factorId:0,
+      abnormalFormHShow: false,
+      chooseRecord: {},
     };
   },
   methods: {
+    startopen() {
+      this.$refs.calendar.open();
+    },
+    endopen() {
+      this.$refs.calendar.open();
+    },
     upper: function (e) {
       console.log(e);
     },
     lower: function (e) {
       console.log(e);
     },
-    selectFactorId(id){
-    this.factorActive=id
-    this.factorId=id;
+    scroll: function (e) {
+      console.log(e);
+      this.old.scrollTop = e.detail.scrollTop;
     },
-    formatYear(date) {
-      return `${date.getFullYear()}`;
+    bindPickerChange(e) {
+      this.tableFactorList = [];
+      this.index = e.target.value;
+      this.siteId = this.siteList[e.target.value].id;
+      this.getList(this.siteId);
     },
-    formatDate(date) {
-      return `${date.getFullYear()}-${
-        this.timeAdd(date.getMonth() + 1)
-      }-${this.timeAdd(date.getDate())}`;
+    showForm(e) {
+      this.abnormalFormHShow = true;
+      this.chooseRecord = e;
     },
-    formatMonth(date) {
-      return `${date.getFullYear()}-${
-        this.timeAdd(date.getMonth() + 1)}`;
-    },
-    onStartConfirm(date) {
-      this.reportList=[];
-      this.factorList=[];
-      this.startShow = false;
-      if(this.active=="auto"){
-        this.start = this.formatDate(date);
-        this.pageStart = this.formatDate(date);
-      }else if(this.active=="week"){
-        var week=this.getWeek(this.formatDate(date));
-        this.pageStart=this.formatDate(date).substring(0,4)+"第"+week+"周"
-        this.start = this.formatDate(date);
-      }else if(this.active=="month"){
-        this.pageStart=this.formatMonth(date)
-        this.start = this.formatDate(date);
-      }else{
-        this.pageStart=this.formatYear(date)
-        this.start = this.formatYear(date);
-      }
-      this.getList(this.deptId,this.start)
-    },
-    timeAdd(str) {
-      if (str <= 9) {
-        str = "0" + str;
-      }
-      return str;
-    },
-    selected(e) {
-      this.reportList=[];
-      this.factorList=[];
-      let id = e.currentTarget.id;
-      this.active = id;
-      if (id == "auto") {
-        this.isAuto =true;
-        this.type= 2
-        this.start=this.formatDate(new Date())
-        this.pageStart=this.start;
-        this.getList(this.deptId,this.start);
-      } else if (id == "week") {
-        this.isAuto =false;
-        this.type= 3
-        this.start=this.formatDate(new Date())
-        var week=this.getWeek(this.start);
-        this.pageStart=this.start.substring(0,4)+"第"+week+"周"
-        this.getList(this.deptId,this.start);
-      } else if (id == "month") {
-        this.isAuto =false;
-        this.type= 4
-        this.start=this.formatMonth(new Date())
-        this.pageStart=this.formatMonth(new Date())
-        this.getList(this.deptId,this.start);
-      }else if (id == "year") {
-        this.isAuto =false;
-        this.type= 5
-        this.pageStart=this.formatYear(new Date())
-        this.start=this.formatYear(new Date())
-        this.getList(this.deptId,this.start);
-      }
-
-    },
-    getWeek(dt){
-            let d1 = new Date(dt);
-            let d2 = new Date(dt);
-            d2.setMonth(0);
-            d2.setDate(1);
-            let rq = d1-d2;
-            let days = Math.ceil(rq/(24*60*60*1000));
-            let num = Math.ceil(days/7);
-            return num;
-    },
-    getPlatFormId(){
-        this.platFormId = localStorage.getItem('platFormId');
-      },
-    // 头部检索
-    onSearch() {
-      this.isShowSearchContent = true;
-    },
-    // pointsList(){
-    //   var that=this;
-    //   searchPoints(that.platFormId, that.searchValue).then(
-    //     function (result) {
-    //       that.searchContent = result.data.data;
-    //       if(that.platFormId == 99){
-    //         that.deptId = result.data.data[0].groupId
-    //         that.point = result.data.data[0].deptName+ "-" + result.data.data[0].siteName+ "-" + result.data.data[0].groupName;
-    //       }else{
-    //       that.deptId = result.data.data[0].siteId
-    //       that.point = result.data.data[0].deptName+ "-" + result.data.data[0].siteName;
-    //       }
-    //       that.getList()
-    //     },
-    //     function (err) {
-    //       Toast.fail("请求异常");
-    //     }
-    //   );
-    // },
     // 加载更多
-    // loadMore() {
-    //   let that = this;
-    //   // that.busy = true;
-    //   setTimeout(() => {
-    //     //发送请求有时间间隔第一个滚动时间结束后才发送第二个请求
-    //     that.current++; //滚动之后加载第二页
-    //     that.getList();
-    //   }, 100);
-    // },
-    //选择站点
-    selectPort(e) {
-      this.reportList=[];
-      this.factorList=[];
-      this.current=1;
-      if(this.platFormId == 99){
-        this.deptId = e.groupId
-        if(e.groupName==""){
-          this.point = e.deptName + "-" + e.siteName;
-          this.isNoData = true;
-        }else{
-          this.point=e.deptName+'-'+e.siteName+'-'+e.groupName
-          this.getList(this.deptId);
-        }
-      }else{
-        this.deptId = e.siteId
-        this.point=e.deptName+'-'+e.siteName
-        this.getList();
+    loadMore() {
+      let that = this;
+      if (that.busy) {
+      } else {
+        setTimeout(() => {
+          //发送请求有时间间隔第一个滚动时间结束后才发送第二个请求
+          that.current++; //滚动之后加载第二页
+          that.getList();
+        }, 100);
       }
-      this.isShowSearchContent = false;
+    },
+    selectPort(e) {
+      var that = this;
+      if (localStorage.getItem("url") == "airPollution_index") {
+        selectSiteByType().then(
+          function (result) {
+            let list = result.data.data;
+            for (let i = 0; i < list.length; i++) {
+              that.siteList.push({
+                id: list[i].id,
+                stationName: list[i].stationName,
+              });
+              that.siteId = that.siteList[0].id;
+            }
+            that.getList(that.siteId);
+          },
+          function (err) {}
+        );
+      } else if (
+        localStorage.getItem("url") == "surfaceWater_index" ||
+        localStorage.getItem("url") == "pollutionSurfaceWater_index"
+      ) {
+        selectWaterSiteByType().then(
+          function (result) {
+            let list = result.data.data;
+            for (let i = 0; i < list.length; i++) {
+              that.siteList.push({
+                id: list[i].id,
+                stationName: list[i].stationName,
+              });
+              that.siteId = that.siteList[0].id;
+            }
+            that.getList(that.siteId);
+          },
+          function (err) {}
+        );
+      }
     },
     // 获取列表
-    getList() {
+    getList(siteId,status) {
       var that = this;
-      var platFormId = localStorage.getItem("platFormId");
-      if(platFormId==99){
-        getLamReportList(platFormId, that.deptId, that.type, that.start).then(
-          function (result) {
-            let list = result.data.data;
-          if(list.length==0){
-          that.isNoData=true;
+      airWaringSelectPage(siteId,1,"air_warning",1,10).then(
+        function (result) {
+          debugger
+          let list = result.data.data.records;
+          if (list.length == 0) {
+            that.isNoData = true;
           }
+          if (list) {
             for (let i = 0; i < list.length; i++) {
-              that.reportList.push(list[i]);
+              that.tableFactorList.push(list[i]);
             }
-            for (let i = 0; i < that.reportList[0].factorList.length; i++) {
-              that.factorList.push(that.reportList[0].factorList[i]);
-            }
-          },
-          function (err) {
-            Toast.fail("请求异常");
           }
-        );
-      }else if(platFormId==22){
-        getReport22List(platFormId, that.deptId, that.type, that.start).then(
-          function (result) {
-            let list = result.data.data;
-          if(list.length==0){
-          that.isNoData=true;
-          }
-            for (let i = 0; i < list.length; i++) {
-              that.reportList.push(list[i]);
-            }
-          },
-          function (err) {
-            Toast.fail(err.data.msg);
-          }
-        );
-      }else{
-        getReportList(platFormId, that.deptId, that.type, that.start,2).then(
-          function (result) {
-            let list = result.data.data;
-          if(list.length==0){
-          that.isNoData=true;
-          }
-            for (let i = 0; i < list.length; i++) {
-              that.reportList.push(list[i]);
-            }
-          },
-          function (err) {
-            Toast.fail(err.data.msg);
-          }
-        );
-      }
+        },
+        function (err) {}
+      );
     },
   },
   mounted: function () {
-    this.getPlatFormId()
-    this.start = this.formatDate(this.start)
-    this.pageStart = this.formatDate(this.pageStart)
+    this.selectPort();
   },
-  beforeMounted:function(){
-
-  }
 };
 </script>
 <style scoped lang="scss">
+@import "../../static/css/index.css";
 .scroll-Y {
-  height: 800rpx;
+  height: 1000rpx;
 }
 .van-search {
   padding: 2px 12px 5px 12px;
-}
-.header_search {
-  margin: 5px 15px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-left;
 }
 .button {
   background: #ffffff;
   opacity: 1;
   border-radius: 8px;
   height: 35px;
-  // width: 55px;
-  margin-left: 10px;
+  width: 70px;
+  margin-right: 10px;
 }
-.calendar {
-  height: 35px;
-  width: 31%;
-  border-radius: 8px;
-  border: 1px solid #a5a5a5;
+.active {
+  background: #fd7522;
+  border: 1px solid #fd7522;
+  color: #fff;
 }
-.van-button--small {
-  min-width: 45px;
-}
-.detailCard {
-  margin: 10px;
-  background: #ffffff;
-  border: 1px solid #efefef;
-  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.05);
-  opacity: 1;
-  border-radius: 12px;
-}
-.detailCard_header {
+
+.detailCards {
+  width: 100%;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.detailCard {
+  margin: 8px 15px;
+  width: 90%;
+  padding: 10px 5px;
+  background-color: white;
+  border-radius: 12px;
+  //box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.05);//阴影
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.05),
+    /*左边阴影*/ 2px 3px 10px rgba(0, 0, 0, 0.05),
+    /*上边阴影*/ 2px 3px 10px rgba(0, 0, 0, 0.05),
+    /*右边阴影*/ 2px 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.factorList {
+  height: 25px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 8px;
+  margin-left: 5px;
+  border-bottom: #dedede 1px dashed;
+}
+
+.singleFactor {
+  display: flex;
   justify-content: left;
-  height: 39px;
+  align-items: left;
+  width: 50%;
+}
+
+.factorName {
+  height: 100%;
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  line-height: 17px;
+  color: #000000;
+  opacity: 1;
+}
+
+.factorValue {
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 17px;
+  color: #000000;
+  opacity: 1;
+}
+.inlineFactor {
+  margin-left: 5px;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  border-bottom: #dedede 1px dashed;
+  height: 25px;
+}
+.inlineFactorName {
+  height: 100%;
+  margin-left: 0px;
+  font-size: 13px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  line-height: 25px;
+  color: #000000;
+  opacity: 1;
+}
+.inlineFactorValue {
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 25px;
+  color: #000000;
+  opacity: 1;
+}
+
+.chartTitle {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.cardHr {
+  width: 90%;
+  padding-left: 5%;
+}
+
+.cardTitle {
+  padding-left: 5%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
   background: #f4f4f4;
   opacity: 1;
   border-radius: 12px 12px 0px 0px;
-}
-.detailCard_header_point {
+
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 17px;
+  color: #000000;
+
   display: flex;
-  flex-wrap: wrap;
-  background: #f4f4f4;
+  justify-content: left;
+  align-items: left;
+}
+
+.cardTitleIcon {
+  width: 18px;
+  height: 18px;
+  background: #50e2c1;
+  border-radius: 50%;
   opacity: 1;
-  border-radius: 12px 12px 12px 12px;
-  margin: 0px 15px;
+}
+
+.cardTitleWord {
+  margin-left: 5px;
+}
+
+.newCard {
+  width: 90%;
+  height: 200px;
+}
+.cardsHeaderTitle {
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 22px;
+  color: #000000;
+  opacity: 1;
+}
+.cardButtons {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.solveButton {
+  margin-right: 5%;
+  background-color: #f56c6c;
+  border-radius: 8px;
+  height: 30px;
+  //字体
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 17px;
+  color: #ffffff;
+  opacity: 1;
+}
+.exception {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: left;
+  font-size: 15px;
+  font-family: PingFang SC;
+  opacity: 1;
+  margin: 5px 15px;
 }
 .header_title {
+  height: 17px;
   font-size: 13px;
   font-family: PingFang SC;
   font-weight: 500;
@@ -756,71 +764,14 @@ export default {
   opacity: 1;
   padding: 10px 0;
 }
-.content_factorName {
-  margin: 6px 20px;
-  font-size: 13px;
-  font-family: PingFang SC;
-  font-weight: bold;
-  line-height: 17px;
-  color: #000000;
-  opacity: 1;
-}
-.content_value_name {
-  margin-left: 10px;
-  height: 17px;
-  font-size: 13px;
-  font-family: PingFang SC;
-  font-weight: 400;
-  line-height: 17px;
-  color: #000000;
-  opacity: 1;
-}
-.display_row {
+
+.van-dropdown-menu {
   display: flex;
-  flex-wrap: wrap;
-  justify-content:space-between;
-  margin: 5px 10px;
-}
-.display_row2 {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 5px 10px;
-}
-.content_value {
-  height: 17px;
-  font-size: 13px;
-  font-weight: bold;
-  line-height: 17px;
-  color: #000000;
-  opacity: 1;
-}
-.line {
-  margin: 10px;
-  height: 0px;
-  border-bottom: #dedede 1px dashed;
-  opacity: 1;
-}
-.timeStyle {
-  font-size: 13px;
-  font-weight: 500;
-  margin-left: 5px;
-}
-.disabledTime {
-  font-size: 10px;
-  background: grey;
-}
-.factorId{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin:0px 5px;
-}
-.factorButton{
-  background: #ffffff;
-  opacity: 1;
+  height: 35px;
+  background-color: #fff;
+  -webkit-user-select: none;
+  margin: 0 15px 10px 15px;
+  border: 1px solid #a5a5a5;
   border-radius: 8px;
-  height: 30px;
-  margin-right: 5px;
 }
 </style>

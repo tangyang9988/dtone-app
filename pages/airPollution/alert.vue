@@ -5,7 +5,7 @@
       <block slot="content">预警信息</block>
     </cu-custom>
     <view class="cu-bar search bg-white">
-      <view class="search-form round">
+      <view class="search-form round" style="width:150%">
         <picker
           @change="bindPickerChange"
           :range="siteList"
@@ -13,10 +13,25 @@
           :range-key="'stationName'"
         >
           <text class="content_value_name" style="margin-left: 20px"
-            >请选择站点：</text
+            >选择站点：</text
           >
           <text class="content_value_name" v-if="siteList[index]">{{
             siteList[index].stationName
+          }}</text>
+        </picker>
+      </view>
+      <view class="search-form round">
+        <picker
+          @change="statusPickerChange"
+          :range="statusList"
+          :value="sindex"
+          :range-key="'status'"
+        >
+          <text class="content_value_name" style="margin-left: 20px"
+            >选择状态：</text
+          >
+          <text class="content_value_name" v-if="statusList[sindex]">{{
+            statusList[sindex].status
           }}</text>
         </picker>
       </view>
@@ -44,15 +59,7 @@
         </view>
       </view>
     </view>
-    <!-- <radio-group class="block" @change="RadioChange">
-      <view class="cu-form-group">
-        <view>
-          <radio :class="radio=='A'?'checked':''" :checked="radio=='A'?true:false" value="A"></radio><text style="margin-left:5px">当前异常</text>
-          <radio class='margin-left-sm' :class="radio=='D'?'checked':''" :checked="radio=='D'?true:false" value="D"></radio><text style="margin-left:5px">全部异常</text>
-        </view>
-      </view>
-    </radio-group> -->
-    <view>
+    <!-- <view>
       <checkbox-group class="header_search" @change="checkboxChange">
         <label style="margin-right: 10px">
           <checkbox value="1" style="transform: scale(0.7)" />国控
@@ -67,9 +74,9 @@
           <checkbox value="4" style="transform: scale(0.7)" />区控
         </label>
       </checkbox-group>
-    </view>
+    </view> -->
     <!-- 预警 -->
-    <view style="margin: 10px 0">
+    <!-- <view style="margin: 10px 0">
       <checkbox-group class="header_search" @change="alertCheckboxChange">
         <label style="margin-right: 10px">
           <checkbox
@@ -93,7 +100,7 @@
           />报警
         </label>
       </checkbox-group>
-    </view>
+    </view> -->
     <!-- 列表 -->
     <scroll-view
       :scroll-top="scrollTop"
@@ -125,60 +132,50 @@
           </view>
           <view class="factorList">
             <view class="singleFactor">
-              <view class="factorName">监控因子：</view>
+              <view class="factorName">预警因子：</view>
               <view class="factorValue">{{ item.name }}</view>
             </view>
             <view class="singleFactor">
+              <view class="inlineFactorName">因子数值：</view>
+              <view class="inlineFactorValue">{{ item.value }}</view>
+            </view>
+          </view>
+          <view class="factorList">
+            <view class="singleFactor">
+              <view class="factorName">单位：</view>
+              <view class="factorValue">{{ item.unit }}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="inlineFactorName">阈值：</view>
+              <view class="inlineFactorValue">{{ item.threshold }}</view>
+            </view>
+          </view>
+          <view class="factorList">
+            <view class="singleFactor">
               <view class="factorName">预警类型：</view>
-              <view class="factorValue">{{ item.type }}</view>
+              <view class="factorValue">{{ item.warnType }}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="inlineFactorName">预警状态：</view>
+              <view class="inlineFactorValue">{{ item.statusLabel }}</view>
             </view>
           </view>
           <view class="inlineFactor">
-            <view class="inlineFactorName">预警值：</view>
-            <view class="inlineFactorValue">{{ item.value }}</view>
-          </view>
-          <view class="inlineFactor">
-            <view class="inlineFactorName">创建时间：</view>
-            <view class="inlineFactorValue">{{ item.createTime }}</view>
-          </view>
-          <view class="inlineFactor">
-            <view class="inlineFactorName">更新时间：</view>
+            <view class="inlineFactorName">监测时间：</view>
             <view class="inlineFactorValue">{{ item.updateTime }}</view>
-          </view>
-          <!-- <view class="factorList">
-                  <view class="singleFactor">
-                      <view class="factorName">状态：</view>
-                      <view class="factorValue">{{item.status==1?'已处理':'未处理'}}</view>
-                  </view>
-              </view> -->
-          <view class="cardButtons">
-            <button
-              class="cu-btn round bg-green"
-              size="mini"
-              v-if="item.status == 1"
-              @tab="showForm(item)"
-            >
-              查看
-            </button>
-            <button class="cu-btn round bg-red" v-else @tab="showForm(item)">
-              审核
-            </button>
           </view>
         </view>
       </view>
     <view class="noData" v-if="isNoData">暂无数据</view>
     </scroll-view>
     <bottomMenu url="airPollution_alert"></bottomMenu>
-    <!-- <view>
-    <abnormal-form v-if="abnormalFormHShow" @poupClose='listenPoupClose' :message="chooseRecord" :isShow="abnormalFormHShow"></abnormal-form>
-    </view> -->
   </view>
 </template>
 <script>
-// import abnormalForm from "@/components/abnormalForm"; //引入子组件
 import bottomMenu from "../bottomMenu/index";
 import {
   selectSiteByType,
+  selectStatusByType,
   selectWaterSiteByType,
   getWarningList,
 } from "../../api/airPollution.js";
@@ -194,7 +191,9 @@ export default {
       siteList: [],
       index: 0,
       siteId: "",
-      type: "",
+      sindex: 0,
+      statusList:[],
+      statusId :"1",
       kong: [],
       level: [],
       isNoData: false,
@@ -211,8 +210,6 @@ export default {
       loading: false,
       finished: false,
       tableFactorList: [],
-      abnormalFormHShow: false,
-      chooseRecord: {},
       alertType: "",
       isHandled: "",
       queryType: "1",
@@ -245,34 +242,21 @@ export default {
       this.tableFactorList = [];
       this.index = e.target.value;
       this.siteId = this.siteList[e.target.value].id;
-      this.getList(this.siteId);
+      if(this.statusId==undefined){
+        this.statusId="1"
+      }
+      this.getList(this.siteId,this.statusId);
     },
-    checkboxChange(e) {
+    statusPickerChange(e) {
       this.tableFactorList = [];
-      this.kong = e.detail.value;
-      this.getList(this.siteId);
-    },
-    alertCheckboxChange(e) {
-      this.tableFactorList = [];
-      this.level = e.detail.value;
-      this.getList(this.siteId);
+      this.sindex = e.target.value;
+      this.statusId = this.statusList[e.target.value].id;
+      this.getList(this.siteId,this.statusId);
     },
     formatSelectDate(date) {
       return `${date.getFullYear()}-${this.timeAdd(
         date.getMonth() + 1
       )}-${this.timeAdd(date.getDate())}`;
-    },
-    exceptionClick(e) {
-      this.tableFactorList = [];
-      this.current = 1;
-      if (this.queryType == "1") {
-        this.end = "";
-        this.start = "";
-      } else {
-        this.end = this.formatSelectDate(new Date());
-        this.start = this.getBeforeDate(7);
-      }
-      this.getList();
     },
     timeAdd(str) {
       if (str <= 9) {
@@ -281,7 +265,6 @@ export default {
       return str;
     },
     onStartConfirm(date) {
-      debugger;
       this.tableFactorList = [];
       this.start = date.fulldate;
       if (this.start > this.end) {
@@ -297,22 +280,8 @@ export default {
       }
       this.getList(this.siteId);
     },
-    alertTypeClick(e) {
-      this.tableFactorList = [];
-      this.current = 1;
-      this.getList();
-    },
-    isHandledClick(e) {
-      this.tableFactorList = [];
-      this.current = 1;
-      this.getList();
-    },
     formatDate(date) {
       return `${date.getMonth() + 1}/${date.getDate()}`;
-    },
-    showForm(e) {
-      this.abnormalFormHShow = true;
-      this.chooseRecord = e;
     },
     // 加载更多
     loadMore() {
@@ -326,10 +295,11 @@ export default {
         }, 100);
       }
     },
-    selectPort(e) {
+    async selectPort(e) {
+      console.log(this.statusId)
       var that = this;
       if (localStorage.getItem("url") == "airPollution_index") {
-        selectSiteByType().then(
+        await selectSiteByType().then(
           function (result) {
             let list = result.data.data;
             for (let i = 0; i < list.length; i++) {
@@ -337,9 +307,22 @@ export default {
                 id: list[i].id,
                 stationName: list[i].stationName,
               });
-              that.siteId = that.siteList[0].id;
             }
-            that.getList(that.siteId);
+            that.siteId = that.siteList[0].id;
+            that.getList(that.siteId,that.statusId)
+          },
+          function (err) {}
+        );
+        selectStatusByType().then(
+          function (result) {
+            let list = result.data.data;
+            for (let i = 0; i < list.length; i++) {
+              that.statusList.push({
+                id: list[i].dictKey,
+                status: list[i].dictValue,
+              });
+            }
+            that.statusId = that.statusList[0].dictKey;
           },
           function (err) {}
         );
@@ -351,33 +334,23 @@ export default {
           function (result) {
             let list = result.data.data;
             for (let i = 0; i < list.length; i++) {
-              that.siteList.push({
+              that.statusList.push({
                 id: list[i].id,
                 stationName: list[i].stationName,
               });
               that.siteId = that.siteList[0].id;
             }
-            that.getList(that.siteId);
           },
           function (err) {}
         );
       }
     },
     // 获取列表
-    getList(siteId) {
-      var stations = [];
-      stations[0] = siteId;
-      var obj = {
-        from: this.start,
-        end: this.end,
-        kong: this.kong,
-        level: this.level,
-        stations: stations,
-      };
+    getList(siteId,status) {
       var that = this;
-      getWarningList(obj).then(
+      getWarningList(siteId,1,status,1,10).then(
         function (result) {
-          let list = result.data;
+          let list = result.data.data.records;
           if (list.length == 0) {
             that.isNoData = true;
           }
@@ -390,15 +363,9 @@ export default {
         function (err) {}
       );
     },
-    // listenPoupClose(data) {
-    //   this.abnormalFormHShow = false;
-    //   //刷新列表
-    //   this.current = 1;
-    //   this.tableFactorList = [];
-    //   this.getList();
-    // },
   },
   mounted: function () {
+    console.log(this.statusId)
     this.selectPort();
     this.start = this.formatSelectDate(new Date(this.start));
     this.end = this.formatSelectDate(new Date(this.end));
@@ -408,7 +375,7 @@ export default {
 <style scoped lang="scss">
 @import "../../static/css/index.css";
 .scroll-Y {
-  height: 730rpx;
+  height: 900rpx;
 }
 .van-search {
   padding: 2px 12px 5px 12px;
@@ -508,7 +475,7 @@ export default {
 .inlineFactorName {
   height: 100%;
   margin-left: 0px;
-  font-size: 13px;
+  font-size: 12px;
   font-family: PingFang SC;
   font-weight: 400;
   line-height: 25px;
@@ -577,10 +544,6 @@ export default {
   color: #000000;
   opacity: 1;
 }
-.cardButtons {
-  display: flex;
-  flex-direction: row-reverse;
-}
 .solveButton {
   margin-right: 5%;
   background-color: #f56c6c;
@@ -629,4 +592,7 @@ export default {
   border: 1px solid #a5a5a5;
   border-radius: 8px;
 }
+// .cu-bar .search-form {
+//   margin-left:5px;
+// }
 </style>

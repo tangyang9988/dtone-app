@@ -37,7 +37,7 @@
           >预警管理</view
         >
       </view>
-      <view class="action" @click="hisClick" data-cur="airPollution_siteReport">
+      <!-- <view class="action" @click="hisClick" data-cur="airPollution_siteReport">
         <view class="cuIcon-cu-image">
           <image src="../../static/images/icon/s12.png"></image>
         </view>
@@ -47,6 +47,16 @@
           "
           >站点报表</view
         >
+      </view> -->
+      <view class="action" @click="hisClick" data-cur="airPollution_siteReport">
+        <view class="cuIcon-cu-image">
+          <image src="../../static/images/icon/s12.png"></image>
+        </view>
+        <view
+          :class="
+            PageCur == 'airPollution_siteReport' ? 'text-green' : 'text-gray'
+          "
+          >待办</view>
       </view>
       <view class="action" @click="hisClick" data-cur="home_page">
         <view class="cuIcon-cu-image">
