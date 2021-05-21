@@ -52,42 +52,50 @@
           </view>
           <view class="factorList">
             <view class="singleFactor">
-              <view class="factorName">监控因子：</view>
+              <view class="factorName">预警因子：</view>
               <view class="factorValue">{{ item.name }}</view>
             </view>
             <view class="singleFactor">
+              <view class="inlineFactorName">因子数值：</view>
+              <view class="inlineFactorValue">{{ item.value }}</view>
+            </view>
+          </view>
+          <view class="factorList">
+            <view class="singleFactor">
+              <view class="factorName">单位：</view>
+              <view class="factorValue">{{ item.unit }}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="inlineFactorName">阈值：</view>
+              <view class="inlineFactorValue">{{ item.threshold }}</view>
+            </view>
+          </view>
+          <view class="factorList">
+            <view class="singleFactor">
               <view class="factorName">预警类型：</view>
-              <view class="factorValue">{{ item.type }}</view>
+              <view class="factorValue">{{ item.warnType }}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="inlineFactorName">预警状态：</view>
+              <view class="inlineFactorValue">{{ item.statusLabel }}</view>
             </view>
           </view>
           <view class="inlineFactor">
-            <view class="inlineFactorName">预警值：</view>
-            <view class="inlineFactorValue">{{ item.value }}</view>
-          </view>
-          <view class="inlineFactor">
-            <view class="inlineFactorName">创建时间：</view>
-            <view class="inlineFactorValue">{{ item.createTime }}</view>
-          </view>
-          <view class="inlineFactor">
-            <view class="inlineFactorName">更新时间：</view>
+            <view class="inlineFactorName">监测时间：</view>
             <view class="inlineFactorValue">{{ item.updateTime }}</view>
           </view>
           <view class="cardButtons">
             <button
               class="cu-btn round bg-green"
               size="mini"
-              v-if="item.status == 1"
               @click="showForm(item)"
             >
-              查看
-            </button>
-            <button class="cu-btn round bg-red" v-else @click="showForm(item)">
-              审核
+              处理
             </button>
           </view>
         </view>
       </view>
-    <view class="noData" v-if="isNoData">暂无数据</view>
+      <view class="noData" v-if="isNoData">暂无数据</view>
     </scroll-view>
     <bottomMenu url="airPollution_siteReport"></bottomMenu>
     <!-- <view>
@@ -101,9 +109,10 @@ import bottomMenu from "../bottomMenu/index";
 import {
   selectSiteByType,
   airWaringSelectPage,
+  selectWaterSiteByType,
 } from "../../api/airPollution.js";
 export default {
-  components: { bottomMenu,abnormalForm },
+  components: { bottomMenu, abnormalForm },
   data() {
     return {
       radio: "A",
@@ -125,346 +134,7 @@ export default {
       busy: false,
       loading: false,
       finished: false,
-      tableFactorList: [
-          {
-    "siteId": -1,
-    "siteName": "南湖小学监测站点1",
-    "groupId": null,
-    "groupName": "",
-    "statTime": "2021-04-10 14:00:00",
-    "originalStatTime": "",
-    "aqiVal": "72",
-    "aqiLevel": 2,
-    "type": "良",
-    "color": "",
-    "factorList": [
-      {
-        "factorCode": "",
-        "avgVal": "13.567",
-        "aqiVal": "5",
-        "aqiLevel": 1,
-        "qi": "分指数",
-        "name": "",
-        "head": "二氧化硫(SO₂)",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "1小时平均",
-        "deviceFactorId": "1325700383540101122",
-        "aqiSort": "5.000",
-        "statTime": "2021-04-10T14:00:00",
-        "order": 1,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "54.267",
-        "aqiVal": "28",
-        "aqiLevel": 1,
-        "qi": "分指数",
-        "name": "",
-        "head": "二氧化氮(NO₂)",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "1小时平均",
-        "deviceFactorId": "1325700366028881922",
-        "aqiSort": "28.000",
-        "statTime": "2021-04-10T14:00:00",
-        "order": 2,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "86.167",
-        "aqiVal": "",
-        "aqiLevel": 2,
-        "qi": null,
-        "name": "",
-        "head": "颗粒物(粒径小于等于10µm)1小时平均",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "1小时平均",
-        "deviceFactorId": "1325700427936808961",
-        "aqiSort": -1,
-        "statTime": "2021-04-10T14:00:00",
-        "order": 3,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "1.667",
-        "aqiVal": "17",
-        "aqiLevel": 1,
-        "qi": "分指数",
-        "name": "",
-        "head": "一氧化碳(CO)",
-        "avg": "浓度/",
-        "unit": "(mg/m³)",
-        "airType": "1小时平均",
-        "deviceFactorId": "1325700412073951233",
-        "aqiSort": "17.000",
-        "statTime": "2021-04-10T14:00:00",
-        "order": 5,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "46.383",
-        "aqiVal": "15",
-        "aqiLevel": 1,
-        "qi": "分指数",
-        "name": "",
-        "head": "臭氧(O₃)1小时平均",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "1小时平均",
-        "deviceFactorId": "1325700486032113665",
-        "aqiSort": "15.000",
-        "statTime": "2021-04-10T14:00:00",
-        "order": 6,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "34.083",
-        "aqiVal": "",
-        "aqiLevel": 1,
-        "qi": null,
-        "name": "",
-        "head": "颗粒物(粒径小于等于2.5µm)1小时平均",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "1小时平均",
-        "deviceFactorId": "1325700462661451777",
-        "aqiSort": -1,
-        "statTime": "2021-04-10T14:00:00",
-        "order": 8,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "43.121",
-        "aqiVal": "22",
-        "aqiLevel": 1,
-        "qi": "分指数",
-        "name": "",
-        "head": "臭氧(O₃)8小时滑动平均",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "8小时滑动平均",
-        "deviceFactorId": "1325700486032113665",
-        "aqiSort": "22.000",
-        "statTime": "2021-04-10T14:00:00",
-        "order": 7,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "34.038",
-        "aqiVal": "49",
-        "aqiLevel": 1,
-        "qi": "分指数",
-        "name": "",
-        "head": "颗粒物(粒径小于等于2.5µm)24小时滑动平均",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "24小时滑动平均",
-        "deviceFactorId": "1325700462661451777",
-        "aqiSort": "49.000",
-        "statTime": "2021-04-10T14:00:00",
-        "order": 9,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "92.408",
-        "aqiVal": "72",
-        "aqiLevel": 2,
-        "qi": "分指数",
-        "name": "",
-        "head": "颗粒物(粒径小于等于10µm)24小时滑动平均",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "24小时滑动平均",
-        "deviceFactorId": "1325700427936808961",
-        "aqiSort": "72.000",
-        "statTime": "2021-04-10T14:00:00",
-        "order": 4,
-        "type": -1
-      }
-    ],
-    "primaryFactor": "PM10",
-    "word": "二级"
-  },
-  {
-    "siteId": -1,
-    "siteName": "南湖小学监测站点1",
-    "groupId": null,
-    "groupName": "",
-    "statTime": "2021-04-10 13:00:00",
-    "originalStatTime": "",
-    "aqiVal": "72",
-    "aqiLevel": 2,
-    "type": "良",
-    "color": "",
-    "factorList": [
-      {
-        "factorCode": "",
-        "avgVal": "14.400",
-        "aqiVal": "5",
-        "aqiLevel": 1,
-        "qi": "分指数",
-        "name": "",
-        "head": "二氧化硫(SO₂)",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "1小时平均",
-        "deviceFactorId": "1325700383540101122",
-        "aqiSort": "5.000",
-        "statTime": "2021-04-10T13:00:00",
-        "order": 1,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "53.750",
-        "aqiVal": "27",
-        "aqiLevel": 1,
-        "qi": "分指数",
-        "name": "",
-        "head": "二氧化氮(NO₂)",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "1小时平均",
-        "deviceFactorId": "1325700366028881922",
-        "aqiSort": "27.000",
-        "statTime": "2021-04-10T13:00:00",
-        "order": 2,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "94.833",
-        "aqiVal": "",
-        "aqiLevel": 2,
-        "qi": null,
-        "name": "",
-        "head": "颗粒物(粒径小于等于10µm)1小时平均",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "1小时平均",
-        "deviceFactorId": "1325700427936808961",
-        "aqiSort": -1,
-        "statTime": "2021-04-10T13:00:00",
-        "order": 3,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "1.217",
-        "aqiVal": "13",
-        "aqiLevel": 1,
-        "qi": "分指数",
-        "name": "",
-        "head": "一氧化碳(CO)",
-        "avg": "浓度/",
-        "unit": "(mg/m³)",
-        "airType": "1小时平均",
-        "deviceFactorId": "1325700412073951233",
-        "aqiSort": "13.000",
-        "statTime": "2021-04-10T13:00:00",
-        "order": 5,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "42.500",
-        "aqiVal": "14",
-        "aqiLevel": 1,
-        "qi": "分指数",
-        "name": "",
-        "head": "臭氧(O₃)1小时平均",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "1小时平均",
-        "deviceFactorId": "1325700486032113665",
-        "aqiSort": "14.000",
-        "statTime": "2021-04-10T13:00:00",
-        "order": 6,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "33.117",
-        "aqiVal": "",
-        "aqiLevel": 1,
-        "qi": null,
-        "name": "",
-        "head": "颗粒物(粒径小于等于2.5µm)1小时平均",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "1小时平均",
-        "deviceFactorId": "1325700462661451777",
-        "aqiSort": -1,
-        "statTime": "2021-04-10T13:00:00",
-        "order": 8,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "43.121",
-        "aqiVal": "22",
-        "aqiLevel": 1,
-        "qi": "分指数",
-        "name": "",
-        "head": "臭氧(O₃)8小时滑动平均",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "8小时滑动平均",
-        "deviceFactorId": "1325700486032113665",
-        "aqiSort": "22.000",
-        "statTime": "2021-04-10T13:00:00",
-        "order": 7,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "34.038",
-        "aqiVal": "49",
-        "aqiLevel": 1,
-        "qi": "分指数",
-        "name": "",
-        "head": "颗粒物(粒径小于等于2.5µm)24小时滑动平均",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "24小时滑动平均",
-        "deviceFactorId": "1325700462661451777",
-        "aqiSort": "49.000",
-        "statTime": "2021-04-10T13:00:00",
-        "order": 9,
-        "type": -1
-      },
-      {
-        "factorCode": "",
-        "avgVal": "92.408",
-        "aqiVal": "72",
-        "aqiLevel": 2,
-        "qi": "分指数",
-        "name": "",
-        "head": "颗粒物(粒径小于等于10µm)24小时滑动平均",
-        "avg": "浓度/",
-        "unit": "(μg/m³)",
-        "airType": "24小时滑动平均",
-        "deviceFactorId": "1325700427936808961",
-        "aqiSort": "72.000",
-        "statTime": "2021-04-10T13:00:00",
-        "order": 4,
-        "type": -1
-      }
-    ],
-    "primaryFactor": "PM10",
-    "word": "二级"
-  },
-      ],
+      tableFactorList: [],
       abnormalFormHShow: false,
       chooseRecord: {},
     };
@@ -546,11 +216,10 @@ export default {
       }
     },
     // 获取列表
-    getList(siteId,status) {
+    getList(siteId) {
       var that = this;
-      airWaringSelectPage(siteId,1,"air_warning",1,10).then(
+      airWaringSelectPage(siteId, 1, "air_warning", 1, 10).then(
         function (result) {
-          debugger
           let list = result.data.data.records;
           if (list.length == 0) {
             that.isNoData = true;

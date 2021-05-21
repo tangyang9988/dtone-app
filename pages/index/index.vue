@@ -42,24 +42,6 @@
 				 地表水体污染源
 				</view>
 			</view>
-			<view class="moudle">
-				<view class="bacimage4"></view>
-				<view style="text-align: center;">
-				 大气[暂无]
-				</view>
-			</view>
-			<view class="moudle">
-				<view class="bacimage2"></view>
-				<view style="text-align: center;">
-				 智慧工地[暂无]
-				</view>
-			</view>
-			<view class="moudle">
-				<view class="bacimage3"></view>
-				<view style="text-align: center;">
-				 监测站[暂无]
-				</view>
-			</view>
 		</view>
 	</view>
 

@@ -116,7 +116,9 @@
               {{ item.updateTime }}
             </view>
             <view class="header_title">
-              <text>趋势分析</text>
+              <view>趋势分析</view>
+            </view>
+            <view class="header_title ">
               <img  src="../../static/images/icon/icon_data.png" class="icon_data" @click="historyData(item)"></img>
             </view>
           </view>
@@ -446,20 +448,20 @@ export default {
     // 空气--历史数据列表
     getList(siteId) {
       var stations = [];
+      var date =[]
       stations[0] = siteId;
-      // var row={
-      //   from:this.pageStart,
-      //   end:this.pageEnd,
-      //   type:this.type,
-      //   fromHour:9,
-      //   endHour:9,
-      //   stations:stations
-      // }
+      date[0]=this.pageStart
+      date[1]=this.pageEnd
+      var row={
+        dataType:this.type,
+        date,
+        stations:stations
+      }
       var that = this;
       if (localStorage.getItem("url") == "airPollution_index") {
-        getHistoryList(siteId, this.pageStart, this.pageEnd, this.type).then(
+        getHistoryList(row).then(
           function (result) {
-            let list = result.data;
+            let list = result.data.data.records;
             if (list.length == 0) {
               that.isNoData = true;
             }
@@ -472,12 +474,16 @@ export default {
           function (err) {}
         );
       } else if (localStorage.getItem("url") == "surfaceWater_index") {
-        var row = {
-          stations: stations,
-          from: this.pageStart,
-          end: this.pageEnd,
-          type: this.type,
-        };
+        var stations = [];
+        var date =[]
+        stations[0] = siteId;
+        date[0]=this.pageStart
+        date[1]=this.pageEnd
+        var row={
+          dataType:this.type,
+          date,
+          stations:stations
+        }
         getSurfaceWaterHistoryList(row).then(
           function (result) {
             let list = result.data;
@@ -563,7 +569,7 @@ export default {
 }
 .detailCard_header {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: space-between;
   height: 39px;
   padding-left: 4%;

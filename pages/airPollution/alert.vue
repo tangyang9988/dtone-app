@@ -313,19 +313,6 @@ export default {
           },
           function (err) {}
         );
-        selectStatusByType().then(
-          function (result) {
-            let list = result.data.data;
-            for (let i = 0; i < list.length; i++) {
-              that.statusList.push({
-                id: list[i].dictKey,
-                status: list[i].dictValue,
-              });
-            }
-            that.statusId = that.statusList[0].dictKey;
-          },
-          function (err) {}
-        );
       } else if (
         localStorage.getItem("url") == "surfaceWater_index" ||
         localStorage.getItem("url") == "pollutionSurfaceWater_index"
@@ -334,7 +321,7 @@ export default {
           function (result) {
             let list = result.data.data;
             for (let i = 0; i < list.length; i++) {
-              that.statusList.push({
+              that.siteList.push({
                 id: list[i].id,
                 stationName: list[i].stationName,
               });
@@ -344,6 +331,19 @@ export default {
           function (err) {}
         );
       }
+      selectStatusByType().then(
+        function (result) {
+          let list = result.data.data;
+          for (let i = 0; i < list.length; i++) {
+            that.statusList.push({
+              id: list[i].dictKey,
+              status: list[i].dictValue,
+            });
+          }
+          that.statusId = that.statusList[0].dictKey;
+        },
+        function (err) {}
+      );
     },
     // 获取列表
     getList(siteId,status) {

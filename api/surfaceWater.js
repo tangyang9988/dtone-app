@@ -18,21 +18,12 @@ export const getHourlyWaterQualityData = (stations,from,end,fromHour,endHour) =>
     params: {stations,from,end,fromHour,endHour}
   });
 }
-// 天数据
-// export const getDailyWaterQualityData = (stations,from,end,type,fromHour,endHour) =>{
-//   return request({
-//     url: appConfig.WEB_API + '/api/bu/waterDetection/waterdetectionDataSearch/getDailyWaterQualityData',
-//     method: 'get',
-//     params: {stations,from,end,type,fromHour,endHour}
-//   });
-// }
 // 历史数据
 export const getSurfaceWaterHistoryList = (row) =>{
   return request({
     url: appConfig.WEB_API + '/api/bu/waterDetection/waterdetectionDataSearch/water/dataList',
     method: 'post',
     data:row
-    // params: {stations,from,end,type}
   });
 }
 

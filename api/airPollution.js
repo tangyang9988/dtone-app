@@ -44,12 +44,11 @@ export const getAqiRank = () =>{
   });
 }
 // 历史数据
-export const getHistoryList = (stations,from,end,type) =>{
+export const getHistoryList = (row) =>{
   return request({
     url: appConfig.WEB_API + '/api/bu/airdetection/dataSearch/air/dataQuery',
     method: 'post',
-    // data:rowr
-    params: {stations,from,end,type}
+    data:row
   });
 }
 // 预警
