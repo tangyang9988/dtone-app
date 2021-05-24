@@ -1,0 +1,24 @@
+{
+  "name": "dtone-app",
+  "version": "1.0.0",
+  "description": "<p style=\"text-align: center;\"><img src=\"https://image.weilanwl.com/uni/UniAppReadme.jpg\" alt=\"ColorUI简介\"></img></p>",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jzq138156/dtone-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jzq138156/dtone-app/issues"
+  },
+  "homepage": "https://github.com/jzq138156/dtone-app#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "js-base64": "^2.5.1"
+  }
+}
