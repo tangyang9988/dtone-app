@@ -67,7 +67,7 @@
 		"devServer" : {
 			"https" : false,
 			"port": 8080,
-			"proxy": {  
+			"proxy": {
 				"/api": {
 					"target": "http://58.216.249.82:1888",
 					"secure": false,
