@@ -27,7 +27,6 @@ import prototype from './utils/prototype'
 Vue.use(prototype)
 Vue.prototype.appConfig = appConfig;
 
-
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios
 
