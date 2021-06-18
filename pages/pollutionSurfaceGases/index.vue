@@ -1,7 +1,7 @@
 <template>
 <view class="pieBody">
 	<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block>
-		<block slot="content">废水</block>
+		<block slot="content">废气</block>
 	</cu-custom>
   <!-- <view class="chartTitle2 ">
     <view class="chartMainTitle abnormal">
@@ -34,39 +34,47 @@
             <!-- <img  src="../../assets/images/icon_data.png" class="icon_data" @click="historyData(value)" style="float:right"></img> -->
           </view>
           <view class="factorList">
-            <view class="singleFactor" v-if="JSON.stringify(value.ad)!='{}'">
-              <view class="factorName">{{value.ad.factorDict}}:</view>
-              <view class="factorValue" >{{value.ad.value}}{{value.ad.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.ch4)!='{}'">
+              <view class="factorName">{{value.ch4.factorDict}}:</view>
+              <view class="factorValue" >{{value.ch4.value}}</view>
             </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.cod)!='{}'">
-              <view class="factorName">{{value.cod.factorDict}}:</view>
-              <view class="factorValue" >{{value.cod.value}}{{value.cod.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.h2s)!='{}'">
+              <view class="factorName">{{value.h2s.factorDict}}:</view>
+              <view class="factorValue" >{{value.h2s.value}}</view>
             </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.ph)!='{}'">
-              <view class="factorName">{{value.ph.factorDict}}:</view>
-              <view class="factorValue" >{{value.ph.value}}{{value.ph.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.no)!='{}'">
+              <view class="factorName">{{value.no.factorDict}}:</view>
+              <view class="factorValue" >{{value.no.value}}</view>
             </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.ws)!='{}'">
-              <view class="factorName">{{value.ws.factorDict}}:</view>
-              <view class="factorValue" >{{value.ws.value}}{{value.ws.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.no2)!='{}'">
+              <view class="factorName">{{value.no2.factorDict}}:</view>
+              <view class="factorValue" >{{value.no2.value}}</view>
             </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.zd)!='{}'">
-              <view class="factorName">{{value.zd.factorDict}}:</view>
-              <view class="factorValue" >{{value.zd.value}}{{value.zd.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.nox)!='{}'">
+              <view class="factorName">{{value.nox.factorDict}}:</view>
+              <view class="factorValue" >{{value.nox.value}}</view>
             </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.zl)!='{}'">
-              <view class="factorName">{{value.zl.factorDict}}:</view>
-              <view class="factorValue" >{{value.zl.value}}{{value.zl.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.so2)!='{}'">
+              <view class="factorName">{{value.so2.factorDict}}:</view>
+              <view class="factorValue" >{{value.so2.value}}</view>
             </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.zzn)!='{}'">
-              <view class="factorName">{{value.zzn.factorDict}}:</view>
-              <view class="factorValue" >{{value.zzn.value}}{{value.zzn.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.yc)!='{}'">
+              <view class="factorName">{{value.yc.factorDict}}:</view>
+              <view class="factorValue" >{{value.yc.value}}</view>
+            </view>
+            <view class="singleFactor" v-if="JSON.stringify(value.yqls)!='{}'">
+              <view class="factorName">{{value.yqls.factorDict}}:</view>
+              <view class="factorValue" >{{value.yqls.value}}</view>
+            </view>
+              <view class="singleFactor" v-if="JSON.stringify(value.yqsd)!='{}'">
+              <view class="factorName">{{value.yqsd.factorDict}}:</view>
+              <view class="factorValue" >{{value.yqsd.value}}</view>
             </view>
           </view>
-          <view class="inlineFactor">
+          <!-- <view class="inlineFactor">
             <view class="inlineFactorName">日期：</view>
             <view class="factorValue">{{value.updateTime}}</view>
-          </view>
+          </view> -->
         </view>
       </view>
     </view>
@@ -75,7 +83,7 @@
 </view>
 </template>
 <script>
-import {getPollutionWaterRtdList} from "../../api/pollutionSurfaceWater.js"
+import {getPollutionWasteGasRtdList} from "../../api/pollutionSurfaceGases.js"
 import demodata from '@/mockdata/demodata.json';
 import bottomMenu from '../bottomMenu/index'
 export default {
@@ -130,13 +138,14 @@ export default {
     getPortDetail() {
       //卡片
       let that = this;
-      getPollutionWaterRtdList()
+      getPollutionWasteGasRtdList()
         .then(
           function (result) {
             let allRecords = result.data.data.records; //记录数组
             for (let i = 0; i < allRecords.length; i++) {
               that.portRecord.push(allRecords[i]);
             }
+            console.log(that.portRecord)
           },
           function (err) {
             that.isHide = false;

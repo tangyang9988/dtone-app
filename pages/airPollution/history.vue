@@ -247,10 +247,11 @@ import {
   selectSiteByType,
   selectWaterSiteByType,
   getHistoryList,
-  comparativeAnalysis
+  comparativeAnalysis,
 } from "../../api/airPollution.js";
 import { getSurfaceWaterHistoryList } from "../../api/surfaceWater.js";
-import { getPollutionSurfaceWaterHistoryList } from "../../api/pollutionSurfaceWater.js";
+import { getPollutionSurfaceWaterHistoryList,getEnterpriseList } from "../../api/pollutionSurfaceWater.js";
+import { getPollutionWasteGasHistoryList } from "../../api/pollutionSurfaceGases.js";
 
 export default {
   components: { bottomMenu },
@@ -259,7 +260,7 @@ export default {
       siteList: [],
       index: 0,
       siteId: "",
-      type: "day",
+      type: "hour",
       active: "auto",
       isNoData: false,
       selectMenu: "his",
@@ -314,6 +315,13 @@ export default {
         date.getMonth() + 1
       )}-${this.timeAdd(date.getDate())}`;
     },
+    formatDate(date) {
+      return `${date.getFullYear()}-${this.timeAdd(
+        date.getMonth() + 1
+      )}-${this.timeAdd(date.getDate())} ${this.timeAdd(
+        date.getHours()
+      )}:${this.timeAdd(date.getMinutes())}:${this.timeAdd(date.getSeconds())}`;
+    },
     onStartConfirm(date) {
       this.tableFactorList = [];
       this.pageStart = date.fulldate;
@@ -322,13 +330,22 @@ export default {
       }
       this.getList(this.siteId);
       this.getComparativeAnalysis(this.siteId);
-      
     },
     timeAdd(str) {
       if (str <= 9) {
         str = "0" + str;
       }
       return str;
+    },
+    getNextDate(date, day) {
+      var timeString = String(date).split(" ")[1];
+      var time = new Date().getTime() - day*24 * 60 * 60 * 1000;
+      var dd = new Date(time);
+      var y = dd.getFullYear();
+      var m =
+        dd.getMonth() + 1 < 10 ? "0" + (dd.getMonth() + 1) : dd.getMonth() + 1;
+      var d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate();
+      return y + "-" + m + "-" + d;
     },
     onEndConfirm(date) {
       this.tableFactorList = [];
@@ -340,16 +357,20 @@ export default {
       this.getComparativeAnalysis(this.siteId);
     },
     selected(e) {
+      let curDate = new Date();
       let id = e.currentTarget.dataset.cur;
       this.active = id;
       if (id == "auto") {
-        this.type = "day";
+        this.type = "hour";
       } else if (id == "hour") {
         this.type = "hour";
       } else if (id == "fiveMinute") {
         this.type = "min";
       } else if (id == "day") {
         this.type = "day";
+      }else if(id == 'threedays'){
+        this.pageStart = this.getNextDate(this.formatSelectDate(curDate), 3);
+        this.pageEnd = this.formatSelectDate(curDate);
       }
       this.tableFactorList = [];
       this.getList(this.siteId);
@@ -358,31 +379,33 @@ export default {
     getComparativeAnalysis(siteId) {
       var stations = [];
       stations[0] = siteId;
-      var row={
-        from:this.pageStart,
-        end:this.pageEnd,
-        type:this.type,
-        stations:stations,
-        factors:["no"]
-      }
+      var row = {
+        from: this.pageStart,
+        end: this.pageEnd,
+        type: this.type,
+        stations: stations,
+        factors: ["no"],
+      };
       comparativeAnalysis(row)
         .then(
           function (result) {
             let allRecords = result.data.data; //记录数组
           },
-          function (err) {
-          }
+          function (err) {}
         )
-        .catch(function (error) {
-        });
+        .catch(function (error) {});
     },
     historyData(item) {
-      const siteId =this.siteId
-        setTimeout(function () {
-          uni.navigateTo({
-            url: "/pages/airPollution/trendanalysis?item="+encodeURIComponent(JSON.stringify(item))+"&siteId="+encodeURIComponent(JSON.stringify(siteId)),
-          });
-        }, 500);
+      const siteId = this.siteId;
+      setTimeout(function () {
+        uni.navigateTo({
+          url:
+            "/pages/airPollution/trendanalysis?item=" +
+            encodeURIComponent(JSON.stringify(item)) +
+            "&siteId=" +
+            encodeURIComponent(JSON.stringify(siteId)),
+        });
+      }, 500);
       // var groupId = e.siteId;
       // var start = e.collectTime.split(" ")[0];
       // var end = e.collectTime.split(" ")[0];
@@ -421,14 +444,11 @@ export default {
               that.siteId = that.siteList[0].id;
             }
             that.getList(that.siteId);
-            that.getComparativeAnalysis(that.siteId)
+            that.getComparativeAnalysis(that.siteId);
           },
           function (err) {}
         );
-      } else if (
-        localStorage.getItem("url") == "surfaceWater_index" ||
-        localStorage.getItem("url") == "pollutionSurfaceWater_index"
-      ) {
+      } else if (localStorage.getItem("url") == "surfaceWater_index") {
         selectWaterSiteByType().then(
           function (result) {
             let list = result.data.data;
@@ -443,20 +463,35 @@ export default {
           },
           function (err) {}
         );
+      } else if (localStorage.getItem("url") == "pollutionSurfaceWater_index" ||localStorage.getItem("url") == "pollutionSurfaceGases_index") {
+        getEnterpriseList().then(
+          function (result) {
+            let list = result.data;
+            for (let i = 0; i < list.length; i++) {
+              that.siteList.push({
+                id: list[i].value,
+                stationName: list[i].label,
+              });
+              that.siteId = that.siteList[0].id;
+            }
+            that.getList(that.siteId);
+          },
+          function (err) {}
+        );
       }
     },
     // 空气--历史数据列表
     getList(siteId) {
       var stations = [];
-      var date =[]
+      var date = [];
       stations[0] = siteId;
-      date[0]=this.pageStart
-      date[1]=this.pageEnd
-      var row={
-        dataType:this.type,
+      date[0] = this.pageStart;
+      date[1] = this.pageEnd;
+      var row = {
+        dataType: this.type,
         date,
-        stations:stations
-      }
+        stations: stations,
+      };
       var that = this;
       if (localStorage.getItem("url") == "airPollution_index") {
         getHistoryList(row).then(
@@ -475,15 +510,15 @@ export default {
         );
       } else if (localStorage.getItem("url") == "surfaceWater_index") {
         var stations = [];
-        var date =[]
+        var date = [];
         stations[0] = siteId;
-        date[0]=this.pageStart
-        date[1]=this.pageEnd
-        var row={
-          dataType:this.type,
+        date[0] = this.pageStart;
+        date[1] = this.pageEnd;
+        var row = {
+          dataType: this.type,
           date,
-          stations:stations
-        }
+          stations: stations,
+        };
         getSurfaceWaterHistoryList(row).then(
           function (result) {
             let list = result.data;
@@ -499,15 +534,44 @@ export default {
           function (err) {}
         );
       } else if (localStorage.getItem("url") == "pollutionSurfaceWater_index") {
+        var date=[]
+        date[0] = this.pageStart;
+        date[1] = this.pageEnd;
         var row = {
-          stations: stations,
-          from: this.pageStart,
-          end: this.pageEnd,
-          type: this.type,
+          enterpriseId:siteId,
+          date:date,
+          dataType: this.type,
+          current:this.current,
+          size: this.size,
         };
         getPollutionSurfaceWaterHistoryList(row).then(
           function (result) {
-            let list = result.data;
+            let list = result.data.data.records;
+            if (list.length == 0) {
+              that.isNoData = true;
+            }
+            if (list) {
+              for (let i = 0; i < list.length; i++) {
+                that.tableFactorList.push(list[i]);
+              }
+            }
+          },
+          function (err) {}
+        );
+      }else if (localStorage.getItem("url") == "pollutionSurfaceGases_index") {
+        var date=[]
+        date[0] = this.pageStart;
+        date[1] = this.pageEnd;
+        var row = {
+          enterpriseId:siteId,
+          date:date,
+          dataType: this.type,
+          current:this.current,
+          size: this.size,
+        };
+        getPollutionWasteGasHistoryList(row).then(
+          function (result) {
+            let list = result.data.data.records;
             if (list.length == 0) {
               that.isNoData = true;
             }
@@ -527,7 +591,7 @@ export default {
     this.pageStart = this.formatSelectDate(new Date(this.pageStart));
     this.pageEnd = this.formatSelectDate(new Date(this.pageEnd));
     this.menuType = localStorage.getItem("url");
-    this.getComparativeAnalysis()
+    this.getComparativeAnalysis();
   },
 };
 </script>

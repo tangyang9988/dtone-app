@@ -39,7 +39,13 @@
 			<view class="moudle" @click="pollutionSurfaceWater">
 				<view class="bacimage3"></view>
 				<view style="text-align: center;">
-				 地表水体污染源
+				 废水
+				</view>
+			</view>
+			<view class="moudle" @click="gases">
+				<view class="bacimage4"></view>
+				<view style="text-align: center;">
+				 废气
 				</view>
 			</view>
 		</view>
@@ -131,6 +137,14 @@
 					});
 				}, 500);
 			localStorage.setItem("url","pollutionSurfaceWater_index")
+			},
+			gases(){
+				setTimeout(function() {
+					uni.navigateTo({
+						url: '/pages/pollutionSurfaceGases/index',
+					});
+				}, 500);
+			localStorage.setItem("url","pollutionSurfaceGases_index")
 			},
 			DotStyle(e) {
 				this.dotStyle = e.detail.value

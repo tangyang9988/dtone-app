@@ -74,6 +74,13 @@
 				"navigationBarTitleText": "uni-app",
 				"enablePullDownRefresh": true
 			}
+		},
+		{
+			"path": "pages/pollutionSurfaceGases/index",			
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"enablePullDownRefresh": true
+			}
 		}
 
 	],

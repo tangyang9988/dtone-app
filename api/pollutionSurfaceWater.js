@@ -5,19 +5,17 @@ import { appConfig } from '../config/config.js'
 // 实时数据
 export const getPollutionWaterRtdList = () =>{
   return request({
-    url: appConfig.WEB_API + '/api/bu/pollutemonitor/wasteWater/realvalue?timeType=1',
+    url: appConfig.WEB_API + '/api/bu/pollutemonitor/wasteWater/realvalue',
     method: 'get',
     params: {}
   });
 }
-// // 小时
-// export const getPollutionWaterHourList = (stations,from,end,fromHour,endHour) =>{
-//   return request({
-//     url: appConfig.WEB_API + '/api/bu/pollutemonitor/wasteWater/realvalue/hour?timeType=2',
-//     method: 'post',
-//     params: {stations,from,end,fromHour,endHour}
-//   });
-// }
+// 企业列表
+export const getEnterpriseList = () =>{
+  return request({
+    url: appConfig.WEB_API + '/api/bu/enterprise/dict',
+  });
+}
 // 历史数据
 export const getPollutionSurfaceWaterHistoryList = (row) =>{
   return request({
