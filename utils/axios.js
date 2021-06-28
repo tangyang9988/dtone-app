@@ -32,6 +32,10 @@ axios.interceptors.response.use(
           url: '/pages/login/login',
         });
       }, 500);
+      uni.showToast({
+        title: "时间过期，请重新登录!",
+        icon: "none"
+      })
     }else{
       return response
     }

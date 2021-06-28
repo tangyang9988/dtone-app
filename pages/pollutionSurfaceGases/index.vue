@@ -249,7 +249,7 @@ export default {
 .detailCards {
   width: 100%;
   display: flex;
-  padding-bottom: 40px;
+  padding-bottom: 50px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -278,7 +278,7 @@ export default {
   flex-wrap: wrap;
   flex-direction: row;
   width: 100%;
-  // margin-bottom: 8px;
+  margin-bottom: 8px;
   margin-left: 5%;
 }
 

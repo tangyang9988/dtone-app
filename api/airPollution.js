@@ -13,7 +13,7 @@ export const selectSiteByType = () =>{
 // 空气 预警状态下拉列表
 export const selectStatusByType = () =>{
   return request({
-    url: appConfig.WEB_API + '/api/dutjt-system/dict-biz/dictionary?code=dealWithStatus',
+    url: appConfig.WEB_API + '/api/dutjt-system/dict-biz/dictionary?code=dealPolluteWithStatus',
     method: 'get',
     params: {}
   });
@@ -24,6 +24,12 @@ export const selectWaterSiteByType = () =>{
     url: appConfig.WEB_API + '/api/bu/monitoringStation/monitoringStationInfo/selectSiteByType?type=2',
     method: 'get',
     params: {}
+  });
+}
+// 企业列表
+export const getEnterpriseList = () =>{
+  return request({
+    url: appConfig.WEB_API + '/api/bu/enterprise/dict',
   });
 }
 
@@ -51,12 +57,12 @@ export const getHistoryList = (row) =>{
     data:row
   });
 }
-// 预警
-export const getWarningList = (stationId,source,status,current,size) =>{
+// 预警-污染源
+export const getWarningList = (start,end,processKey,source,status,enterpriseId,current,size) =>{
   return request({  
-    url: appConfig.WEB_API + '/api/bu/warning/warningInfoPage',
+    url: appConfig.WEB_API + '/api/bu/airWarningManage/selectPollutionInfoPage',
     method: 'get',
-    params: {stationId,source,status,current,size}
+    params: {start,end,processKey,source,status,enterpriseId,current,size}
   });
 }
 // 预警待办列表

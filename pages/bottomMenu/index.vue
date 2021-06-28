@@ -28,7 +28,15 @@
           >历史数据</view
         >
       </view>
-      <view class="action" @click="hisClick" data-cur="airPollution_alert">
+      <view
+        class="action"
+        @click="hisClick"
+        data-cur="airPollution_alert"
+        v-if="
+          clickUrl == 'pollutionSurfaceWater_index' ||
+          clickUrl == 'pollutionSurfaceGases_index'
+        "
+      >
         <view class="cuIcon-cu-image">
           <image src="../../static/images/icon/s11.png"></image>
         </view>
@@ -48,7 +56,7 @@
           >站点报表</view
         >
       </view> -->
-      <view class="action" @click="hisClick" data-cur="airPollution_siteReport">
+      <view class="action" @click="hisClick" data-cur="airPollution_siteReport" v-if="role_name=='warninguser'">
         <view class="cuIcon-cu-image">
           <image src="../../static/images/icon/s12.png"></image>
         </view>
@@ -56,7 +64,8 @@
           :class="
             PageCur == 'airPollution_siteReport' ? 'text-green' : 'text-gray'
           "
-          >待办</view>
+          >待办</view
+        >
       </view>
       <view class="action" @click="hisClick" data-cur="home_page">
         <view class="cuIcon-cu-image">
@@ -76,6 +85,8 @@ export default {
   data() {
     return {
       PageCur: localStorage.getItem("url"),
+      clickUrl: localStorage.getItem("url"),
+      role_name: localStorage.getItem("role_name")
     };
   },
   methods: {
@@ -126,7 +137,7 @@ export default {
             url: "/pages/airPollution/trendanalysis",
           });
         }, 500);
-      }else if (e.currentTarget.dataset.cur == "home_page") {
+      } else if (e.currentTarget.dataset.cur == "home_page") {
         setTimeout(function () {
           uni.navigateTo({
             url: "/pages/index/index",
@@ -138,6 +149,8 @@ export default {
   mounted() {
     this.PageCur = this.url;
     console.log(this.PageCur);
+    console.log(this.clickUrl);
+    console.log(this.role_name);
   },
 };
 </script>

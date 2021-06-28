@@ -39,50 +39,41 @@
             <!-- <img  src="../../assets/images/icon_data.png" class="icon_data" @click="historyData(value)" style="float:right"></img> -->
           </view>
           <view class="factorList">
-            <view class="singleFactor">
-              <view class="factorName">AD：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.ad)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.ad.value}}{{value.ad.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.ad)!='{}'">
+              <view class="factorName" >{{value.ad.factorName}}:</view>
+              <view class="factorValue">{{value.ad.value}}</view>
             </view>
-            <view class="singleFactor">
-              <view class="factorName" >COD：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.codmn)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.codmn.value}}{{value.codmn.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.codmn)!='{}'">
+              <view class="factorName" >{{value.codmn.factorName}}:</view>
+              <view class="factorValue" >{{value.codmn.value}}</view>
             </view>
-            <view class="singleFactor">
-              <view class="factorName" >EC：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.ec)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.ec.value}}{{value.ec.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.ec)!='{}'">
+              <view class="factorName" >{{value.ec.factorName}}:</view>
+              <view class="factorValue" >{{value.ec.value}}</view>
             </view>
-            <view class="singleFactor">
-              <view class="factorName" >FHW：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.fhw)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.fhw.value}}{{value.fhw.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.fhw)!='{}'">
+              <view class="factorName" >{{value.fhw.factorName}}:</view>
+              <view class="factorValue" >{{value.fhw.value}}</view>
             </view>
-            <view class="singleFactor">
-              <view class="factorName" >PH：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.ph)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.ph.value}}{{value.ph.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.ph)!='{}'">
+              <view class="factorName" >{{value.ph.factorName}}:</view>
+              <view class="factorValue" >{{value.ph.value}}</view>
             </view>
-            <view class="singleFactor">
-              <view class="factorName" >RJY：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.rjy)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.rjy.value}}{{value.rjy.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.rjy)!='{}'">
+              <view class="factorName" >{{value.rjy.factorName}}:</view>
+              <view class="factorValue" >{{value.rjy.value}}</view>
             </view>
-            <view class="singleFactor">
-              <view class="factorName" >SW：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.sw)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.sw.value}}{{value.sw.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.sw)!='{}'">
+              <view class="factorName" >{{value.sw.factorName}}:</view>
+              <view class="factorValue" >{{value.sw.value}}</view>
             </view>
-            <view class="singleFactor">
-              <view class="factorName" >ZD：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.zd)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.zd.value}}{{value.zd.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.zd)!='{}'">
+              <view class="factorName" >{{value.zd.factorName}}:</view>
+              <view class="factorValue" >{{value.zd.value}}</view>
             </view>
-            <view class="singleFactor">
-              <view class="factorName" >ZL：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.zl)=='{}'">  </view>
-              <view class="factorValue" v-else>{{value.zl.value}}{{value.zl.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.zl)!='{}'">
+              <view class="factorName" >{{value.zl.factorName}}:</view>
+              <view class="factorValue" >{{value.zl.value}}</view>
             </view>
           </view>
           <view class="inlineFactor">
@@ -438,7 +429,7 @@ export default {
 
 .detailCards {
   width: 100%;
-  margin-bottom: 12%;
+  padding-bottom: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;

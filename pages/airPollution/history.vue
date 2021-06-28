@@ -4,7 +4,6 @@
       ><block slot="backText">返回</block>
       <block slot="content">历史数据</block>
     </cu-custom>
-
     <view class="cu-bar search bg-white">
       <view class="search-form round">
         <picker
@@ -78,31 +77,31 @@
       >
         前3日
       </button>
-      <view class="calendar">
-        <view style="display: flex; margin: 10px">
-          <span @click="startopen" class="timeStyle">{{
-            pageStart
-          }}</span>
-          <uni-calendar
-            ref="calendar"
-            :insert="false"
-            @confirm="onStartConfirm"
-          />
+        <view class="calendar" v-if="this.active == 'auto'">
+          <view style="display: flex; margin: 10px">
+            <span @click="startopen" class="timeStyle">{{
+              pageStart
+            }}</span>
+            <uni-calendar
+              ref="calendar"
+              :insert="false"
+              @confirm="onStartConfirm"
+            />
+          </view>
         </view>
-      </view>
-      <span style="margin: 17px 10px; font-size: 14px">至</span>
-      <view class="calendar">
-        <view style="display: flex; margin: 10px">
-          <span @click="endopen" class="timeStyle">{{
-            pageEnd
-          }}</span>
-          <uni-calendar
-            ref="calendar2"
-            :insert="false"
-            @confirm="onEndConfirm"
-          />
+        <span v-if="this.active == 'auto'" style="margin: 17px 10px; font-size: 14px">至</span>
+        <view class="calendar" v-if="this.active == 'auto'">
+          <view style="display: flex; margin: 10px">
+            <span @click="endopen" class="timeStyle">{{
+              pageEnd
+            }}</span>
+            <uni-calendar
+              ref="calendar2"
+              :insert="false"
+              @confirm="onEndConfirm"
+            />
+          </view>
         </view>
-      </view>
     </view>
     <!-- 卡片列表 -->
     <view class="detailCards">
@@ -115,12 +114,12 @@
             <view class="header_title">
               {{ item.updateTime }}
             </view>
-            <view class="header_title">
+            <!-- <view class="header_title">
               <view>趋势分析</view>
             </view>
             <view class="header_title ">
               <img  src="../../static/images/icon/icon_data.png" class="icon_data" @click="historyData(item)"></img>
-            </view>
+            </view> -->
           </view>
           <view class="content">
             <view class="singleFactor">
@@ -246,8 +245,7 @@ import bottomMenu from "../bottomMenu/index";
 import {
   selectSiteByType,
   selectWaterSiteByType,
-  getHistoryList,
-  comparativeAnalysis,
+  getHistoryList
 } from "../../api/airPollution.js";
 import { getSurfaceWaterHistoryList } from "../../api/surfaceWater.js";
 import { getPollutionSurfaceWaterHistoryList,getEnterpriseList } from "../../api/pollutionSurfaceWater.js";
@@ -286,20 +284,14 @@ export default {
   methods: {
     startopen() {
       if (this.active != "auto") {
-        uni.showToast({
-          title: "点击无效",
-        });
       } else {
         this.$refs.calendar.open();
       }
     },
     endopen() {
       if (this.active != "auto") {
-        uni.showToast({
-          title: "点击无效",
-        });
       } else {
-        this.$refs.calendar.open();
+        this.$refs.calendar2.open();
       }
     },
     bindPickerChange(e) {
@@ -308,7 +300,6 @@ export default {
       this.siteId = this.siteList[e.target.value].id;
       console.log(this.siteId);
       this.getList(this.siteId);
-      this.getComparativeAnalysis(this.siteId);
     },
     formatSelectDate(date) {
       return `${date.getFullYear()}-${this.timeAdd(
@@ -329,7 +320,6 @@ export default {
         this.pageEnd = date.fulldate;
       }
       this.getList(this.siteId);
-      this.getComparativeAnalysis(this.siteId);
     },
     timeAdd(str) {
       if (str <= 9) {
@@ -354,7 +344,6 @@ export default {
         this.pageStart = date.fulldate;
       }
       this.getList(this.siteId);
-      this.getComparativeAnalysis(this.siteId);
     },
     selected(e) {
       let curDate = new Date();
@@ -374,26 +363,6 @@ export default {
       }
       this.tableFactorList = [];
       this.getList(this.siteId);
-    },
-    // 趋势分析
-    getComparativeAnalysis(siteId) {
-      var stations = [];
-      stations[0] = siteId;
-      var row = {
-        from: this.pageStart,
-        end: this.pageEnd,
-        type: this.type,
-        stations: stations,
-        factors: ["no"],
-      };
-      comparativeAnalysis(row)
-        .then(
-          function (result) {
-            let allRecords = result.data.data; //记录数组
-          },
-          function (err) {}
-        )
-        .catch(function (error) {});
     },
     historyData(item) {
       const siteId = this.siteId;
@@ -444,7 +413,6 @@ export default {
               that.siteId = that.siteList[0].id;
             }
             that.getList(that.siteId);
-            that.getComparativeAnalysis(that.siteId);
           },
           function (err) {}
         );
@@ -521,7 +489,7 @@ export default {
         };
         getSurfaceWaterHistoryList(row).then(
           function (result) {
-            let list = result.data;
+            let list = result.data.data.records;
             if (list.length == 0) {
               that.isNoData = true;
             }
@@ -591,7 +559,6 @@ export default {
     this.pageStart = this.formatSelectDate(new Date(this.pageStart));
     this.pageEnd = this.formatSelectDate(new Date(this.pageEnd));
     this.menuType = localStorage.getItem("url");
-    this.getComparativeAnalysis();
   },
 };
 </script>
@@ -616,7 +583,8 @@ export default {
 }
 .detailCards {
   width: 100%;
-  margin-bottom: 8%;
+  margin-top: 10px;
+  padding-bottom:40px;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -3,13 +3,13 @@
 	<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block>
 		<block slot="content">空气污染监测</block>
 	</cu-custom>
-  <view class="chartTitle2 ">
+  <!-- <view class="chartTitle2 ">
     <view class="chartMainTitle abnormal">
         <view class="abnormalLine"></view>
         <span id="testQuality" class="abnormalTitle">全区AQI等级分布</span>
     </view>
-  </view>
-    <view class="wholeCard chartCardRadis">
+  </view> -->
+  <!-- <view class="wholeCard chartCardRadis">
       <view  class="chartsCard">
 		<text class="totalDays">城市:金坛</text>
         <text class="totalDays">更新时间:{{formatDate(new Date())}}</text>
@@ -17,7 +17,7 @@
 		  <qiun-data-charts type="arcbar" :opts="{title:{name:aqiArr.aqi,fontSize:20},subtitle:{name:'AQI',fontSize:18}}" :chartData="charts" />
 		</view>
 	  </view>
-    </view>
+  </view> -->
     <!-- 空气污染因子 -->
     <view class="chartMainTitle abnormal">
         <view class="abnormalLine"></view>
@@ -89,42 +89,63 @@
             <!-- <img  src="../../assets/images/icon_data.png" class="icon_data" @click="historyData(value)" style="float:right"></img> -->
           </view>
           <view class="factorList">
-            <view class="singleFactor">
-              <view class="factorName">PM2.5：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.pm25)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.pm25.value}}{{value.pm25.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.pm25)!='{}'">
+              <view class="factorName">{{value.pm25.factorName}}:</view>
+              <view class="factorValue" >{{value.pm25.value}}</view>
             </view>
-            <view class="singleFactor">
-              <view class="factorName" >PM10：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.pm10)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.pm10.value}}{{value.pm10.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.pm10)!='{}'">
+              <view class="factorName">{{value.pm10.factorName}}:</view>
+              <view class="factorValue" >{{value.pm10.value}}</view>
             </view>
-            <view class="singleFactor">
-              <view class="factorName" >SO2：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.so2)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.so2.value}}{{value.so2.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.so2)!='{}'">
+              <view class="factorName">{{value.so2.factorName}}:</view>
+              <view class="factorValue" >{{value.so2.value}}</view>
             </view>
-            <view class="singleFactor">
-              <view class="factorName" >NO2：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.no2)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.no2.value}}{{value.no2.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.no2)!='{}'">
+              <view class="factorName">{{value.no2.factorName}}:</view>
+              <view class="factorValue" >{{value.no2.value}}</view>
             </view>
-            <view class="singleFactor">
-              <view class="factorName" >CO：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.co)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.co.value}}{{value.pm10.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.co)!='{}'">
+              <view class="factorName">{{value.co.factorName}}:</view>
+              <view class="factorValue" >{{value.co.value}}</view>
             </view>
-            <view class="singleFactor">
-              <view class="factorName" >O3：</view>
-              <view class="factorValue" v-if="JSON.stringify(value.o3)=='{}'"></view>
-              <view class="factorValue" v-else>{{value.o3.value}}{{value.o3.unit}}</view>
+            <view class="singleFactor" v-if="JSON.stringify(value.nox)!='{}'">
+              <view class="factorName">{{value.nox.factorName}}:</view>
+              <view class="factorValue" >{{value.nox.value}}</view>
+            </view>
+            <view class="singleFactor" v-if="JSON.stringify(value.o3)!='{}'">
+              <view class="factorName">{{value.o3.factorName}}:</view>
+              <view class="factorValue" >{{value.o3.value}}</view>
+            </view>
+            <view class="singleFactor" v-if="JSON.stringify(value.wdir)!='{}'">
+              <view class="factorName">{{value.wdir.factorName}}:</view>
+              <view class="factorValue" >{{value.wdir.value}}</view>
+            </view>
+            <view class="singleFactor" v-if="JSON.stringify(value.aws)!='{}'">
+              <view class="factorName">{{value.aws.factorName}}:</view>
+              <view class="factorValue" >{{value.aws.value}}</view>
+            </view>
+            <view class="singleFactor" v-if="JSON.stringify(value.temp)!='{}'">
+              <view class="factorName">{{value.temp.factorName}}:</view>
+              <view class="factorValue" >{{value.temp.value}}</view>
+            </view>
+            <view class="singleFactor" v-if="JSON.stringify(value.press)!='{}'">
+              <view class="factorName">{{value.press.factorName}}:</view>
+              <view class="factorValue" >{{value.press.value}}</view>
+            </view>
+            <view class="singleFactor" v-if="JSON.stringify(value.humi)!='{}'">
+              <view class="factorName">{{value.humi.factorName}}:</view>
+              <view class="factorValue" >{{value.humi.value}}</view>
             </view>
           </view>
-          <view class="inlineFactor">
+          <view class="inlineFactor" v-if="value.updateTime!=''">
             <view class="inlineFactorName">更新日期：</view>
-            <view class="factorValue" v-if="value.updateTime==''"></view>
-            <view class="factorValue" v-else>{{value.updateTime}}</view>
+            <view class="factorValue" >{{value.updateTime}}</view>
           </view>
+          <!-- <view class="inlineFactor" v-else>
+            <view class="inlineFactorName">无数据</view>
+            <view class="" >{{value.updateTime}}</view>
+          </view> -->
         </view>
       </view>
     <!-- </scroll-view> -->
@@ -350,7 +371,7 @@ export default {
       getAqiRank()
         .then(
           function (result) {
-
+            result.data.aqi=100;
             that.aqiArr = result.data;
           },
           function (err) {
@@ -493,7 +514,7 @@ export default {
 
 .detailCards {
   width: 100%;
-  margin-bottom: 11%;
+  padding-bottom:40px;
   display: flex;
   flex-direction: column;
   justify-content: center;

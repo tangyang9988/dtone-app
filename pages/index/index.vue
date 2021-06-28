@@ -5,7 +5,7 @@
 		</cu-custom>
 		<view class="margin-top margin-left solid-bottom">
 			<view class="action">
-				<text class="cuIcon-title text-pink"></text>环保实时图
+				<text class="cuIcon-title text-blue"></text>环保实时图
 			</view>
 		</view>
 			<swiper class="card-swiper" :class="dotStyle?'square-dot':'round-dot'" :indicator-dots="true" :circular="true"
@@ -210,14 +210,16 @@ display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
 margin:20px;
-height:auto;
+padding:20px;
+height:300px;
 background: #ffffff;
 box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
 opacity: 1;
 border-radius: 12px;
 }
 .moudle{
-  width:20%;
+  width:25%;
+  height:25%;
   margin:15px 20px;
 }
 .bacimage1{

@@ -4,8 +4,9 @@
       ><block slot="backText">返回</block>
       <block slot="content">预警信息</block>
     </cu-custom>
+    <!-- 企业 -->
     <view class="cu-bar search bg-white">
-      <view class="search-form round" style="width:150%">
+      <view class="search-form round">
         <picker
           @change="bindPickerChange"
           :range="siteList"
@@ -13,13 +14,15 @@
           :range-key="'stationName'"
         >
           <text class="content_value_name" style="margin-left: 20px"
-            >选择站点：</text
-          >
+            >选择站点：</text>
           <text class="content_value_name" v-if="siteList[index]">{{
             siteList[index].stationName
           }}</text>
         </picker>
       </view>
+    </view>
+    <!-- 状态 -->
+    <view class="cu-bar search bg-white">
       <view class="search-form round">
         <picker
           @change="statusPickerChange"
@@ -166,7 +169,7 @@
           </view>
         </view>
       </view>
-    <view class="noData" v-if="isNoData">暂无数据</view>
+    <view class="noData" v-if="isNoData" style="margin-bottom:10px;">暂无数据</view>
     </scroll-view>
     <bottomMenu url="airPollution_alert"></bottomMenu>
   </view>
@@ -178,12 +181,12 @@ import {
   selectStatusByType,
   selectWaterSiteByType,
   getWarningList,
+  getEnterpriseList
 } from "../../api/airPollution.js";
 export default {
   components: { bottomMenu },
   data() {
     return {
-      radio: "A",
       scrollTop: 0,
       old: {
         scrollTop: 0,
@@ -194,28 +197,15 @@ export default {
       sindex: 0,
       statusList:[],
       statusId :"1",
-      kong: [],
-      level: [],
       isNoData: false,
-      active: "",
       date: "",
-      show: false,
-      current: 0,
+      current: 1,
       size: 10,
       busy: false,
       start: new Date(),
       end: new Date(),
-      minDate: new Date(2010, 0, 1),
-      maxDate: new Date(),
       loading: false,
-      finished: false,
       tableFactorList: [],
-      alertType: "",
-      isHandled: "",
-      queryType: "1",
-      st: "",
-      startShow: false,
-      endShow: false,
     };
   },
   methods: {
@@ -223,7 +213,7 @@ export default {
       this.$refs.calendar.open();
     },
     endopen() {
-      this.$refs.calendar.open();
+      this.$refs.calendar2.open();
     },
     upper: function (e) {
       console.log(e);
@@ -235,9 +225,6 @@ export default {
       console.log(e);
       this.old.scrollTop = e.detail.scrollTop;
     },
-    RadioChange(e) {
-      this.radio = e.detail.value;
-    },
     bindPickerChange(e) {
       this.tableFactorList = [];
       this.index = e.target.value;
@@ -245,13 +232,13 @@ export default {
       if(this.statusId==undefined){
         this.statusId="1"
       }
-      this.getList(this.siteId,this.statusId);
+      this.getList(this.siteId);
     },
     statusPickerChange(e) {
       this.tableFactorList = [];
       this.sindex = e.target.value;
       this.statusId = this.statusList[e.target.value].id;
-      this.getList(this.siteId,this.statusId);
+      this.getList(this.siteId);
     },
     formatSelectDate(date) {
       return `${date.getFullYear()}-${this.timeAdd(
@@ -296,37 +283,19 @@ export default {
       }
     },
     async selectPort(e) {
-      console.log(this.statusId)
       var that = this;
-      if (localStorage.getItem("url") == "airPollution_index") {
-        await selectSiteByType().then(
+      if(localStorage.getItem("url") == "pollutionSurfaceWater_index" ||localStorage.getItem("url") == "pollutionSurfaceGases_index"){
+        await getEnterpriseList().then(
           function (result) {
-            let list = result.data.data;
+            let list = result.data;
             for (let i = 0; i < list.length; i++) {
               that.siteList.push({
-                id: list[i].id,
-                stationName: list[i].stationName,
-              });
-            }
-            that.siteId = that.siteList[0].id;
-            that.getList(that.siteId,that.statusId)
-          },
-          function (err) {}
-        );
-      } else if (
-        localStorage.getItem("url") == "surfaceWater_index" ||
-        localStorage.getItem("url") == "pollutionSurfaceWater_index"
-      ) {
-        selectWaterSiteByType().then(
-          function (result) {
-            let list = result.data.data;
-            for (let i = 0; i < list.length; i++) {
-              that.siteList.push({
-                id: list[i].id,
-                stationName: list[i].stationName,
+                id: list[i].value,
+                stationName: list[i].label,
               });
               that.siteId = that.siteList[0].id;
             }
+            that.getList(that.siteId);
           },
           function (err) {}
         );
@@ -346,9 +315,15 @@ export default {
       );
     },
     // 获取列表
-    getList(siteId,status) {
+    getList(siteId) {
       var that = this;
-      getWarningList(siteId,1,status,1,10).then(
+      var processKey="pollution_warning"
+      if(localStorage.getItem("url") == "pollutionSurfaceWater_index"){
+        var source =4
+      }else if(localStorage.getItem("url") == "pollutionSurfaceGases_index"){
+        var source =3
+      }
+      getWarningList(that.start,that.end,processKey,source,that.statusId,siteId,that.current,that.size).then(
         function (result) {
           let list = result.data.data.records;
           if (list.length == 0) {
@@ -592,7 +567,7 @@ export default {
   border: 1px solid #a5a5a5;
   border-radius: 8px;
 }
-// .cu-bar .search-form {
-//   margin-left:5px;
-// }
+.cu-bar {
+min-height: 40px;
+}
 </style>

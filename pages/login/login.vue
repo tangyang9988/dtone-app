@@ -95,10 +95,10 @@
 				params.grant_type = this.appConfig.grant_type;
 				params.scope = "all";
 				localLogin(params).then(response => {
-					if (response.error_description) {
+					if (response.data.error_description) {
 						uni.showToast({
 							icon: "none",
-							title: response.error_description,
+							title: response.data.error_description,
 						})
 					} else if (response.msg == '验证码不正确') {
 						uni.showToast({
@@ -108,6 +108,7 @@
 					} else {
 						const data = response;
 						localStorage.setItem('access-user',response.data.access_token)
+						localStorage.setItem('role_name',response.data.role_name)
 						// 设置token
 						tokenUtil.set(data);
 						uni.showToast({
