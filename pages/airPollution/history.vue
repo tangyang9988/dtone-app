@@ -42,7 +42,7 @@
         data-cur="fiveMinute"
         @click="selected($event)"
       >
-        5分钟
+        分钟
       </button>
       <button
         :class="
@@ -357,6 +357,8 @@ export default {
         this.type = "min";
       } else if (id == "day") {
         this.type = "day";
+        this.pageStart = this.getNextDate(this.formatSelectDate(curDate), 1);
+        this.pageEnd = this.formatSelectDate(curDate);
       }else if(id == 'threedays'){
         this.pageStart = this.getNextDate(this.formatSelectDate(curDate), 3);
         this.pageEnd = this.formatSelectDate(curDate);

@@ -1,172 +1,140 @@
 <template>
-<view class="pieBody">
-	<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block>
-		<block slot="content">空气污染监测</block>
-	</cu-custom>
-  <!-- <view class="chartTitle2 ">
-    <view class="chartMainTitle abnormal">
+  <view class="pieBody">
+    <cu-custom bgColor="bg-gradual-pink" :isBack="true"
+      ><block slot="backText">返回</block>
+      <block slot="content">空气污染监测</block>
+    </cu-custom>
+    <view class="chartTitle2">
+      <view class="chartMainTitle abnormal">
         <view class="abnormalLine"></view>
         <span id="testQuality" class="abnormalTitle">全区AQI等级分布</span>
+      </view>
     </view>
-  </view> -->
-  <!-- <view class="wholeCard chartCardRadis">
-      <view  class="chartsCard">
-		<text class="totalDays">城市:金坛</text>
-        <text class="totalDays">更新时间:{{formatDate(new Date())}}</text>
-		<view class="charts-box">
-		  <qiun-data-charts type="arcbar" :opts="{title:{name:aqiArr.aqi,fontSize:20},subtitle:{name:'AQI',fontSize:18}}" :chartData="charts" />
-		</view>
-	  </view>
-  </view> -->
-    <!-- 空气污染因子 -->
-    <view class="chartMainTitle abnormal">
-        <view class="abnormalLine"></view>
-        <text id="testQuality" class="abnormalTitle">空气污染因子</text>
-    </view>
-	
-  <view class="AQIcards">
-	<view class="moudle">
-		<view style="text-align: center;">
-		 PM2.5
-		</view>
-		<view class="colorBar">
-			<text>{{aqiArr.pm25}}</text>
-		</view>
-	</view>
-	<view class="moudle">
-		<view style="text-align: center;">
-		 PM10
-		</view>
-		<view class="colorBar" style="background-color:#39B54A;">
-			<text>{{aqiArr.pm10}}</text>
-		</view>
-	</view>
-	<view class="moudle">
-		<view style="text-align: center;">
-		 SO2
-		</view>
-		<view class="colorBar"  style="background-color:green;">
-			<text>{{aqiArr.so2}}</text>
-		</view>
-	</view>
-	<view class="moudle">
-		<view style="text-align: center;">
-		 NO2
-		</view>
-		<view class="colorBar" style="background-color:red;">
-			<text>{{aqiArr.no2}}</text>
-		</view>
-	</view>
-	<view class="moudle">
-		<view style="text-align: center;">
-		 CO
-		</view>
-		<view class="colorBar"  style="background-color:#39B54A;">
-			<text>{{aqiArr.co}}</text>
-		</view>
-	</view>
-	<view class="moudle">
-		<view style="text-align: center;">
-		 O3
-		</view>
-		<view class="colorBar"  style="background-color:#39B54A;">
-			<text>{{aqiArr.o3}}</text>
-		</view>
-	</view>
-    </view>
-     <view class="chartMainTitle abnormal">
-             <view class="abnormalLine"></view>
-             <span id="testQuality" class="abnormalTitle">实时数据</span>
-          </view>
-    <!-- <scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll"> -->
-      <!-- 卡片开始 -->
-      <view  class="detailCards">
-        <view v-for = "(value,key) in portRecord" :key="key" class="detailCard">
-          <view class="cardTitle">
-            <view class="cardTitleLeft">
-              <view class="cardTitleWord">{{value.siteName}}</view>
-            </view>
-            <!-- <img  src="../../assets/images/icon_data.png" class="icon_data" @click="historyData(value)" style="float:right"></img> -->
-          </view>
-          <view class="factorList">
-            <view class="singleFactor" v-if="JSON.stringify(value.pm25)!='{}'">
-              <view class="factorName">{{value.pm25.factorName}}:</view>
-              <view class="factorValue" >{{value.pm25.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.pm10)!='{}'">
-              <view class="factorName">{{value.pm10.factorName}}:</view>
-              <view class="factorValue" >{{value.pm10.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.so2)!='{}'">
-              <view class="factorName">{{value.so2.factorName}}:</view>
-              <view class="factorValue" >{{value.so2.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.no2)!='{}'">
-              <view class="factorName">{{value.no2.factorName}}:</view>
-              <view class="factorValue" >{{value.no2.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.co)!='{}'">
-              <view class="factorName">{{value.co.factorName}}:</view>
-              <view class="factorValue" >{{value.co.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.nox)!='{}'">
-              <view class="factorName">{{value.nox.factorName}}:</view>
-              <view class="factorValue" >{{value.nox.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.o3)!='{}'">
-              <view class="factorName">{{value.o3.factorName}}:</view>
-              <view class="factorValue" >{{value.o3.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.wdir)!='{}'">
-              <view class="factorName">{{value.wdir.factorName}}:</view>
-              <view class="factorValue" >{{value.wdir.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.aws)!='{}'">
-              <view class="factorName">{{value.aws.factorName}}:</view>
-              <view class="factorValue" >{{value.aws.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.temp)!='{}'">
-              <view class="factorName">{{value.temp.factorName}}:</view>
-              <view class="factorValue" >{{value.temp.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.press)!='{}'">
-              <view class="factorName">{{value.press.factorName}}:</view>
-              <view class="factorValue" >{{value.press.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.humi)!='{}'">
-              <view class="factorName">{{value.humi.factorName}}:</view>
-              <view class="factorValue" >{{value.humi.value}}</view>
-            </view>
-          </view>
-          <view class="inlineFactor" v-if="value.updateTime!=''">
-            <view class="inlineFactorName">更新日期：</view>
-            <view class="factorValue" >{{value.updateTime}}</view>
-          </view>
-          <!-- <view class="inlineFactor" v-else>
-            <view class="inlineFactorName">无数据</view>
-            <view class="" >{{value.updateTime}}</view>
-          </view> -->
+    <view class="wholeCard chartCardRadis">
+      <view class="chartsCard">
+        <text class="totalDays">城市:金坛</text>
+        <text class="totalDays">更新时间:{{ formatDate(new Date()) }}</text>
+        <view class="charts-box">
+          <qiun-data-charts
+            type="arcbar"
+            :opts="{
+              title: { name: aqiArr.aqi, fontSize: 20 },
+              subtitle: { name: 'AQI', fontSize: 18 },
+            }"
+            :chartData="charts"
+          />
         </view>
       </view>
-    <!-- </scroll-view> -->
-<!-- 引入自定义菜单组件 -->
-<bottomMenu url="airPollution_index"></bottomMenu>
-</view>
+    </view>
+    <!-- 空气污染因子 -->
+    <view class="chartMainTitle abnormal">
+      <view class="abnormalLine"></view>
+      <text id="testQuality" class="abnormalTitle">空气污染因子</text>
+    </view>
+    <view class="AQIcards">
+      <view class="moudle">
+        <view style="text-align: center"> PM2.5 </view>
+        <view class="colorBar" :style="{background:getColor(aqiArr.pm25)}">
+          <text>{{ aqiArr.pm25 }}</text>
+        </view>
+      </view>
+      <view class="moudle">
+        <view style="text-align: center"> PM10 </view>
+        <view class="colorBar" :style="{background:getColor(aqiArr.pm10)}">
+          <text>{{ aqiArr.pm10 }}</text>
+        </view>
+      </view>
+      <view class="moudle">
+        <view style="text-align: center"> SO2 </view>
+        <view class="colorBar" :style="{background:getColor(aqiArr.so2)}">
+          <text>{{ aqiArr.so2 }}</text>
+        </view>
+      </view>
+      <view class="moudle">
+        <view style="text-align: center"> NO2 </view>
+        <view class="colorBar" :style="{background:getColor(aqiArr.no2)}">
+          <text>{{ aqiArr.no2 }}</text>
+        </view>
+      </view>
+      <view class="moudle">
+        <view style="text-align: center"> CO </view>
+        <view class="colorBar" :style="{background:getColor(aqiArr.co)}">
+          <text>{{ aqiArr.co }}</text>
+        </view>
+      </view>
+      <view class="moudle">
+        <view style="text-align: center"> O3 </view>
+        <view class="colorBar" :style="{background:getColor(aqiArr.o3)}">
+          <text>{{ aqiArr.o3 }}</text>
+        </view>
+      </view>
+    </view>
+    <view class="chartMainTitle abnormal">
+      <view class="abnormalLine"></view>
+      <span id="testQuality" class="abnormalTitle">实时数据</span>
+    </view>
+    <view class="detailCards">
+      <view v-for="(value, key) in portRecord" :key="key" class="detailCard">
+        <view class="cardTitle">
+            <view class="cardTitleWord">{{ value.siteName }}</view>
+            <view class="cardTitleWord">{{ value.updateTime }}</view>
+        </view>
+        <view class="factorList">
+            <view class="factorName" :style="{background:getColor(value.aqi.value)}">AQI</view>
+            <view class="factorName" :style="{background:getColor(value.pm25.value)}">PM2.5</view>
+            <view class="factorName" :style="{background:getColor(value.pm10.value)}">PM10</view>
+            <view class="factorName" :style="{background:getColor(value.so2.value)}">SO2</view>
+            <view class="factorName" :style="{background:getColor(value.no2.value)}">NO2</view>
+            <view class="factorName" :style="{background:getColor(value.co.value)}">CO</view>
+            <view class="factorName" :style="{background:getColor(value.o3.value)}">O3</view>
+        </view>
+        <view class="factorList">
+          <view class="factorValue">{{value.aqi.value}}</view>
+          <view class="factorValue">{{value.pm25.value}}</view>
+          <view class="factorValue">{{value.pm10.value}}</view>
+          <view class="factorValue">{{value.so2.value}}</view>
+          <view class="factorValue">{{value.no2.value}}</view>
+          <view class="factorValue">{{value.co.value}}</view>
+          <view class="factorValue">{{value.o3.value}}</view>
+        </view>
+      </view>
+    </view>
+    <!-- 引入自定义菜单组件 -->
+    <bottomMenu url="airPollution_index"></bottomMenu>
+  </view>
 </template>
 <script>
-import bottomMenu from '../bottomMenu/index'
-import {getAirRtdList,getAqiRank} from "../../api/airPollution.js"
+import bottomMenu from "../bottomMenu/index";
+import { getAirRtdList, getAqiRank } from "../../api/airPollution.js";
 export default {
-  components: {bottomMenu },
+  components: { bottomMenu },
   name: "about",
   data() {
     return {
-	  charts: {},	
-    pixelRatio: 1,
-    cWidth2:'',//圆弧进度图
-    cHeight2:'',//圆弧进度图
-    arcbarWidth: '',
-      platFormId:"",
+      factorLineName:[
+        {
+          name:"AQI",
+        },  {
+          name:"PM2.5",
+        },  {
+          name:"PM10",
+        },  {
+          name:"SO2",
+        },  {
+          name:"NO2",
+        },  {
+          name:"CO",
+        },  {
+          name:"O3",
+        }
+      ],
+      factorLineValue:[],
+      charts: {},
+      pixelRatio: 1,
+      cWidth2: "", //圆弧进度图
+      cHeight2: "", //圆弧进度图
+      arcbarWidth: "",
+      platFormId: "",
       data: [],
       barData: [],
       portRecord: [],
@@ -178,10 +146,32 @@ export default {
       site1Value1: "",
       site1Value2: "",
       sum: 0,
-      totalDays:0
+      totalDays: 0,
     };
   },
   methods: {
+    getColor(value) {
+      if (value == "" || value == null) {
+        return "#00e400";
+      } else {
+        var collectValue = parseFloat(value);
+        if (collectValue > 0 && collectValue <= 50) {
+          return "#00e400";
+        } else if (collectValue > 50 && collectValue <= 100) {
+          return "#fcfc73";
+        } else if (collectValue > 100 && collectValue <= 150) {
+          return "#ff7e00";
+        } else if (collectValue > 150 && collectValue <= 200) {
+          return "#ff0000";
+        } else if (collectValue > 200 && collectValue <= 300) {
+          return "#99004c";
+        } else if (collectValue > 300 && collectValue <= 400) {
+          return "#7e0023";
+        } else if (collectValue > 400) {
+          return "#0000FF";
+        }
+      }
+    },
     formatDate(date) {
       return `${date.getFullYear()}-${this.timeAdd(
         date.getMonth() + 1
@@ -196,21 +186,23 @@ export default {
       return str;
     },
     getServerData() {
-       let Arcbar1={
-        "series": [{
-          "name": "正确率",
-          "data": 0.7,
-          "color": "#2fc25b"
-        }]
-	    }
-      this.charts=JSON.parse(JSON.stringify(Arcbar1))
+      let Arcbar1 = {
+        series: [
+          {
+            name: "正确率",
+            data: 0.7,
+            color: "#2fc25b",
+          },
+        ],
+      };
+      this.charts = JSON.parse(JSON.stringify(Arcbar1));
       this.$forceUpdate();
     },
     historyData(e) {
       var groupId = e.siteId;
       var start = e.collectTime.split(" ")[0];
       var end = e.collectTime.split(" ")[0];
-      var point = e.deptName +"-" + e.siteName;
+      var point = e.deptName + "-" + e.siteName;
       this.$router.push({
         path: "/surfaceWater/history",
         query: { groupId: groupId, point: point, start: start, end: end },
@@ -292,55 +284,54 @@ export default {
     getCycleChartData(siteId) {
       //水质环图
       let that = this;
-      cycleChart(this.platFormId, siteId)
-        .then(
-          function (result) {
-            that.data = [];
-            let resData = result.data.data;
-            let excellentPercentage = {
-              name: "优 " + resData.excellent,
-              proportion: resData.excellent,
-              a: "1",
-            };
-            that.data.push(excellentPercentage);
-            let goodPercentage = {
-              name: "良 " + resData.good,
-              proportion: resData.good,
-              a: "1",
-            };
-            that.data.push(goodPercentage);
-            let mildPercentage = {
-              name: "轻度污染 " + resData.mild,
-              proportion: resData.mild,
-              a: "1",
-            };
-            that.data.push(mildPercentage);
-            let mediumPercentage = {
-              name: "中度污染 " + resData.medium,
-              proportion: resData.medium,
-              a: "1",
-            };
-            that.data.push(mediumPercentage);
-            let severePercentage = {
-              name: "重度污染 " + resData.severe,
-              proportion: resData.severe,
-              a: "1",
-            };
-            that.data.push(severePercentage);
-            let seriousPercentage = {
-              name: "严重污染 " + resData.serious,
-              proportion: resData.serious,
-              a: "1",
-            };
-            that.data.push(seriousPercentage);
-            that.mainFactor = resData.facotrs;
-            that.totalDays = resData.totalDays;
-            that.drawChart();
-          },
-          function (err) {
-            that.isHide = false;
-          }
-        )
+      cycleChart(this.platFormId, siteId).then(
+        function (result) {
+          that.data = [];
+          let resData = result.data.data;
+          let excellentPercentage = {
+            name: "优 " + resData.excellent,
+            proportion: resData.excellent,
+            a: "1",
+          };
+          that.data.push(excellentPercentage);
+          let goodPercentage = {
+            name: "良 " + resData.good,
+            proportion: resData.good,
+            a: "1",
+          };
+          that.data.push(goodPercentage);
+          let mildPercentage = {
+            name: "轻度污染 " + resData.mild,
+            proportion: resData.mild,
+            a: "1",
+          };
+          that.data.push(mildPercentage);
+          let mediumPercentage = {
+            name: "中度污染 " + resData.medium,
+            proportion: resData.medium,
+            a: "1",
+          };
+          that.data.push(mediumPercentage);
+          let severePercentage = {
+            name: "重度污染 " + resData.severe,
+            proportion: resData.severe,
+            a: "1",
+          };
+          that.data.push(severePercentage);
+          let seriousPercentage = {
+            name: "严重污染 " + resData.serious,
+            proportion: resData.serious,
+            a: "1",
+          };
+          that.data.push(seriousPercentage);
+          that.mainFactor = resData.facotrs;
+          that.totalDays = resData.totalDays;
+          that.drawChart();
+        },
+        function (err) {
+          that.isHide = false;
+        }
+      );
     },
     // 实时数据
     getPortDetail() {
@@ -353,6 +344,15 @@ export default {
             for (let i = 0; i < allRecords.length; i++) {
               //几个卡片
               that.portRecord.push(allRecords[i]);
+              // var obj={}
+              // obj.aqi=allRecords[i].aqi;
+              // obj.pm25=allRecords[i].pm25;
+              // obj.pm10=allRecords[i].pm10;
+              // obj.so2=allRecords[i].so2;
+              // obj.no2=allRecords[i].no2;
+              // obj.co=allRecords[i].co;
+              // obj.o3=allRecords[i].o3;
+              // that.factorLineValue.push({"value":obj})
             }
           },
           function (err) {
@@ -371,7 +371,7 @@ export default {
       getAqiRank()
         .then(
           function (result) {
-            result.data.aqi=100;
+            result.data.aqi = 100;
             that.aqiArr = result.data;
           },
           function (err) {
@@ -427,18 +427,14 @@ export default {
     changeColor(level) {
       return `cardTitleIcon${level}`;
     },
-    
   },
   mounted() {
-    this.getServerData()
-    this.getPortDetail()
-    this.getAqiRank()
-
+    this.getServerData();
+    this.getPortDetail();
+    this.getAqiRank();
   },
-  onLoad() {
-  },
-  onReady() {
-  },
+  onLoad() {},
+  onReady() {},
   created() {},
 };
 </script>
@@ -466,9 +462,9 @@ export default {
 
 .chartsCard {
   width: 100%;
-  height:200px;
-  padding:15px;
-  display:flex;
+  height: 200px;
+  padding: 15px;
+  display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   background-color: white;
@@ -491,9 +487,9 @@ export default {
   flex-wrap: wrap;
   margin: 10px 20px;
 }
-.cardTitleLeft{
+.cardTitleLeft {
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
 }
 .progresses {
   width: 50%;
@@ -514,7 +510,7 @@ export default {
 
 .detailCards {
   width: 100%;
-  padding-bottom:40px;
+  padding-bottom: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -546,34 +542,25 @@ export default {
   flex-wrap: wrap;
   flex-direction: row;
   width: 100%;
-  // margin-bottom: 8px;
-  margin-left: 5%;
-}
-
-.singleFactor {
-  display: flex;
-  justify-content: left;
-  align-items: left;
-  width: 45%;
-  border-bottom: #dedede 1px dashed;
+  margin-left:10px;
 }
 
 .factorName {
-  height: 100%;
-  font-size: 13px;
-  font-family: PingFang SC;
-  font-weight: 400;
-  line-height: 25px;
-  color: #000000;
-  opacity: 1;
+  width:46px;
+  height:20px;
+  background-color: white;
+  text-align:center;
+  line-height:20px;
+  border-radius: 1px;
 }
 
 .factorValue {
-  font-size: 13px;
-  font-weight: bold;
-  line-height: 25px;
-  color: #000000;
-  opacity: 1;
+  width:46px;
+  height:20px;
+  background-color: white;
+  text-align:center;
+  line-height:20px;
+  border-radius: 1px;
 }
 .inlineFactor {
   display: flex;
@@ -615,9 +602,7 @@ export default {
 }
 
 .cardTitle {
-  padding-left: 5%;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding:5px;
   margin-bottom: 5px;
   background: #f4f4f4;
   opacity: 1;
@@ -628,7 +613,7 @@ export default {
   font-weight: 500;
   color: #000000;
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
 }
 
 .cardTitleIcon1 {
@@ -641,11 +626,11 @@ export default {
 .cardTitleIcon2 {
   width: 18px;
   height: 18px;
-  background:  #ffff00;
+  background: #ffff00;
   border-radius: 50%;
   opacity: 1;
 }
-.cardTitleIcon3{
+.cardTitleIcon3 {
   width: 18px;
   height: 18px;
   background: #ff7d00;
@@ -655,7 +640,7 @@ export default {
 .cardTitleIcon4 {
   width: 18px;
   height: 18px;
-  background:#ff0000;
+  background: #ff0000;
   border-radius: 50%;
   opacity: 1;
 }
@@ -669,7 +654,7 @@ export default {
 .cardTitleIcon6 {
   width: 18px;
   height: 18px;
-  background:  #7d0022;
+  background: #7d0022;
   border-radius: 50%;
   opacity: 1;
 }
@@ -698,16 +683,16 @@ export default {
   line-height: 17px;
   color: #000000;
   opacity: 1;
-  margin-right:20px;
+  margin-right: 20px;
 }
 .AQIcards {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 90%;
-  height:120px;
+  height: 120px;
   margin-left: 5%;
-  
+
   background: #ffffff;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
   opacity: 1;
@@ -834,17 +819,17 @@ export default {
   width: 90%;
   height: 180px;
 }
-.moudle{
-  width:30%;
-  height:50px;
-  padding:0 10px;
+.moudle {
+  width: 30%;
+  height: 50px;
+  padding: 0 10px;
   // height:60px;
 }
-.colorBar{
-  width:100%;
-  height:30px;
+.colorBar {
+  width: 100%;
+  height: 30px;
   border-radius: 12px;
-  background-color: yellow;
+  background-color: white;
   text-align: center;
   line-height: 30px;
 }

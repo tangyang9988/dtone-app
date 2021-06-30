@@ -28,44 +28,26 @@
       <view class="detailCards">
         <view v-for = "(value,key) in portRecord" :key="key" class="detailCard">
           <view class="cardTitle">
-            <view class="cardTitleLeft">
               <view class="cardTitleWord">{{value.enterpriseName}}</view>
-            </view>
-            <!-- <img  src="../../assets/images/icon_data.png" class="icon_data" @click="historyData(value)" style="float:right"></img> -->
+              <view class="cardTitleWord">{{value.updateTime}}</view>
           </view>
           <view class="factorList">
-            <view class="singleFactor" v-if="JSON.stringify(value.ad)!='{}'">
-              <view class="factorName">{{value.ad.factorDict}}:</view>
-              <view class="factorValue" >{{value.ad.value}}{{value.ad.unit}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.cod)!='{}'">
-              <view class="factorName">{{value.cod.factorDict}}:</view>
-              <view class="factorValue" >{{value.cod.value}}{{value.cod.unit}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.ph)!='{}'">
-              <view class="factorName">{{value.ph.factorDict}}:</view>
-              <view class="factorValue" >{{value.ph.value}}{{value.ph.unit}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.ws)!='{}'">
-              <view class="factorName">{{value.ws.factorDict}}:</view>
-              <view class="factorValue" >{{value.ws.value}}{{value.ws.unit}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.zd)!='{}'">
-              <view class="factorName">{{value.zd.factorDict}}:</view>
-              <view class="factorValue" >{{value.zd.value}}{{value.zd.unit}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.zl)!='{}'">
-              <view class="factorName">{{value.zl.factorDict}}:</view>
-              <view class="factorValue" >{{value.zl.value}}{{value.zl.unit}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.zzn)!='{}'">
-              <view class="factorName">{{value.zzn.factorDict}}:</view>
-              <view class="factorValue" >{{value.zzn.value}}{{value.zzn.unit}}</view>
-            </view>
+              <view class="factorName" :style="{background:getColor(value.ad.value)}">ad</view>
+              <view class="factorName" :style="{background:getColor(value.cod.value)}">cod</view>
+              <view class="factorName" :style="{background:getColor(value.ph.value)}">ph</view>
+              <view class="factorName" :style="{background:getColor(value.ws.value)}">ws</view>
+              <view class="factorName" :style="{background:getColor(value.zd.value)}">zd</view>
+              <view class="factorName" :style="{background:getColor(value.zl.value)}">zl</view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}">zzn</view>
           </view>
-          <view class="inlineFactor">
-            <view class="inlineFactorName">日期：</view>
-            <view class="factorValue">{{value.updateTime}}</view>
+          <view class="factorList">
+            <view class="factorValue">{{value.ad.value}}</view>
+            <view class="factorValue">{{value.cod.value}}</view>
+            <view class="factorValue">{{value.ph.value}}</view>
+            <view class="factorValue">{{value.ws.value}}</view>
+            <view class="factorValue">{{value.zd.value}}</view>
+            <view class="factorValue">{{value.zl.value}}</view>
+            <view class="factorValue">{{value.zzn.value}}</view>
           </view>
         </view>
       </view>
@@ -106,6 +88,28 @@ export default {
     };
   },
   methods: {
+    getColor(value) {
+      if (value == "" || value == null) {
+        return "#caddfe";
+      } else {
+        var collectValue = parseFloat(value);
+        if (collectValue > 0 && collectValue <= 50) {
+          return "#caddfe";
+        } else if (collectValue > 50 && collectValue <= 100) {
+          return "#6196fd";
+        } else if (collectValue > 100 && collectValue <= 150) {
+          return "#64c676";
+        } else if (collectValue > 150 && collectValue <= 200) {
+          return "#ffde19";
+        } else if (collectValue > 200 && collectValue <= 300) {
+          return "#ff9a00";
+        } else if (collectValue > 300 && collectValue <= 400) {
+          return "#db4d4d";
+        }else if (collectValue > 400) {
+          return "red";
+        }
+      }
+    },
     formatDate(date) {
       return `${date.getFullYear()}-${this.timeAdd(
         date.getMonth() + 1
@@ -269,8 +273,7 @@ export default {
   flex-wrap: wrap;
   flex-direction: row;
   width: 100%;
-  // margin-bottom: 8px;
-  margin-left: 5%;
+  margin-left:10px;
 }
 
 .singleFactor {
@@ -282,39 +285,21 @@ export default {
 }
 
 .factorName {
-  height: 100%;
-  font-size: 13px;
-  font-family: PingFang SC;
-  font-weight: 400;
-  line-height: 25px;
-  color: #000000;
-  opacity: 1;
+  width:46px;
+  height:20px;
+  background-color: white;
+  text-align:center;
+  line-height:20px;
+  border-radius: 1px;
 }
 
 .factorValue {
-  font-size: 13px;
-  font-weight: bold;
-  line-height: 25px;
-  color: #000000;
-  opacity: 1;
-}
-.inlineFactor {
-  display: flex;
-  justify-content: left;
-  align-items: left;
-}
-.inlineFactorName {
-  margin-left: 5%;
-  font-size: 13px;
-  font-family: PingFang SC;
-  font-weight: 400;
-  line-height: 25px;
-  color: #000000;
-  opacity: 1;
-}
-.inlineFactorValue {
-  float: left;
-  // margin-top: 5px;
+  width:46px;
+  height:20px;
+  background-color: white;
+  text-align:center;
+  line-height:20px;
+  border-radius: 1px;
 }
 
 .chartTitle {
@@ -338,15 +323,13 @@ export default {
 }
 
 .cardTitle {
-  padding-left: 5%;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding:5px;  
   margin-bottom: 5px;
   background: #f4f4f4;
   opacity: 1;
   border-radius: 12px 12px 0px 0px;
 
-  font-size: 13px;
+  font-size: 12px;
   font-family: PingFang SC;
   font-weight: 500;
   color: #000000;

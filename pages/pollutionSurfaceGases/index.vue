@@ -28,12 +28,10 @@
       <view class="detailCards">
         <view v-for = "(value,key) in portRecord" :key="key" class="detailCard">
           <view class="cardTitle">
-            <view class="cardTitleLeft">
               <view class="cardTitleWord">{{value.enterpriseName}}</view>
-            </view>
-            <!-- <img  src="../../assets/images/icon_data.png" class="icon_data" @click="historyData(value)" style="float:right"></img> -->
+              <view class="cardTitleWord">{{value.updateTime}}</view>
           </view>
-          <view class="factorList">
+          <!-- <view class="factorList">
             <view class="singleFactor" v-if="JSON.stringify(value.ch4)!='{}'">
               <view class="factorName">{{value.ch4.factorDict}}:</view>
               <view class="factorValue" >{{value.ch4.value}}</view>
@@ -70,11 +68,25 @@
               <view class="factorName">{{value.yqsd.factorDict}}:</view>
               <view class="factorValue" >{{value.yqsd.value}}</view>
             </view>
-          </view>
-          <!-- <view class="inlineFactor">
-            <view class="inlineFactorName">日期：</view>
-            <view class="factorValue">{{value.updateTime}}</view>
           </view> -->
+          <view class="factorList">
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}">ch4</view>
+              <view class="factorName" :style="{background:getColor(value.h2s.value)}">h2s</view>
+              <view class="factorName" :style="{background:getColor(value.no2.value)}">no2</view>
+              <view class="factorName" :style="{background:getColor(value.nox.value)}">nox</view>
+              <view class="factorName" :style="{background:getColor(value.so2.value)}">so2</view>
+              <view class="factorName" :style="{background:getColor(value.yc.value)}">yc</view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}">yqls</view>
+          </view>
+          <view class="factorList">
+            <view class="factorValue">{{value.ch4.value}}</view>
+            <view class="factorValue">{{value.h2s.value}}</view>
+            <view class="factorValue">{{value.no2.value}}</view>
+            <view class="factorValue">{{value.nox.value}}</view>
+            <view class="factorValue">{{value.so2.value}}</view>
+            <view class="factorValue">{{value.yc.value}}</view>
+            <view class="factorValue">{{value.yqls.value}}</view>
+          </view>
         </view>
       </view>
     </view>
@@ -93,10 +105,10 @@ export default {
     return {
 	  column1:{},
 	  chartsData: {},	
-	pixelRatio: 1,
-	cWidth2:'',//圆弧进度图
-	cHeight2:'',//圆弧进度图
-	arcbarWidth: '',
+    pixelRatio: 1,
+    cWidth2:'',//圆弧进度图
+    cHeight2:'',//圆弧进度图
+    arcbarWidth: '',
       platFormId:"",
       data: [],
       barData: [],
@@ -114,6 +126,28 @@ export default {
     };
   },
   methods: {
+    getColor(value) {
+      if (value == "" || value == null) {
+        return "#caddfe";
+      } else {
+        var collectValue = parseFloat(value);
+        if (collectValue > 0 && collectValue <= 50) {
+          return "#caddfe";
+        } else if (collectValue > 50 && collectValue <= 100) {
+          return "#6196fd";
+        } else if (collectValue > 100 && collectValue <= 150) {
+          return "#64c676";
+        } else if (collectValue > 150 && collectValue <= 200) {
+          return "#ffde19";
+        } else if (collectValue > 200 && collectValue <= 300) {
+          return "#ff9a00";
+        } else if (collectValue > 300 && collectValue <= 400) {
+          return "#db4d4d";
+        }else if (collectValue > 400) {
+          return "red";
+        }
+      }
+    },
     formatDate(date) {
       return `${date.getFullYear()}-${this.timeAdd(
         date.getMonth() + 1
@@ -225,10 +259,6 @@ export default {
   flex-wrap: wrap;
   margin: 10px 20px;
 }
-.cardTitleLeft{
-  display: flex;
-  justify-content: left;
-}
 .progresses {
   width: 50%;
   height: 250px;
@@ -278,8 +308,7 @@ export default {
   flex-wrap: wrap;
   flex-direction: row;
   width: 100%;
-  margin-bottom: 8px;
-  margin-left: 5%;
+  margin-left:10px;
 }
 
 .singleFactor {
@@ -291,21 +320,21 @@ export default {
 }
 
 .factorName {
-  height: 100%;
-  font-size: 13px;
-  font-family: PingFang SC;
-  font-weight: 400;
-  line-height: 25px;
-  color: #000000;
-  opacity: 1;
+  width:46px;
+  height:20px;
+  background-color: white;
+  text-align:center;
+  line-height:20px;
+  border-radius: 1px;
 }
 
 .factorValue {
-  font-size: 13px;
-  font-weight: bold;
-  line-height: 25px;
-  color: #000000;
-  opacity: 1;
+  width:46px;
+  height:20px;
+  background-color: white;
+  text-align:center;
+  line-height:20px;
+  border-radius: 1px;
 }
 .inlineFactor {
   display: flex;
@@ -347,15 +376,13 @@ export default {
 }
 
 .cardTitle {
-  padding-left: 5%;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding:5px;  
   margin-bottom: 5px;
   background: #f4f4f4;
   opacity: 1;
   border-radius: 12px 12px 0px 0px;
 
-  font-size: 13px;
+  font-size: 12px;
   font-family: PingFang SC;
   font-weight: 500;
   color: #000000;
