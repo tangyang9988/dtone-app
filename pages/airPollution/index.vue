@@ -1,7 +1,7 @@
 <template>
   <view class="pieBody">
     <cu-custom bgColor="bg-gradual-pink" :isBack="true"
-      ><block slot="backText">返回</block>
+      ><block slot="backText">返回上一级</block>
       <block slot="content">空气污染监测</block>
     </cu-custom>
     <view class="chartTitle2">

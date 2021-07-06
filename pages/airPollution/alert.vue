@@ -1,7 +1,7 @@
 <template>
   <view class="main">
     <cu-custom bgColor="bg-gradual-pink" :isBack="true"
-      ><block slot="backText">返回</block>
+      ><block slot="backText">返回上一级</block>
       <block slot="content">预警信息</block>
     </cu-custom>
     <!-- 企业 -->
@@ -340,7 +340,6 @@ export default {
     },
   },
   mounted: function () {
-    console.log(this.statusId)
     this.selectPort();
     this.start = this.formatSelectDate(new Date(this.start));
     this.end = this.formatSelectDate(new Date(this.end));

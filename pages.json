@@ -55,7 +55,7 @@
 			}
 		},
 		{
-			"path": "pages/airPollution/siteReport",			
+			"path": "pages/airPollution/waiting",			
 			"style": {
 				"navigationBarTitleText": "uni-app",
 				"enablePullDownRefresh": true

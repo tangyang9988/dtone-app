@@ -1,7 +1,7 @@
 <template>
   <view class="main">
     <cu-custom bgColor="bg-gradual-pink" :isBack="true"
-      ><block slot="backText">返回</block>
+      ><block slot="backText">返回上一级</block>
       <block slot="content">历史数据</block>
     </cu-custom>
     <view class="cu-bar search bg-white">
@@ -77,7 +77,7 @@
       >
         前3日
       </button>
-        <view class="calendar" v-if="this.active == 'auto'">
+        <view class="calendar">
           <view style="display: flex; margin: 10px">
             <span @click="startopen" class="timeStyle">{{
               pageStart
@@ -89,8 +89,8 @@
             />
           </view>
         </view>
-        <span v-if="this.active == 'auto'" style="margin: 17px 10px; font-size: 14px">至</span>
-        <view class="calendar" v-if="this.active == 'auto'">
+        <span style="margin: 17px 10px; font-size: 14px">至</span>
+        <view class="calendar">
           <view style="display: flex; margin: 10px">
             <span @click="endopen" class="timeStyle">{{
               pageEnd

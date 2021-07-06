@@ -2,7 +2,7 @@
   <view class="main">
     <cu-custom bgColor="bg-gradual-pink" :isBack="true"
       ><block slot="backText">返回</block>
-      <block slot="content">预警信息</block>
+      <block slot="content">待办事项</block>
     </cu-custom>
     <view class="cu-bar search bg-white">
       <view class="search-form round">
@@ -21,6 +21,30 @@
         </picker>
       </view>
     </view>
+    <!-- 时间 -->
+    <view class="header_search">
+      <view class="calendar">
+        <view style="display: flex; margin: 10px">
+          <span @click="startopen" class="timeStyle">{{ start }}</span>
+          <uni-calendar
+            ref="calendar"
+            :insert="false"
+            @confirm="onStartConfirm"
+          />
+        </view>
+      </view>
+      <span style="margin: 17px 10px; font-size: 14px">至</span>
+      <view class="calendar">
+        <view style="display: flex; margin: 10px">
+          <span @click="endopen" class="timeStyle">{{ end }}</span>
+          <uni-calendar
+            ref="calendar2"
+            :insert="false"
+            @confirm="onEndConfirm"
+          />
+        </view>
+      </view>
+    </view>
     <!-- 列表 -->
     <scroll-view
       :scroll-top="scrollTop"
@@ -36,9 +60,13 @@
           :key="iIndex"
           class="detailCard"
         >
-          <view class="inlineFactor">
+          <view class="inlineFactor" v-if="menuurl == 'airPollution_index' ||menuurl == 'surfaceWater_index'">
             <view class="inlineFactorName">站点名：</view>
             <view class="inlineFactorValue">{{ item.stationName }}</view>
+          </view>
+          <view class="inlineFactor" v-else>
+            <view class="inlineFactorName">企业名：</view>
+            <view class="inlineFactorValue">{{ item.enterpriseName }}</view>
           </view>
           <view class="factorList">
             <view class="singleFactor">
@@ -84,38 +112,78 @@
             <view class="inlineFactorName">监测时间：</view>
             <view class="inlineFactorValue">{{ item.updateTime }}</view>
           </view>
-          <view class="cardButtons">
+          <view class="cardButtons" v-if="menuurl == 'airPollution_index' ||menuurl == 'surfaceWater_index'">
             <button
+              v-if="item.status == '2'"
               class="cu-btn round bg-green"
               size="mini"
               @click="showForm(item)"
             >
               处理
             </button>
+            <button
+              v-else-if="item.status == '3' || item.status == '6'"
+              class="cu-btn round bg-red"
+              size="mini"
+            >
+              已处理
+            </button>
           </view>
+          <view class="cardButtons" v-else>
+          <button
+            v-if="item.status == '1'"
+            class="cu-btn round bg-green"
+            size="mini"
+            @click="dealForm(item)"
+          >
+            处理
+          </button>
+          <button
+            v-else-if="item.status == '12' || item.status == '6'"
+            class="cu-btn round bg-red"
+            size="mini"
+          >
+            已处理
+          </button>
+        </view>
         </view>
       </view>
       <view class="noData" v-if="isNoData">暂无数据</view>
     </scroll-view>
-    <bottomMenu url="airPollution_siteReport"></bottomMenu>
-    <!-- <view>
-    <abnormalForm v-if="abnormalFormHShow" @poupClose='listenPoupClose' :message="chooseRecord" :isShow="abnormalFormHShow"></abnormalForm>
-    </view> -->
+    <bottomMenu url="airPollution_waiting"></bottomMenu>
+    <view>
+      <waitingForm
+        v-if="abnormalFormHShow"
+        @close="closeDialog()"
+        :selectCard="selectCard"
+        :isShow="abnormalFormHShow"
+      ></waitingForm>
+    </view>
+    <view>
+    <waterAndGasForm
+      v-if="waterAndGasFormShow"
+      @close="closeDialog()"
+      :selectCard="selectCard"
+      :isShow="waterAndGasFormShow"
+    ></waterAndGasForm>
+  </view>
   </view>
 </template>
 <script>
-import abnormalForm from "../components/abnormalForm"; //引入子组件
+import waitingForm from "../components/waitingForm.vue"; //引入子组件
+import waterAndGasForm from "../components/waterAndGasForm.vue"; //引入子组件
 import bottomMenu from "../bottomMenu/index";
 import {
   selectSiteByType,
   airWaringSelectPage,
   selectWaterSiteByType,
+  pollutionWarningSelectPage,
 } from "../../api/airPollution.js";
+import { getEnterpriseList } from "../../api/pollutionSurfaceWater.js";
 export default {
-  components: { bottomMenu, abnormalForm },
+  components: { bottomMenu, waitingForm,waterAndGasForm },
   data() {
     return {
-      radio: "A",
       scrollTop: 0,
       old: {
         scrollTop: 0,
@@ -123,28 +191,31 @@ export default {
       siteList: [],
       index: 0,
       siteId: "",
-      kong: [],
-      level: [],
       isNoData: false,
-      active: "",
-      date: "",
       show: false,
-      current: 0,
+      current: 1,
       size: 10,
       busy: false,
+      start: new Date(),
+      end: new Date(),
       loading: false,
-      finished: false,
       tableFactorList: [],
       abnormalFormHShow: false,
-      chooseRecord: {},
+      waterAndGasFormShow: false,
+      selectCard: {},
+      menuurl:localStorage.getItem('url')
     };
   },
   methods: {
+    closeDialog() {
+      this.abnormalFormHShow = false;
+      this.waterAndGasFormShow = false;
+    },
     startopen() {
       this.$refs.calendar.open();
     },
     endopen() {
-      this.$refs.calendar.open();
+      this.$refs.calendar2.open();
     },
     upper: function (e) {
       console.log(e);
@@ -164,7 +235,38 @@ export default {
     },
     showForm(e) {
       this.abnormalFormHShow = true;
-      this.chooseRecord = e;
+      this.selectCard = e;
+    },
+    dealForm(e){
+      this.waterAndGasFormShow = true;
+      this.selectCard = e;
+    },
+    formatSelectDate(date) {
+      return `${date.getFullYear()}-${this.timeAdd(
+        date.getMonth() + 1
+      )}-${this.timeAdd(date.getDate())}`;
+    },
+    timeAdd(str) {
+      if (str <= 9) {
+        str = "0" + str;
+      }
+      return str;
+    },
+    onStartConfirm(date) {
+      this.tableFactorList = [];
+      this.start = date.fulldate;
+      if (this.start > this.end) {
+        this.end = date.fulldate;
+      }
+      this.getList(this.siteId);
+    },
+    onEndConfirm(date) {
+      this.tableFactorList = [];
+      this.end = date.fulldate;
+      if (this.start > this.end) {
+        this.start = date.fulldate;
+      }
+      this.getList(this.siteId);
     },
     // 加载更多
     loadMore() {
@@ -180,7 +282,7 @@ export default {
     },
     selectPort(e) {
       var that = this;
-      if (localStorage.getItem("url") == "airPollution_index") {
+      if (that.menuurl == "airPollution_index") {
         selectSiteByType().then(
           function (result) {
             let list = result.data.data;
@@ -196,9 +298,7 @@ export default {
           function (err) {}
         );
       } else if (
-        localStorage.getItem("url") == "surfaceWater_index" ||
-        localStorage.getItem("url") == "pollutionSurfaceWater_index"
-      ) {
+        that.menuurl == "surfaceWater_index") {
         selectWaterSiteByType().then(
           function (result) {
             let list = result.data.data;
@@ -213,12 +313,51 @@ export default {
           },
           function (err) {}
         );
+      }else if (that.menuurl == "pollutionSurfaceWater_index" || that.menuurl == "pollutionSurfaceGases_index") {
+        getEnterpriseList().then(
+          function (result) {
+            let list = result.data;
+            for (let i = 0; i < list.length; i++) {
+              that.siteList.push({
+                id: list[i].value,
+                stationName: list[i].label,
+              });
+              that.siteId = that.siteList[0].id;
+            }
+            that.getList(that.siteId);
+          },
+          function (err) {}
+        );
       }
     },
     // 获取列表
     getList(siteId) {
+      var source = "";
+      var processKey = "";
+      if (this.menuurl == "airPollution_index") {
+        source = "1";
+        processKey = "air_warning";
+        this.getAirWaringSelectPage(siteId,source,processKey)
+      } else if (this.menuurl == "surfaceWater_index") {
+        source = "2";
+        processKey = "water_warning";
+        this.getAirWaringSelectPage(siteId,source,processKey)
+      } else if (this.menuurl == "pollutionSurfaceWater_index" || this.menuurl == "pollutionSurfaceGases_index") {
+        processKey = "pollution_warning";
+        this.getPollutionWarningSelectPage(siteId,processKey)
+      }
+    },
+    getAirWaringSelectPage(siteId,source,processKey){
       var that = this;
-      airWaringSelectPage(siteId, 1, "air_warning", 1, 10).then(
+      airWaringSelectPage(
+        siteId,
+        source,
+        processKey,
+        that.current,
+        that.size,
+        that.start,
+        that.end
+      ).then(
         function (result) {
           let list = result.data.data.records;
           if (list.length == 0) {
@@ -233,9 +372,35 @@ export default {
         function (err) {}
       );
     },
+    getPollutionWarningSelectPage(siteId,processKey){
+      var that = this;
+      pollutionWarningSelectPage(
+        siteId,
+        processKey,
+        that.current,
+        that.size,
+        that.start,
+        that.end
+      ).then(
+        function (result) {
+          let list = result.data.data.records;
+          if (list.length == 0) {
+            that.isNoData = true;
+          }
+          if (list) {
+            for (let i = 0; i < list.length; i++) {
+              that.tableFactorList.push(list[i]);
+            }
+          }
+        },
+        function (err) {}
+      );
+    }
   },
   mounted: function () {
     this.selectPort();
+    this.start = this.formatSelectDate(new Date(this.start));
+    this.end = this.formatSelectDate(new Date(this.end));
   },
 };
 </script>
@@ -243,6 +408,26 @@ export default {
 @import "../../static/css/index.css";
 .scroll-Y {
   height: 1000rpx;
+}
+.header_search {
+  margin: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.calendar {
+  margin: 10px 0px;
+  height: 35px;
+  width: 44%;
+  // background: #A5A5A5;
+  border-radius: 8px;
+  border: 1px solid #a5a5a5;
+}
+.timeStyle {
+  font-size: 12px;
+  font-weight: 500;
+  margin-left: 5px;
+  margin-top: 1px;
 }
 .van-search {
   padding: 2px 12px 5px 12px;

@@ -65,12 +65,12 @@ export const getWarningList = (start,end,processKey,source,status,enterpriseId,c
     params: {start,end,processKey,source,status,enterpriseId,current,size}
   });
 }
-// 预警待办列表
-export const airWaringSelectPage = (stationId,source,processKey,current,size) =>{
+// 空气待办待办列表
+export const airWaringSelectPage = (enterpriseId,source,processKey,current,size,start,end) =>{
   return request({  
     url: appConfig.WEB_API + '/api/bu/airWarningManage/airWaringSelectPage',
     method: 'get',
-    params: {stationId,source,processKey,current,size}
+    params: {enterpriseId,source,processKey,current,size,start,end}
   });
 }
 // 趋势分析
@@ -80,6 +80,30 @@ export const comparativeAnalysis = (obj) =>{
     method: 'post',
     data:obj
     // params: {stations,from,end,kong,level}
+  });
+}
+// 待办处理
+export const dealWithAir = (obj) =>{
+  return request({  
+    url: appConfig.WEB_API + '/api/bu/airWarningManage/dealWithAir',
+    method: 'post',
+    data:obj
+  });
+}
+//废水待办列表
+export const pollutionWarningSelectPage = (enterpriseId,processKey,current,size,start,end) =>{
+  return request({  
+    url: appConfig.WEB_API + '/api/bu/airWarningManage/pollutionWarningSelectPage',
+    method: 'get',
+    params: {enterpriseId,processKey,current,size,start,end}
+  });
+}
+//废水待办处理
+export const dealWithPollution = (obj) =>{
+  return request({  
+    url: appConfig.WEB_API + '/api/bu/airWarningManage/dealWithPollution',
+    method: 'post',
+    data:obj
   });
 }
 

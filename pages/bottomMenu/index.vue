@@ -56,13 +56,13 @@
           >站点报表</view
         >
       </view> -->
-      <view class="action" @click="hisClick" data-cur="airPollution_siteReport" v-if="role_name=='warninguser'">
+      <view class="action" @click="hisClick" data-cur="airPollution_waiting" v-if="role_name=='pollute_maintain'">
         <view class="cuIcon-cu-image">
           <image src="../../static/images/icon/s12.png"></image>
         </view>
         <view
           :class="
-            PageCur == 'airPollution_siteReport' ? 'text-green' : 'text-gray'
+            PageCur == 'airPollution_waiting' ? 'text-green' : 'text-gray'
           "
           >待办</view
         >
@@ -125,10 +125,10 @@ export default {
             url: "/pages/airPollution/alert",
           });
         }, 500);
-      } else if (e.currentTarget.dataset.cur == "airPollution_siteReport") {
+      } else if (e.currentTarget.dataset.cur == "airPollution_waiting") {
         setTimeout(function () {
           uni.navigateTo({
-            url: "/pages/airPollution/siteReport",
+            url: "/pages/airPollution/waiting",
           });
         }, 500);
       } else if (e.currentTarget.dataset.cur == "trend_analysis") {
