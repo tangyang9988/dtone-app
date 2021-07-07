@@ -1,7 +1,7 @@
 <template>
 <view class="pieBody">
 	<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block>
-		<block slot="content">地表水环境监测</block>
+		<block slot="content">地表水</block>
 	</cu-custom>
   <view class="chartTitle2 ">
     <view class="chartMainTitle abnormal">
@@ -56,21 +56,27 @@
         </view>
       </view>
     </view>
-<!-- 引入自定义菜单组件 -->
-<bottomMenu url="surfaceWater_index"></bottomMenu>
+    <!-- 引入自定义菜单组件 -->
+    <bottomMenu url="surfaceWater_index"></bottomMenu>
+    <trendAnalysis
+      v-if="trendAnalysisShow"
+      @close="closeDialog()"
+      :isShow="trendAnalysisShow"
+    ></trendAnalysis>
 </view>
-
 </template>
 <script>
 import demodata from '@/mockdata/demodata.json';
 import mapdata from '@/mockdata/mapdata.json'
 import bottomMenu from '../bottomMenu/index'
+import trendAnalysis from "../components/trendAnalysis.vue";
 import {getHourlyWaterQualityData} from "../../api/surfaceWater.js"
 export default {
-  components: {bottomMenu },
+  components: {bottomMenu,trendAnalysis },
   name: "about",
   data() {
     return {
+    trendAnalysisShow: false,
 	  chartsData: {},	
     pixelRatio: 1,
     cWidth2:'',//圆弧进度图
@@ -93,6 +99,22 @@ export default {
     };
   },
   methods: {
+    factorClick(factor, card) {
+      this.trendAnalysisShow = true;
+      getHistory48hourData(factor,card.siteId).then(
+        function (result) {
+        let list = result.data.data;
+        for (let i = 0; i < list.length; i++) {
+          this.history48Data.push(list[i].avg)
+          console.log(this.history48Data)
+        }
+        },
+        function (error) {}
+      );
+    },
+    closeDialog() {
+      this.trendAnalysisShow = false;
+    },
     getColor(value) {
       if (value == "" || value == null) {
         return "#caddfe";

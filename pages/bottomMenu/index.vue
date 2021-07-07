@@ -131,12 +131,6 @@ export default {
             url: "/pages/airPollution/waiting",
           });
         }, 500);
-      } else if (e.currentTarget.dataset.cur == "trend_analysis") {
-        setTimeout(function () {
-          uni.navigateTo({
-            url: "/pages/airPollution/trendanalysis",
-          });
-        }, 500);
       } else if (e.currentTarget.dataset.cur == "home_page") {
         setTimeout(function () {
           uni.navigateTo({

@@ -2,7 +2,7 @@
   <view class="pieBody">
     <cu-custom bgColor="bg-gradual-pink" :isBack="true"
       ><block slot="backText">返回上一级</block>
-      <block slot="content">空气污染监测</block>
+      <block slot="content">环境空气</block>
     </cu-custom>
     <view class="chartTitle2">
       <view class="chartMainTitle abnormal">
@@ -34,37 +34,37 @@
     <view class="AQIcards">
       <view class="moudle">
         <view style="text-align: center"> PM2.5 </view>
-        <view class="colorBar" :style="{background:getColor(aqiArr.pm25)}">
+        <view class="colorBar" :style="{ background: getColor(aqiArr.pm25) }">
           <text>{{ aqiArr.pm25 }}</text>
         </view>
       </view>
       <view class="moudle">
         <view style="text-align: center"> PM10 </view>
-        <view class="colorBar" :style="{background:getColor(aqiArr.pm10)}">
+        <view class="colorBar" :style="{ background: getColor(aqiArr.pm10) }">
           <text>{{ aqiArr.pm10 }}</text>
         </view>
       </view>
       <view class="moudle">
         <view style="text-align: center"> SO2 </view>
-        <view class="colorBar" :style="{background:getColor(aqiArr.so2)}">
+        <view class="colorBar" :style="{ background: getColor(aqiArr.so2) }">
           <text>{{ aqiArr.so2 }}</text>
         </view>
       </view>
       <view class="moudle">
         <view style="text-align: center"> NO2 </view>
-        <view class="colorBar" :style="{background:getColor(aqiArr.no2)}">
+        <view class="colorBar" :style="{ background: getColor(aqiArr.no2) }">
           <text>{{ aqiArr.no2 }}</text>
         </view>
       </view>
       <view class="moudle">
         <view style="text-align: center"> CO </view>
-        <view class="colorBar" :style="{background:getColor(aqiArr.co)}">
+        <view class="colorBar" :style="{ background: getColor(aqiArr.co) }">
           <text>{{ aqiArr.co }}</text>
         </view>
       </view>
       <view class="moudle">
         <view style="text-align: center"> O3 </view>
-        <view class="colorBar" :style="{background:getColor(aqiArr.o3)}">
+        <view class="colorBar" :style="{ background: getColor(aqiArr.o3) }">
           <text>{{ aqiArr.o3 }}</text>
         </view>
       </view>
@@ -76,59 +76,89 @@
     <view class="detailCards">
       <view v-for="(value, key) in portRecord" :key="key" class="detailCard">
         <view class="cardTitle">
-            <view class="cardTitleWord">{{ value.siteName }}</view>
-            <view class="cardTitleWord">{{ value.updateTime }}</view>
+          <view class="cardTitleWord">{{ value.siteName }}</view>
+          <view class="cardTitleWord">{{ value.updateTime }}</view>
         </view>
         <view class="factorList">
-            <view class="factorName" :style="{background:getColor(value.aqi.value)}">AQI</view>
-            <view class="factorName" :style="{background:getColor(value.pm25.value)}">PM2.5</view>
-            <view class="factorName" :style="{background:getColor(value.pm10.value)}">PM10</view>
-            <view class="factorName" :style="{background:getColor(value.so2.value)}">SO2</view>
-            <view class="factorName" :style="{background:getColor(value.no2.value)}">NO2</view>
-            <view class="factorName" :style="{background:getColor(value.co.value)}">CO</view>
-            <view class="factorName" :style="{background:getColor(value.o3.value)}">O3</view>
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.aqi.value) }"
+            @click="factorClick('aqi', value)"
+            >AQI</view
+          >
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.pm25.value) }"
+            @click="factorClick('a34004', value)"
+            >PM2.5</view
+          >
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.pm10.value) }"
+            @click="factorClick('a34002', value)"
+            >PM10</view
+          >
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.so2.value) }"
+            @click="factorClick('a21026', value)"
+            >SO2</view
+          >
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.no2.value) }"
+            @click="factorClick('a21004', value)"
+            >NO2</view
+          >
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.co.value) }"
+            @click="factorClick('a21005', value)"
+            >CO</view
+          >
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.o3.value) }"
+            @click="factorClick('a05024', value)"
+            >O3</view
+          >
         </view>
         <view class="factorList">
-          <view class="factorValue">{{value.aqi.value}}</view>
-          <view class="factorValue">{{value.pm25.value}}</view>
-          <view class="factorValue">{{value.pm10.value}}</view>
-          <view class="factorValue">{{value.so2.value}}</view>
-          <view class="factorValue">{{value.no2.value}}</view>
-          <view class="factorValue">{{value.co.value}}</view>
-          <view class="factorValue">{{value.o3.value}}</view>
+          <view class="factorValue">{{ value.aqi.value }}</view>
+          <view class="factorValue">{{ value.pm25.value }}</view>
+          <view class="factorValue">{{ value.pm10.value }}</view>
+          <view class="factorValue">{{ value.so2.value }}</view>
+          <view class="factorValue">{{ value.no2.value }}</view>
+          <view class="factorValue">{{ value.co.value }}</view>
+          <view class="factorValue">{{ value.o3.value }}</view>
         </view>
       </view>
     </view>
     <!-- 引入自定义菜单组件 -->
     <bottomMenu url="airPollution_index"></bottomMenu>
+    <trendAnalysis
+      v-if="trendAnalysisShow"
+      @close="closeDialog()"
+      :isShow="trendAnalysisShow"
+    ></trendAnalysis>
   </view>
 </template>
 <script>
 import bottomMenu from "../bottomMenu/index";
-import { getAirRtdList, getAqiRank } from "../../api/airPollution.js";
+import trendAnalysis from "../components/trendAnalysis.vue";
+
+import {
+  getAirRtdList,
+  getAqiRank,
+  getHistory48hourData,
+} from "../../api/airPollution.js";
 export default {
-  components: { bottomMenu },
+  components: { bottomMenu, trendAnalysis },
   name: "about",
   data() {
     return {
-      factorLineName:[
-        {
-          name:"AQI",
-        },  {
-          name:"PM2.5",
-        },  {
-          name:"PM10",
-        },  {
-          name:"SO2",
-        },  {
-          name:"NO2",
-        },  {
-          name:"CO",
-        },  {
-          name:"O3",
-        }
-      ],
-      factorLineValue:[],
+      trendAnalysisShow: false,
+      factorLineValue: [],
       charts: {},
       pixelRatio: 1,
       cWidth2: "", //圆弧进度图
@@ -147,15 +177,32 @@ export default {
       site1Value2: "",
       sum: 0,
       totalDays: 0,
+      history48Data:[]
     };
   },
   methods: {
+    factorClick(factor, card) {
+      this.trendAnalysisShow = true;
+      getHistory48hourData(factor,card.siteId).then(
+        function (result) {
+        let list = result.data.data;
+        for (let i = 0; i < list.length; i++) {
+          this.history48Data.push(list[i].avg)
+          console.log(this.history48Data)
+        }
+        },
+        function (error) {}
+      );
+    },
+    closeDialog() {
+      this.trendAnalysisShow = false;
+    },
     getColor(value) {
       if (value == "" || value == null) {
         return "#00e400";
       } else {
         var collectValue = parseFloat(value);
-        if (collectValue > 0 && collectValue <= 50) {
+        if (collectValue >= 0 && collectValue <= 50) {
           return "#00e400";
         } else if (collectValue > 50 && collectValue <= 100) {
           return "#fcfc73";
@@ -542,24 +589,24 @@ export default {
   flex-wrap: wrap;
   flex-direction: row;
   width: 100%;
-  margin-left:10px;
+  margin-left: 10px;
 }
 
 .factorName {
-  width:46px;
-  height:20px;
+  width: 46px;
+  height: 20px;
   background-color: white;
-  text-align:center;
-  line-height:20px;
+  text-align: center;
+  line-height: 20px;
   border-radius: 1px;
 }
 
 .factorValue {
-  width:46px;
-  height:20px;
+  width: 46px;
+  height: 20px;
   background-color: white;
-  text-align:center;
-  line-height:20px;
+  text-align: center;
+  line-height: 20px;
   border-radius: 1px;
 }
 .inlineFactor {
@@ -602,7 +649,7 @@ export default {
 }
 
 .cardTitle {
-  padding:5px;
+  padding: 5px;
   margin-bottom: 5px;
   background: #f4f4f4;
   opacity: 1;

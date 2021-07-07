@@ -66,11 +66,11 @@ export const getWarningList = (start,end,processKey,source,status,enterpriseId,c
   });
 }
 // 空气待办待办列表
-export const airWaringSelectPage = (enterpriseId,source,processKey,current,size,start,end) =>{
+export const airWaringSelectPage = (stationId,source,processKey,current,size,start,end) =>{
   return request({  
     url: appConfig.WEB_API + '/api/bu/airWarningManage/airWaringSelectPage',
     method: 'get',
-    params: {enterpriseId,source,processKey,current,size,start,end}
+    params: {stationId,source,processKey,current,size,start,end}
   });
 }
 // 趋势分析
@@ -106,6 +106,16 @@ export const dealWithPollution = (obj) =>{
     data:obj
   });
 }
+
+//48小时因子图标
+export const getHistory48hourData = (factor,stationId) =>{
+  return request({  
+    url: appConfig.WEB_API + '/api/bu/airdetection/dataSearch/history48hourData',
+    method: 'get',
+    params: {factor,stationId}
+  });
+}
+
 
 
 
