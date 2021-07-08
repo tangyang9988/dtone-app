@@ -237,6 +237,7 @@ module.exports = {
 		"padding": [15,15,0,5],
 		"xAxis": {
       "disableGrid": true,
+	  "labelCount":10
 		},
 		"yAxis": {
 		},

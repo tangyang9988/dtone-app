@@ -101,16 +101,6 @@ export default {
   methods: {
     factorClick(factor, card) {
       this.trendAnalysisShow = true;
-      getHistory48hourData(factor,card.siteId).then(
-        function (result) {
-        let list = result.data.data;
-        for (let i = 0; i < list.length; i++) {
-          this.history48Data.push(list[i].avg)
-          console.log(this.history48Data)
-        }
-        },
-        function (error) {}
-      );
     },
     closeDialog() {
       this.trendAnalysisShow = false;

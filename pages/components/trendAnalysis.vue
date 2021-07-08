@@ -23,45 +23,55 @@
   </view>
 </template>
 <script>
-// import { dealWithPollution } from "../../api/airPollution.js";
+import {
+  getHistory48hourData,
+} from "../../api/airPollution.js";
 export default {
-  props: [ "isShow"],
+  props: [ "isShow","card","factor","factorName"],
   data() {
     return {
       echartdata: {},
+      categories:[],
+      series:[]
     };
   },
   methods: {
+  getTime(time){
+    let value =new Date(time)
+    let m = (value.getMonth()+1)<10?('0'+(value.getMonth()+1)):value.getMonth()+1;
+    let d =value.getDate()<10?('0'+value.getDate()):value.getDate();
+    let h =value.getHours()<10?('0'+value.getHours()):value.getHours();
+    return m+ "-" + d + " " + h + ":" +"00"; 
+  },
+  async getHistory48hour(){
+    var that =this;
+    await getHistory48hourData(that.factor,that.card.siteId).then(
+      function (result) {
+      let list = result.data.data;
+      let yList=[]
+      for (let i = 0; i < list.length; i++) {
+        let time = that.getTime(list[i].updateTime)
+        that.categories.push(time);
+        yList.push(list[i].avg);
+      }
+      that.series.push({
+        "name":that.factorName,
+        "data":yList
+      })
+      that.echartdata = {
+        categories:that.categories,
+        series:that.series
+      }
+      },
+      function (error) {}
+    );
+    },
     close() {
       this.$emit("close");
     },
   },
   mounted: function () {
-    this.echartdata = {
-      categories: ["01:00", "02:00", "01:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00"],
-      series: [
-        {
-          "name": "co",
-          "data": [
-              62,
-              63,
-              56,
-              89,
-              79,
-              36,
-              62,
-              63,
-              56,
-              89,
-              79,
-              36,
-          ]
-        }
-      ],
-      config: {
-        
-      }
-    };
+    this.getHistory48hour();
   },
 };
 </script>

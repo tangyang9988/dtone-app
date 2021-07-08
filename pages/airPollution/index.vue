@@ -83,43 +83,43 @@
           <view
             class="factorName"
             :style="{ background: getColor(value.aqi.value) }"
-            @click="factorClick('aqi', value)"
+            @click="factorClick('aqi', value,'AQI')"
             >AQI</view
           >
           <view
             class="factorName"
             :style="{ background: getColor(value.pm25.value) }"
-            @click="factorClick('a34004', value)"
+            @click="factorClick('a34004', value,'PM2.5')"
             >PM2.5</view
           >
           <view
             class="factorName"
             :style="{ background: getColor(value.pm10.value) }"
-            @click="factorClick('a34002', value)"
+            @click="factorClick('a34002', value,'PM10')"
             >PM10</view
           >
           <view
             class="factorName"
             :style="{ background: getColor(value.so2.value) }"
-            @click="factorClick('a21026', value)"
+            @click="factorClick('a21026', value,'SO2')"
             >SO2</view
           >
           <view
             class="factorName"
             :style="{ background: getColor(value.no2.value) }"
-            @click="factorClick('a21004', value)"
+            @click="factorClick('a21004', value,'NO2')"
             >NO2</view
           >
           <view
             class="factorName"
             :style="{ background: getColor(value.co.value) }"
-            @click="factorClick('a21005', value)"
+            @click="factorClick('a21005', value,'CO')"
             >CO</view
           >
           <view
             class="factorName"
             :style="{ background: getColor(value.o3.value) }"
-            @click="factorClick('a05024', value)"
+            @click="factorClick('a05024', value,'O3')"
             >O3</view
           >
         </view>
@@ -140,6 +140,9 @@
       v-if="trendAnalysisShow"
       @close="closeDialog()"
       :isShow="trendAnalysisShow"
+      :card="card"
+      :factor="factor"
+      :factorName="factorName"
     ></trendAnalysis>
   </view>
 </template>
@@ -150,7 +153,6 @@ import trendAnalysis from "../components/trendAnalysis.vue";
 import {
   getAirRtdList,
   getAqiRank,
-  getHistory48hourData,
 } from "../../api/airPollution.js";
 export default {
   components: { bottomMenu, trendAnalysis },
@@ -177,22 +179,18 @@ export default {
       site1Value2: "",
       sum: 0,
       totalDays: 0,
-      history48Data:[]
+      history48Data:[],
+      card:"",
+      factor:'',
+      factorName:""
     };
   },
   methods: {
-    factorClick(factor, card) {
+    factorClick(factor, card,factorName) {
       this.trendAnalysisShow = true;
-      getHistory48hourData(factor,card.siteId).then(
-        function (result) {
-        let list = result.data.data;
-        for (let i = 0; i < list.length; i++) {
-          this.history48Data.push(list[i].avg)
-          console.log(this.history48Data)
-        }
-        },
-        function (error) {}
-      );
+      this.card = card
+      this.factor = factor
+      this.factorName =factorName
     },
     closeDialog() {
       this.trendAnalysisShow = false;
