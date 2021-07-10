@@ -101,8 +101,8 @@ export default {
   right: 20px;
 }
 .cpt-mask {
-  position: absolute;
-  bottom: 0;
+  position: fixed;
+  bottom: 10%;
   opacity: 1;
   z-index: 99;
   width: 90%;

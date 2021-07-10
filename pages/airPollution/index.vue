@@ -137,6 +137,7 @@
     <!-- 引入自定义菜单组件 -->
     <bottomMenu url="airPollution_index"></bottomMenu>
     <trendAnalysis
+     class="trendClass"
       v-if="trendAnalysisShow"
       @close="closeDialog()"
       :isShow="trendAnalysisShow"
@@ -486,6 +487,8 @@ export default {
 <style scoped lang="scss">
 .scroll-Y {
   height: 680rpx;
+}
+.trendClass{
 }
 .header::-webkit-scrollbar {
   width: 0;
