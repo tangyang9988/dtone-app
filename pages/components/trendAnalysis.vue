@@ -68,7 +68,7 @@ export default {
       );
     }else if(localStorage.getItem("url") == "pollutionSurfaceWater_index" || localStorage.getItem("url") == "pollutionSurfaceGases_index"){
       var that =this;
-      await getWaterGasesHistory48hourData(that.factor,that.card.enterpriseId).then(
+      await getWaterGasesHistory48hourData(that.factor,that.card.id).then(
         function (result) {
         let list = result.data.data;
         let yList=[]
