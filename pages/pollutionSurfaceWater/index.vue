@@ -32,13 +32,13 @@
               <view class="cardTitleWord">{{value.updateTime}}</view>
           </view>
           <view class="factorList">
-              <view class="factorName" :style="{background:getColor(value.ad.value)}">ad</view>
-              <view class="factorName" :style="{background:getColor(value.cod.value)}">cod</view>
-              <view class="factorName" :style="{background:getColor(value.ph.value)}">ph</view>
-              <view class="factorName" :style="{background:getColor(value.ws.value)}">ws</view>
-              <view class="factorName" :style="{background:getColor(value.zd.value)}">zd</view>
-              <view class="factorName" :style="{background:getColor(value.zl.value)}">zl</view>
-              <view class="factorName" :style="{background:getColor(value.zzn.value)}">zzn</view>
+              <view class="factorName" :style="{background:getColor(value.ad.value)}" @click="factorClick('ad', value,'氨氮')">氨氮</view>
+              <view class="factorName" :style="{background:getColor(value.cod.value)}" @click="factorClick('cod', value,'COD')">COD</view>
+              <view class="factorName" :style="{background:getColor(value.ph.value)}" @click="factorClick('ph', value,'PH')">PH</view>
+              <view class="factorName" :style="{background:getColor(value.ws.value)}" @click="factorClick('ws', value,'污水流量')">流量</view>
+              <view class="factorName" :style="{background:getColor(value.zd.value)}" @click="factorClick('zd', value,'总氮')">总氮</view>
+              <view class="factorName" :style="{background:getColor(value.zl.value)}" @click="factorClick('zl', value,'总磷')">总磷</view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总锌</view>
           </view>
           <view class="factorList">
             <view class="factorValue">{{value.ad.value}}</view>
@@ -54,14 +54,23 @@
     </view>
 <!-- 引入自定义菜单组件 -->
 <bottomMenu url="surfaceWater_index"></bottomMenu>
+<trendAnalysis
+  v-if="trendAnalysisShow"
+  @close="closeDialog()"
+  :isShow="trendAnalysisShow"
+  :card="card"
+  :factor="factor"
+  :factorName="factorName"
+></trendAnalysis>
 </view>
 </template>
 <script>
 import {getPollutionWaterRtdList} from "../../api/pollutionSurfaceWater.js"
 import demodata from '@/mockdata/demodata.json';
 import bottomMenu from '../bottomMenu/index'
+import trendAnalysis from "../components/trendAnalysis.vue";
 export default {
-  components: {bottomMenu },
+  components: {bottomMenu,trendAnalysis},
   name: "about",
   data() {
     return {
@@ -84,16 +93,29 @@ export default {
       site1Value1: "",
       site1Value2: "",
       sum: 0,
-      totalDays:0
+      totalDays:0,
+      card:"",
+      factor:'',
+      factorName:"",
+      trendAnalysisShow: false,
     };
   },
   methods: {
+    factorClick(factor, card,factorName) {
+      this.trendAnalysisShow = true;
+      this.card = card
+      this.factor = factor
+      this.factorName =factorName
+    },
+    closeDialog() {
+      this.trendAnalysisShow = false;
+    },
     getColor(value) {
       if (value == "" || value == null) {
         return "#caddfe";
       } else {
         var collectValue = parseFloat(value);
-        if (collectValue > 0 && collectValue <= 50) {
+        if (collectValue >= 0 && collectValue <= 50) {
           return "#caddfe";
         } else if (collectValue > 50 && collectValue <= 100) {
           return "#6196fd";
@@ -147,8 +169,6 @@ export default {
           }
         )
         .catch(function (error) {
-          console.log(error);
-          Toast.fail("登录异常");
           that.isHide = false;
         });
     },

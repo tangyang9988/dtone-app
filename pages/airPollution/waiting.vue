@@ -13,7 +13,7 @@
           :range-key="'stationName'"
         >
           <text class="content_value_name" style="margin-left: 20px"
-            >请选择站点：</text
+            >请选择企业：</text
           >
           <text class="content_value_name" v-if="siteList[index]">{{
             siteList[index].stationName
@@ -65,26 +65,24 @@
             <view class="inlineFactorValue">{{ item.stationName }}</view>
           </view>
           <view class="inlineFactor" v-else>
-            <view class="inlineFactorName">企业名：</view>
+            <view class="inlineFactorName">企业：</view>
             <view class="inlineFactorValue">{{ item.enterpriseName }}</view>
           </view>
-          <view class="factorList">
-            <view class="singleFactor">
-              <view class="factorName">预警编号：</view>
-              <view class="factorValue">{{ item.number }}</view>
-            </view>
-            <view class="singleFactor">
-              <view class="factorName">预警内容：</view>
-              <view class="factorValue">{{ item.content }}</view>
-            </view>
+          <view class="inlineFactor">
+            <view class="inlineFactorName">预警编号：</view>
+            <view class="inlineFactorValue">{{ item.number }}</view>
+          </view>
+          <view class="inlineFactor">
+            <view class="inlineFactorName">预警内容：</view>
+            <view class="inlineFactorValue">{{ item.content }}</view>
           </view>
           <view class="factorList">
             <view class="singleFactor">
-              <view class="factorName">预警因子：</view>
+              <view class="factorName">污染因子：</view>
               <view class="factorValue">{{ item.name }}</view>
             </view>
             <view class="singleFactor">
-              <view class="inlineFactorName">因子数值：</view>
+              <view class="inlineFactorName">监测值：</view>
               <view class="inlineFactorValue">{{ item.value }}</view>
             </view>
           </view>
@@ -179,7 +177,8 @@ import {
   selectWaterSiteByType,
   pollutionWarningSelectPage,
 } from "../../api/airPollution.js";
-import { getEnterpriseList } from "../../api/pollutionSurfaceWater.js";
+import {getWaterEnterpriseList} from "../../api/pollutionSurfaceWater.js";
+import {getGasEnterpriseList} from "../../api/pollutionSurfaceGases.js";
 export default {
   components: { bottomMenu, waitingForm,waterAndGasForm },
   data() {
@@ -313,8 +312,23 @@ export default {
           },
           function (err) {}
         );
-      }else if (that.menuurl == "pollutionSurfaceWater_index" || that.menuurl == "pollutionSurfaceGases_index") {
-        getEnterpriseList().then(
+      }else if (that.menuurl == "pollutionSurfaceWater_index") {
+        getWaterEnterpriseList().then(
+          function (result) {
+            let list = result.data;
+            for (let i = 0; i < list.length; i++) {
+              that.siteList.push({
+                id: list[i].value,
+                stationName: list[i].label,
+              });
+              that.siteId = that.siteList[0].id;
+            }
+            that.getList(that.siteId);
+          },
+          function (err) {}
+        );
+      }else if (that.menuurl == "pollutionSurfaceGases_index") {
+        getGasEnterpriseList().then(
           function (result) {
             let list = result.data;
             for (let i = 0; i < list.length; i++) {

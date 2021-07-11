@@ -72,7 +72,7 @@
           <image src="../../static/images/icon/s3.png"></image>
         </view>
         <view :class="PageCur == 'home_page' ? 'text-green' : 'text-gray'"
-          >主菜单</view
+          >退出</view
         >
       </view>
     </view>
@@ -112,8 +112,16 @@ export default {
               url: "/pages/pollutionSurfaceWater/index",
             });
           }, 500);
+        }else if (
+          localStorage.getItem("url") == "pollutionSurfaceGases_index"
+        ) {
+          setTimeout(function () {
+            uni.navigateTo({
+              url: "/pages/pollutionSurfaceGases/index",
+            });
+          }, 500);
         }
-      } else if (e.currentTarget.dataset.cur == "airPollution_history") {
+      }else if (e.currentTarget.dataset.cur == "airPollution_history") {
         setTimeout(function () {
           uni.navigateTo({
             url: "/pages/airPollution/history",
@@ -134,7 +142,7 @@ export default {
       } else if (e.currentTarget.dataset.cur == "home_page") {
         setTimeout(function () {
           uni.navigateTo({
-            url: "/pages/index/index",
+            url: "/pages/login/login",
           });
         }, 500);
       }

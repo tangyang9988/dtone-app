@@ -36,22 +36,22 @@
             <view class="cardTitleWord">{{value.ad.updateTime}}</view>
           </view>
         <view class="factorList">
-            <view class="factorName" :style="{background:getColor(value.ad.value)}">ad</view>
-            <view class="factorName" :style="{background:getColor(value.codmn.value)}">cod</view>
-            <view class="factorName" :style="{background:getColor(value.ec.value)}">ec</view>
-            <view class="factorName" :style="{background:getColor(value.fhw.value)}">fhw</view>
-            <view class="factorName" :style="{background:getColor(value.rjy.value)}">rjy</view>
-            <view class="factorName" :style="{background:getColor(value.sw.value)}">sw</view>
-            <view class="factorName" :style="{background:getColor(value.zd.value)}">zd</view>
+            <view class="factorName" :style="{background:getColor(value.zl.value)}" @click="factorClick('w21011', value,'总磷')">总磷</view>
+            <view class="factorName" :style="{background:getColor(value.zd.value)}" @click="factorClick('w21001', value,'总氮')">总氮</view>
+            <view class="factorName" :style="{background:getColor(value.ad.value)}" @click="factorClick('w21003', value,'氨氮')">氨氮</view>
+            <view class="factorName" :style="{background:getColor(value.codmn.value)}" @click="factorClick('w01019', value,'高锰酸盐指数')">高锰酸盐指数</view>
+            <view class="factorName" :style="{background:getColor(value.ec.value)}" @click="factorClick('w01014', value,'电导率')">电导率</view>
+            <view class="factorName" :style="{background:getColor(value.rjy.value)}" @click="factorClick('aqi', value,'溶解氧')">溶解氧</view>
+            <view class="factorName" :style="{background:getColor(value.sw.value)}" @click="factorClick('aqi', value,'水温')">水温</view>
         </view>
         <view class="factorList">
+          <view class="factorValue">{{value.zl.value}}</view>
+          <view class="factorValue">{{value.zd.value}}</view>
           <view class="factorValue">{{value.ad.value}}</view>
           <view class="factorValue">{{value.codmn.value}}</view>
           <view class="factorValue">{{value.ec.value}}</view>
-          <view class="factorValue">{{value.fhw.value}}</view>
           <view class="factorValue">{{value.rjy.value}}</view>
           <view class="factorValue">{{value.sw.value}}</view>
-          <view class="factorValue">{{value.zd.value}}</view>
         </view>
         </view>
       </view>
@@ -62,6 +62,9 @@
       v-if="trendAnalysisShow"
       @close="closeDialog()"
       :isShow="trendAnalysisShow"
+      :card="card"
+      :factor="factor"
+      :factorName="factorName"
     ></trendAnalysis>
 </view>
 </template>
@@ -95,12 +98,18 @@ export default {
       site1Value1: "",
       site1Value2: "",
       sum: 0,
-      totalDays:0
+      totalDays:0,
+      card:"",
+      factor:'',
+      factorName:""
     };
   },
   methods: {
-    factorClick(factor, card) {
+    factorClick(factor, card,factorName) {
       this.trendAnalysisShow = true;
+      this.card = card
+      this.factor = factor
+      this.factorName =factorName
     },
     closeDialog() {
       this.trendAnalysisShow = false;
@@ -110,7 +119,7 @@ export default {
         return "#caddfe";
       } else {
         var collectValue = parseFloat(value);
-        if (collectValue > 0 && collectValue <= 50) {
+        if (collectValue >= 0 && collectValue <= 50) {
           return "#caddfe";
         } else if (collectValue > 50 && collectValue <= 100) {
           return "#6196fd";
@@ -252,7 +261,6 @@ export default {
             that.drawChart();
           },
           function (err) {
-            Toast.fail("请求异常");
             that.isHide = false;
           }
         )
@@ -285,14 +293,11 @@ export default {
             that.aqiArr = result.data.data;
           },
           function (err) {
-            console.log(err);
-            Toast.fail("请求异常");
             that.isHide = false;
           }
         )
         .catch(function (error) {
           console.log(error);
-          Toast.fail("登录异常");
           that.isHide = false;
         });
     },
@@ -318,14 +323,10 @@ export default {
             that.getAQI(that.siteData[0].value);
           },
           function (err) {
-            console.log(err);
-            Toast.fail("请求异常");
             that.isHide = false;
           }
         )
         .catch(function (error) {
-          console.log(error);
-          Toast.fail("登录异常");
           that.isHide = false;
         });
     },
@@ -388,7 +389,7 @@ export default {
 
 .chartsCard {
   width: 100%;
-  height:240px;
+  height:220px;
   padding:15px;
   display:flex;
   flex-wrap: wrap;
@@ -476,7 +477,7 @@ export default {
 }
 
 .factorName {
-  width:46px;
+  width:14%;
   height:20px;
   background-color: white;
   text-align:center;
@@ -485,7 +486,7 @@ export default {
 }
 
 .factorValue {
-  width:46px;
+  width:14%;
   height:20px;
   background-color: white;
   text-align:center;

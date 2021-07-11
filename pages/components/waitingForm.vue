@@ -66,7 +66,10 @@ export default {
     confirm() {
       var that = this;
       if (that.options == "") {
-        Toast.fail("请输入处理意见!");
+        uni.showToast({
+							title: '请输入处理意见!',
+							icon: "none"
+						})
       } else {
         var obj = {
           id: that.selectCard.id, //对应待办中的id

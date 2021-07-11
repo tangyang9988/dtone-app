@@ -18,10 +18,11 @@
           <qiun-data-charts
             type="arcbar"
             :opts="{
-              title: { name: aqiArr.aqi, fontSize: 20 },
-              subtitle: { name: 'AQI', fontSize: 18 },
+              title: { name: aqiArr.aqi, fontSize: 10 },
+              subtitle: { name: 'AQI', fontSize: 12 },
             }"
             :chartData="charts"
+            style="width: 100px;height: 100px;margin-left:30%"
           />
         </view>
       </view>
@@ -180,7 +181,6 @@ export default {
       site1Value2: "",
       sum: 0,
       totalDays: 0,
-      history48Data:[],
       card:"",
       factor:'',
       factorName:""
@@ -485,10 +485,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+
 .scroll-Y {
   height: 680rpx;
-}
-.trendClass{
 }
 .header::-webkit-scrollbar {
   width: 0;
@@ -510,8 +509,8 @@ export default {
 
 .chartsCard {
   width: 100%;
-  height: 200px;
-  padding: 15px;
+  height: 125px;
+  padding: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -575,7 +574,12 @@ export default {
   border-radius: 12px;
   box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.05); //阴影
 }
-
+// .canvas1 >>> uni-canvas>canvas {
+//     position: absolute !important;
+//     top: 0 !important;
+//     left: 28% !important;
+//     height: 100px !important;
+// }
 .chartCardRadis {
   background: #ffffff;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
@@ -738,7 +742,7 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
   width: 90%;
-  height: 120px;
+  height: 110px;
   margin-left: 5%;
 
   background: #ffffff;

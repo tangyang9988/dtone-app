@@ -26,13 +26,6 @@ export const selectWaterSiteByType = () =>{
     params: {}
   });
 }
-// 企业列表
-export const getEnterpriseList = () =>{
-  return request({
-    url: appConfig.WEB_API + '/api/bu/enterprise/dict',
-  });
-}
-
 // 实时数据
 export const getAirRtdList = () =>{
   return request({
@@ -115,6 +108,16 @@ export const getHistory48hourData = (factor,stationId) =>{
     params: {factor,stationId}
   });
 }
+
+//废水、废气 48小时因子图标
+export const getWaterGasesHistory48hourData = (factorDict,outletId) =>{
+  return request({  
+    url: appConfig.WEB_API + '/api/bu/airdetection/dataSearch/history48hourData',
+    method: 'get',
+    params: {factorDict,outletId}
+  });
+}
+
 
 
 

@@ -70,20 +70,20 @@
             </view>
           </view> -->
           <view class="factorList">
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}">ch4</view>
-              <view class="factorName" :style="{background:getColor(value.h2s.value)}">h2s</view>
-              <view class="factorName" :style="{background:getColor(value.no2.value)}">no2</view>
-              <view class="factorName" :style="{background:getColor(value.nox.value)}">nox</view>
-              <view class="factorName" :style="{background:getColor(value.so2.value)}">so2</view>
-              <view class="factorName" :style="{background:getColor(value.yc.value)}">yc</view>
-              <view class="factorName" :style="{background:getColor(value.yqls.value)}">yqls</view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">CH4</view>
+              <view class="factorName" :style="{background:getColor(value.no2.value)}"  @click="factorClick('no2', value,'NO2')">NO2</view>
+              <view class="factorName" :style="{background:getColor(value.nox.value)}"  @click="factorClick('nox', value,'NOX')">NOX</view>
+              <view class="factorName" :style="{background:getColor(value.so2.value)}"  @click="factorClick('so2', value,'SO2')">SO2</view>
+              <view class="factorName" :style="{background:getColor(value.nmhc.value)}"  @click="factorClick('nmhc', value,'非甲烷总烃')">非甲烷总烃</view>
+              <view class="factorName" :style="{background:getColor(value.yc.value)}"  @click="factorClick('yc', value,'烟尘')">烟尘</view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">流速</view>
           </view>
           <view class="factorList">
             <view class="factorValue">{{value.ch4.value}}</view>
-            <view class="factorValue">{{value.h2s.value}}</view>
             <view class="factorValue">{{value.no2.value}}</view>
             <view class="factorValue">{{value.nox.value}}</view>
             <view class="factorValue">{{value.so2.value}}</view>
+            <view class="factorValue">{{value.nmhc.value}}</view>
             <view class="factorValue">{{value.yc.value}}</view>
             <view class="factorValue">{{value.yqls.value}}</view>
           </view>
@@ -92,14 +92,23 @@
     </view>
 <!-- 引入自定义菜单组件 -->
 <bottomMenu url="surfaceWater_index"></bottomMenu>
+<trendAnalysis
+  v-if="trendAnalysisShow"
+  @close="closeDialog()"
+  :isShow="trendAnalysisShow"
+  :card="card"
+  :factor="factor"
+  :factorName="factorName"
+></trendAnalysis>
 </view>
 </template>
 <script>
 import {getPollutionWasteGasRtdList} from "../../api/pollutionSurfaceGases.js"
 import demodata from '@/mockdata/demodata.json';
 import bottomMenu from '../bottomMenu/index'
+import trendAnalysis from "../components/trendAnalysis.vue";
 export default {
-  components: {bottomMenu },
+  components: {bottomMenu,trendAnalysis},
   name: "about",
   data() {
     return {
@@ -122,10 +131,23 @@ export default {
       site1Value1: "",
       site1Value2: "",
       sum: 0,
-      totalDays:0
+      totalDays:0,
+      card:"",
+      factor:'',
+      factorName:"",
+      trendAnalysisShow: false,
     };
   },
   methods: {
+    factorClick(factor, card,factorName) {
+      this.trendAnalysisShow = true;
+      this.card = card
+      this.factor = factor
+      this.factorName =factorName
+    },
+    closeDialog() {
+      this.trendAnalysisShow = false;
+    },
     getColor(value) {
       if (value == "" || value == null) {
         return "#caddfe";
@@ -186,8 +208,6 @@ export default {
           }
         )
         .catch(function (error) {
-          console.log(error);
-          Toast.fail("登录异常");
           that.isHide = false;
         });
     },
@@ -320,7 +340,7 @@ export default {
 }
 
 .factorName {
-  width:46px;
+  width:14%;
   height:20px;
   background-color: white;
   text-align:center;
@@ -329,7 +349,7 @@ export default {
 }
 
 .factorValue {
-  width:46px;
+  width:14%;
   height:20px;
   background-color: white;
   text-align:center;

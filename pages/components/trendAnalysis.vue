@@ -24,7 +24,7 @@
 </template>
 <script>
 import {
-  getHistory48hourData,
+  getHistory48hourData,getWaterGasesHistory48hourData
 } from "../../api/airPollution.js";
 export default {
   props: [ "isShow","card","factor","factorName"],
@@ -44,27 +44,51 @@ export default {
     return m+ "-" + d + " " + h + ":" +"00"; 
   },
   async getHistory48hour(){
-    var that =this;
-    await getHistory48hourData(that.factor,that.card.siteId).then(
-      function (result) {
-      let list = result.data.data;
-      let yList=[]
-      for (let i = 0; i < list.length; i++) {
-        let time = that.getTime(list[i].updateTime)
-        that.categories.push(time);
-        yList.push(list[i].avg);
-      }
-      that.series.push({
-        "name":that.factorName,
-        "data":yList
-      })
-      that.echartdata = {
-        categories:that.categories,
-        series:that.series
-      }
-      },
-      function (error) {}
-    );
+    if(localStorage.getItem("url") == "airPollution_index" || localStorage.getItem("url") == "surfaceWater_index"){
+      var that =this;
+      await getHistory48hourData(that.factor,that.card.siteId).then(
+        function (result) {
+        let list = result.data.data;
+        let yList=[]
+        for (let i = 0; i < list.length; i++) {
+          let time = that.getTime(list[i].updateTime)
+          that.categories.push(time);
+          yList.push(list[i].avg);
+        }
+        that.series.push({
+          "name":that.factorName,
+          "data":yList
+        })
+        that.echartdata = {
+          categories:that.categories,
+          series:that.series
+        }
+        },
+        function (error) {}
+      );
+    }else if(localStorage.getItem("url") == "pollutionSurfaceWater_index" || localStorage.getItem("url") == "pollutionSurfaceGases_index"){
+      var that =this;
+      await getWaterGasesHistory48hourData(that.factor,that.card.enterpriseId).then(
+        function (result) {
+        let list = result.data.data;
+        let yList=[]
+        for (let i = 0; i < list.length; i++) {
+          let time = that.getTime(list[i].updateTime)
+          that.categories.push(time);
+          yList.push(list[i].avg);
+        }
+        that.series.push({
+          "name":that.factorName,
+          "data":yList
+        })
+        that.echartdata = {
+          categories:that.categories,
+          series:that.series
+        }
+        },
+        function (error) {}
+      );
+    }
     },
     close() {
       this.$emit("close");

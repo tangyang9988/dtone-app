@@ -18,5 +18,11 @@ export const getPollutionWasteGasHistoryList = (row) =>{
     data:row
   });
 }
+// 废气企业列表
+export const getGasEnterpriseList = () =>{
+  return request({
+    url: appConfig.WEB_API + '/api/bu/enterprise/dictbytype?type=air',
+  });
+}
 
 

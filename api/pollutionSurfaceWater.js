@@ -10,10 +10,10 @@ export const getPollutionWaterRtdList = () =>{
     params: {}
   });
 }
-// 企业列表
-export const getEnterpriseList = () =>{
+// 废水企业列表
+export const getWaterEnterpriseList = () =>{
   return request({
-    url: appConfig.WEB_API + '/api/bu/enterprise/dict',
+    url: appConfig.WEB_API + '/api/bu/enterprise/dictbytype?type=water',
   });
 }
 // 历史数据

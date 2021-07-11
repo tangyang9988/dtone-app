@@ -248,8 +248,8 @@ import {
   getHistoryList
 } from "../../api/airPollution.js";
 import { getSurfaceWaterHistoryList } from "../../api/surfaceWater.js";
-import { getPollutionSurfaceWaterHistoryList,getEnterpriseList } from "../../api/pollutionSurfaceWater.js";
-import { getPollutionWasteGasHistoryList } from "../../api/pollutionSurfaceGases.js";
+import { getPollutionSurfaceWaterHistoryList,getWaterEnterpriseList } from "../../api/pollutionSurfaceWater.js";
+import { getPollutionWasteGasHistoryList, getGasEnterpriseList} from "../../api/pollutionSurfaceGases.js";
 
 export default {
   components: { bottomMenu },
@@ -433,8 +433,23 @@ export default {
           },
           function (err) {}
         );
-      } else if (localStorage.getItem("url") == "pollutionSurfaceWater_index" ||localStorage.getItem("url") == "pollutionSurfaceGases_index") {
-        getEnterpriseList().then(
+      } else if (localStorage.getItem("url") == "pollutionSurfaceWater_index") {
+        getWaterEnterpriseList().then(
+          function (result) {
+            let list = result.data;
+            for (let i = 0; i < list.length; i++) {
+              that.siteList.push({
+                id: list[i].value,
+                stationName: list[i].label,
+              });
+              that.siteId = that.siteList[0].id;
+            }
+            that.getList(that.siteId);
+          },
+          function (err) {}
+        );
+      }else if (localStorage.getItem("url") == "pollutionSurfaceGases_index") {
+        getGasEnterpriseList().then(
           function (result) {
             let list = result.data;
             for (let i = 0; i < list.length; i++) {
@@ -584,7 +599,6 @@ export default {
   border: 1px solid #a5a5a5;
 }
 .detailCards {
-  width: 100%;
   margin-top: 10px;
   padding-bottom:40px;
   display: flex;
