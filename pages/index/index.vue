@@ -49,6 +49,7 @@
 				</view>
 			</view>
 		</view>
+		<button type="primary" style="margin:0 20px 10px 20px;" @click="quit()">退出</button>
 	</view>
 
 </template>
@@ -114,6 +115,13 @@
 			// this.getWebConfigData();
 		},
 		methods: {
+			quit(){
+			setTimeout(function () {
+			uni.navigateTo({
+				url: "/pages/login/login",
+			});
+			}, 500);
+			},
 			surfaceWater(){
 				setTimeout(function() {
 					uni.navigateTo({
@@ -209,9 +217,8 @@
 display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
-margin:20px;
+margin:10px 20px;
 padding:20px;
-height:300px;
 background: #ffffff;
 box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
 opacity: 1;

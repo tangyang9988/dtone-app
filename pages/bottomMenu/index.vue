@@ -72,7 +72,7 @@
           <image src="../../static/images/icon/s3.png"></image>
         </view>
         <view :class="PageCur == 'home_page' ? 'text-green' : 'text-gray'"
-          >退出</view
+          >主菜单</view
         >
       </view>
     </view>
@@ -142,7 +142,7 @@ export default {
       } else if (e.currentTarget.dataset.cur == "home_page") {
         setTimeout(function () {
           uni.navigateTo({
-            url: "/pages/login/login",
+            url: "/pages/index/index",
           });
         }, 500);
       }
