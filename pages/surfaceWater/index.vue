@@ -74,6 +74,8 @@ import mapdata from '@/mockdata/mapdata.json'
 import bottomMenu from '../bottomMenu/index'
 import trendAnalysis from "../components/trendAnalysis.vue";
 import {getHourlyWaterQualityData} from "../../api/surfaceWater.js"
+import { appConfig } from '../../config/config.js'
+import { Base64 } from 'js-base64';
 export default {
   components: {bottomMenu,trendAnalysis },
   name: "about",
@@ -268,21 +270,39 @@ export default {
     getPortDetail() {
       //卡片
       let that = this;
-      getHourlyWaterQualityData()
-        .then(
-          function (result) {
-            let allRecords = result.data.data; //记录数组
+	  const tokeValue=uni.getStorageSync("access-user");
+	  const clientId = "saber", clientSecret = "saber_secret";
+      // getHourlyWaterQualityData().then(
+      //     function (result) {
+      //       let allRecords = result.data.data; //记录数组
+      //       for (let i = 0; i < allRecords.length; i++) {
+      //         that.portRecord.push(allRecords[i]);
+      //       }
+      //     },
+      //     function (err) {
+      //       that.isHide = false;
+      //     }
+      //   )
+      //   .catch(function (error) {
+      //     that.isHide = false;
+      //   });
+
+      uni.request({
+          url: appConfig.WEB_API + '/api/bu/waterDetection/waterdetectionDataSearch/getHourlyWaterQualityData',
+          method: 'get',
+          header: {
+            'Authorization':`Basic ${Base64.encode(`${clientId}:${clientSecret}`)}`,
+            'Content-Type': 'application/json',
+            "dutjt-Auth": 'bearer '+ tokeValue
+          },
+          params: {},
+          success: (res) => {
+            let allRecords = res.data.data; //记录数组
             for (let i = 0; i < allRecords.length; i++) {
               that.portRecord.push(allRecords[i]);
             }
-          },
-          function (err) {
-            that.isHide = false;
           }
-        )
-        .catch(function (error) {
-          that.isHide = false;
-        });
+          });
     },
     getAQI(site) {
       //卡片

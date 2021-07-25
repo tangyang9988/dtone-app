@@ -1,8 +1,8 @@
-<template name="basics">
+<template name="">
 	<view class="bg">
 		<view>
 			<view class="UCenter-bg">
-				<image @tap="goLogin" class="png" mode="widthFix" src="/static/logo.png"></image>
+				<image class="png" mode="widthFix" src="/static/logo.png"></image>
 				<view class="text-xl" style="margin-top: 5px;">
 					环保APP
 				</view>
@@ -34,7 +34,7 @@
 						<text class="lg text-gray cuIcon-barcode"></text>
 					</view>
 					<input placeholder="验证码" v-model="loginForm.code"></input>
-					<img :src="loginForm.image" @click="refreshCode" class="login-code-img" />
+					<img :src="loginForm.image" class="login-code-img" />
 				</view>
 
 .
@@ -51,6 +51,7 @@
 	} from "../../api/login.js";
 	import {tokenUtil} from '../../utils/token.js'
 	import md5 from '../../utils/md5.js'
+	import { formatData } from '../../utils/webUtils.js'
 	export default {
 		name: "login",
 		data() {
@@ -59,7 +60,6 @@
 				loginForm: {
 					//租户ID
 					tenantId: "000000",
-					
 					userName: "admin",
 					password: "DtoneAdmin",
 					//账号类型
@@ -75,7 +75,6 @@
 
 		},
 		created() {
-			this.refreshCode();
 		},
 		methods: {
 			login() {
@@ -94,10 +93,14 @@
 				params.type = this.loginForm.type;
 				params.grant_type = this.appConfig.grant_type;
 				params.scope = "all";
+				setTimeout(function() {
+					uni.navigateTo({
+						url: '/pages/index/index',
+					});
+				}, 500);
 				localLogin(params).then(response => {
 					if (response.data.error_description) {
 						uni.showToast({
-							icon: "none",
 							title: response.data.error_description,
 						})
 					} else if (response.msg == '验证码不正确') {
@@ -107,8 +110,8 @@
 						})
 					} else {
 						const data = response;
-						localStorage.setItem('access-user',response.data.access_token)
-						localStorage.setItem('role_name',response.data.role_name)
+						uni.setStorageSync('access-user',response.data.access_token)
+						uni.setStorageSync('role_name',response.data.role_name)
 						// 设置token
 						tokenUtil.set(data);
 						uni.showToast({
@@ -123,13 +126,6 @@
 						}, 500);
 					}
 				});
-			},
-			refreshCode() {
-				// getCode().then(res => {
-				// 	const data = res;
-				// 	this.loginForm.key = data.key;
-				// 	this.loginForm.image = data.image;
-				// })
 			},
 		}
 	}

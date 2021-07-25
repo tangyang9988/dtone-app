@@ -19,6 +19,10 @@
   "homepage": "https://github.com/jzq138156/dtone-app#readme",
   "dependencies": {
     "axios": "^0.21.1",
-    "js-base64": "^2.5.1"
+    "axios-adapter-uniapp": "^0.1.1",
+    "js-base64": "^2.5.1",
+    "qs": "^6.10.1",
+    "uni-request": "^1.0.2",
+    "vconsole": "^3.9.0"
   }
 }

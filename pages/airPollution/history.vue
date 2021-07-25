@@ -403,7 +403,7 @@ export default {
     //选择站点
     selectPort(e) {
       var that = this;
-      if (localStorage.getItem("url") == "airPollution_index") {
+      if (uni.getStorageSync("url") == "airPollution_index") {
         selectSiteByType().then(
           function (result) {
             let list = result.data.data;
@@ -418,7 +418,7 @@ export default {
           },
           function (err) {}
         );
-      } else if (localStorage.getItem("url") == "surfaceWater_index") {
+      } else if (uni.getStorageSync("url") == "surfaceWater_index") {
         selectWaterSiteByType().then(
           function (result) {
             let list = result.data.data;
@@ -433,7 +433,7 @@ export default {
           },
           function (err) {}
         );
-      } else if (localStorage.getItem("url") == "pollutionSurfaceWater_index") {
+      } else if (uni.getStorageSync("url") == "pollutionSurfaceWater_index") {
         getWaterEnterpriseList().then(
           function (result) {
             let list = result.data;
@@ -448,7 +448,7 @@ export default {
           },
           function (err) {}
         );
-      }else if (localStorage.getItem("url") == "pollutionSurfaceGases_index") {
+      }else if (uni.getStorageSync("url") == "pollutionSurfaceGases_index") {
         getGasEnterpriseList().then(
           function (result) {
             let list = result.data;
@@ -478,7 +478,7 @@ export default {
         stations: stations,
       };
       var that = this;
-      if (localStorage.getItem("url") == "airPollution_index") {
+      if (uni.getStorageSync("url") == "airPollution_index") {
         getHistoryList(row).then(
           function (result) {
             let list = result.data.data.records;
@@ -493,7 +493,7 @@ export default {
           },
           function (err) {}
         );
-      } else if (localStorage.getItem("url") == "surfaceWater_index") {
+      } else if (uni.getStorageSync("url") == "surfaceWater_index") {
         var stations = [];
         var date = [];
         stations[0] = siteId;
@@ -518,7 +518,7 @@ export default {
           },
           function (err) {}
         );
-      } else if (localStorage.getItem("url") == "pollutionSurfaceWater_index") {
+      } else if (uni.getStorageSync("url") == "pollutionSurfaceWater_index") {
         var date=[]
         date[0] = this.pageStart;
         date[1] = this.pageEnd;
@@ -543,7 +543,7 @@ export default {
           },
           function (err) {}
         );
-      }else if (localStorage.getItem("url") == "pollutionSurfaceGases_index") {
+      }else if (uni.getStorageSync("url") == "pollutionSurfaceGases_index") {
         var date=[]
         date[0] = this.pageStart;
         date[1] = this.pageEnd;
@@ -575,7 +575,7 @@ export default {
     this.selectPort();
     this.pageStart = this.formatSelectDate(new Date(this.pageStart));
     this.pageEnd = this.formatSelectDate(new Date(this.pageEnd));
-    this.menuType = localStorage.getItem("url");
+    this.menuType = uni.getStorageSync("url");
   },
 };
 </script>

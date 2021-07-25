@@ -202,7 +202,7 @@ export default {
       abnormalFormHShow: false,
       waterAndGasFormShow: false,
       selectCard: {},
-      menuurl:localStorage.getItem('url')
+      menuurl:uni.getStorageSync('url')
     };
   },
   methods: {

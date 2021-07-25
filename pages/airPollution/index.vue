@@ -22,7 +22,7 @@
               subtitle: { name: 'AQI', fontSize: 12 },
             }"
             :chartData="charts"
-            style="width: 100px;height: 100px;margin-left:30%"
+            style="width: 100px;height: 100px;margin-left:40%"
           />
         </view>
       </view>
@@ -402,7 +402,6 @@ export default {
             }
           },
           function (err) {
-            console.log(err);
             that.isHide = false;
           }
         )
@@ -598,7 +597,7 @@ export default {
 }
 
 .factorName {
-  width: 46px;
+  width: 14%;
   height: 20px;
   background-color: white;
   text-align: center;
@@ -607,7 +606,7 @@ export default {
 }
 
 .factorValue {
-  width: 46px;
+  width: 14%;
   height: 20px;
   background-color: white;
   text-align: center;

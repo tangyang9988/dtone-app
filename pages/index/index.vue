@@ -90,12 +90,6 @@
 			this.TowerSwiper('swiperList');
 			// 初始化towerSwiper 传已有的数组名即可
 		},
-		onShow: function() {
-			console.log('显示APP')
-		},
-		onHide: function() {
-			console.log('隐藏App')
-		},
 		onPullDownRefresh() {
 			this.isRefresh =  (new Date()).getTime().toString();
 			setTimeout(function () {
@@ -128,7 +122,7 @@
 						url: '/pages/surfaceWater/index',
 					});
 				}, 500);
-			localStorage.setItem("url","surfaceWater_index")
+			uni.setStorageSync("url","surfaceWater_index")
 			},
 			airPollution(){
 				setTimeout(function() {
@@ -136,7 +130,7 @@
 						url: '/pages/airPollution/index',
 					});
 				}, 500);
-			localStorage.setItem("url","airPollution_index")
+			uni.setStorageSync("url","airPollution_index")
 			},
 			pollutionSurfaceWater(){
 				setTimeout(function() {
@@ -144,7 +138,7 @@
 						url: '/pages/pollutionSurfaceWater/index',
 					});
 				}, 500);
-			localStorage.setItem("url","pollutionSurfaceWater_index")
+			uni.setStorageSync("url","pollutionSurfaceWater_index")
 			},
 			gases(){
 				setTimeout(function() {
@@ -152,7 +146,7 @@
 						url: '/pages/pollutionSurfaceGases/index',
 					});
 				}, 500);
-			localStorage.setItem("url","pollutionSurfaceGases_index")
+			uni.setStorageSync("url","pollutionSurfaceGases_index")
 			},
 			DotStyle(e) {
 				this.dotStyle = e.detail.value

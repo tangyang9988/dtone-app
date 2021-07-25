@@ -84,28 +84,28 @@ export default {
   props: ["url"],
   data() {
     return {
-      PageCur: localStorage.getItem("url"),
-      clickUrl: localStorage.getItem("url"),
-      role_name: localStorage.getItem("role_name")
+      PageCur: "",
+      clickUrl: "",
+      role_name: ""
     };
   },
   methods: {
     hisClick: function (e) {
       if (e.currentTarget.dataset.cur == "airPollution_index") {
-        if (localStorage.getItem("url") == "airPollution_index") {
+        if (PageCur == "airPollution_index") {
           setTimeout(function () {
             uni.navigateTo({
               url: "/pages/airPollution/index",
             });
           }, 500);
-        } else if (localStorage.getItem("url") == "surfaceWater_index") {
+        } else if (PageCur == "surfaceWater_index") {
           setTimeout(function () {
             uni.navigateTo({
               url: "/pages/surfaceWater/index",
             });
           }, 500);
         } else if (
-          localStorage.getItem("url") == "pollutionSurfaceWater_index"
+          PageCur == "pollutionSurfaceWater_index"
         ) {
           setTimeout(function () {
             uni.navigateTo({
@@ -113,7 +113,7 @@ export default {
             });
           }, 500);
         }else if (
-          localStorage.getItem("url") == "pollutionSurfaceGases_index"
+          PageCur == "pollutionSurfaceGases_index"
         ) {
           setTimeout(function () {
             uni.navigateTo({
@@ -149,10 +149,10 @@ export default {
     },
   },
   mounted() {
-    this.PageCur = this.url;
-    console.log(this.PageCur);
-    console.log(this.clickUrl);
-    console.log(this.role_name);
+    // this.PageCur = this.url;
+	this.PageCur= uni.getStorageSync('url');
+	this.clickUrl= uni.getStorageSync('clickUrl');
+	this.role_name=uni.getStorageSync('role_name');
   },
 };
 </script>

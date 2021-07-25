@@ -281,7 +281,7 @@ export default {
     },
     async selectPort(e) {
       var that = this;
-      if(localStorage.getItem("url") == "pollutionSurfaceWater_index"){
+      if(uni.getStorageSync("url") == "pollutionSurfaceWater_index"){
         await getWaterEnterpriseList().then(
           function (result) {
             let list = result.data;
@@ -296,7 +296,7 @@ export default {
           },
           function (err) {}
         );
-      }else if(localStorage.getItem("url") == "pollutionSurfaceGases_index"){
+      }else if(uni.getStorageSync("url") == "pollutionSurfaceGases_index"){
         await getGasEnterpriseList().then(
           function (result) {
             let list = result.data;
@@ -330,9 +330,9 @@ export default {
     getList(siteId) {
       var that = this;
       var processKey="pollution_warning"
-      if(localStorage.getItem("url") == "pollutionSurfaceWater_index"){
+      if(uni.getStorageSync("url") == "pollutionSurfaceWater_index"){
         var source =4
-      }else if(localStorage.getItem("url") == "pollutionSurfaceGases_index"){
+      }else if(uni.getStorageSync("url") == "pollutionSurfaceGases_index"){
         var source =3
       }
       getWarningList(that.start,that.end,processKey,source,that.statusId,siteId,that.current,that.size).then(

@@ -44,7 +44,7 @@ export default {
     return m+ "-" + d + " " + h + ":" +"00"; 
   },
   async getHistory48hour(){
-    if(localStorage.getItem("url") == "airPollution_index" || localStorage.getItem("url") == "surfaceWater_index"){
+    if(uni.getStorageSync("url") == "airPollution_index" || uni.getStorageSync("url") == "surfaceWater_index"){
       var that =this;
       await getHistory48hourData(that.factor,that.card.siteId).then(
         function (result) {
@@ -66,7 +66,7 @@ export default {
         },
         function (error) {}
       );
-    }else if(localStorage.getItem("url") == "pollutionSurfaceWater_index" || localStorage.getItem("url") == "pollutionSurfaceGases_index"){
+    }else if(uni.getStorageSync("url") == "pollutionSurfaceWater_index" || uni.getStorageSync("url") == "pollutionSurfaceGases_index"){
       var that =this;
       await getWaterGasesHistory48hourData(that.factor,that.card.id).then(
         function (result) {

@@ -3,17 +3,23 @@ import App from './App'
 import  {appConfig}  from './config/config.js'
 import axios from 'axios'
 
+import uniRequest from 'uni-request';
+Vue.prototype.$uniRequest = uniRequest;
+
+import qs from 'qs'
+Vue.prototype.$qs = qs
+
 import blogHome from './pages/home/home.vue'
 Vue.component('blogHome',blogHome)
-
 import cuCustom from './colorui/components/cu-custom.vue'
 Vue.component('cu-custom',cuCustom)
 
 import zhouWeiNavBar from "./components/zhouWei-navBar";
 Vue.component("nav-bar", zhouWeiNavBar);
 
-Vue.config.productionTip = false
+require('./utils/vconsole.js')
 
+Vue.config.productionTip = false
 // import hljs from 'highlight.js/lib/highlight';
 
 // import 'highlight.js/styles/zenburn.css'
