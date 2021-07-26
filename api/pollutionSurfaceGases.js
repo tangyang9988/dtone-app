@@ -5,7 +5,7 @@ import { appConfig } from '../config/config.js'
 // 实时数据
 export const getPollutionWasteGasRtdList = () =>{
   return request({
-    url: appConfig.WEB_API + '/api/bu/pollutemonitor/wasteGas/air/realvalue',
+    url: appConfig.WEB_API + '/bu/pollutemonitor/wasteGas/air/realvalue',
     method: 'get',
     params: {}
   });
@@ -13,7 +13,7 @@ export const getPollutionWasteGasRtdList = () =>{
 // 历史数据
 export const getPollutionWasteGasHistoryList = (row) =>{
   return request({
-    url: appConfig.WEB_API + '/api/bu/pollutemonitor/wasteGas/air/dataQuery',
+    url: appConfig.WEB_API + '/bu/pollutemonitor/wasteGas/air/dataQuery',
     method: 'post',
     data:row
   });
@@ -21,7 +21,7 @@ export const getPollutionWasteGasHistoryList = (row) =>{
 // 废气企业列表
 export const getGasEnterpriseList = () =>{
   return request({
-    url: appConfig.WEB_API + '/api/bu/enterprise/dictbytype?type=air',
+    url: appConfig.WEB_API + '/bu/enterprise/dictbytype?type=air',
   });
 }
 

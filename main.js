@@ -3,9 +3,6 @@ import App from './App'
 import  {appConfig}  from './config/config.js'
 import axios from 'axios'
 
-import uniRequest from 'uni-request';
-Vue.prototype.$uniRequest = uniRequest;
-
 import qs from 'qs'
 Vue.prototype.$qs = qs
 
@@ -17,7 +14,7 @@ Vue.component('cu-custom',cuCustom)
 import zhouWeiNavBar from "./components/zhouWei-navBar";
 Vue.component("nav-bar", zhouWeiNavBar);
 
-require('./utils/vconsole.js')
+// require('./utils/vconsole.js')
 
 Vue.config.productionTip = false
 // import hljs from 'highlight.js/lib/highlight';

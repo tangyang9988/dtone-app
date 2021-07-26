@@ -6,7 +6,7 @@ import { Base64 } from 'js-base64';
 // 实时数据
 // export const getWaterRtdList = () =>{
 //   return request({
-//     url: appConfig.WEB_API + '/api/bu/waterDetection/waterdetectionDataSearch/getRealTimeDataOfWaterQualityAnalysis',
+//     url: appConfig.WEB_API + '/bu/waterDetection/waterdetectionDataSearch/getRealTimeDataOfWaterQualityAnalysis',
 //     method: 'get',
 //     params: {}
 //   });
@@ -16,7 +16,7 @@ export const getHourlyWaterQualityData = (stations,from,end,fromHour,endHour) =>
   // const tokeValue=uni.getStorageSync("access-user")
   // const clientId = "saber", clientSecret = "saber_secret";
   // return uni.request({
-  //   url: appConfig.WEB_API + '/api/bu/waterDetection/waterdetectionDataSearch/getHourlyWaterQualityData',
+  //   url: appConfig.WEB_API + '/bu/waterDetection/waterdetectionDataSearch/getHourlyWaterQualityData',
   //   method: 'get',
   //   header: {
   //     'Authorization':`Basic ${Base64.encode(`${clientId}:${clientSecret}`)}`,
@@ -28,17 +28,16 @@ export const getHourlyWaterQualityData = (stations,from,end,fromHour,endHour) =>
   //           console.log(res.data);
   //       }
   //   });  
-  
-  // return request({
-  //   url: appConfig.WEB_API + '/api/bu/waterDetection/waterdetectionDataSearch/getHourlyWaterQualityData',
-  //   method: 'get',
-  //   params: {stations,from,end,fromHour,endHour}
-  // });
+  return request({
+    url: appConfig.WEB_API + '/bu/waterDetection/waterdetectionDataSearch/getHourlyWaterQualityData',
+    method: 'get',
+    params: {stations,from,end,fromHour,endHour}
+  });
 }
 // 历史数据
 export const getSurfaceWaterHistoryList = (row) =>{
   return request({
-    url: appConfig.WEB_API + '/api/bu/waterDetection/waterdetectionDataSearch/water/dataList',
+    url: appConfig.WEB_API + '/bu/waterDetection/waterdetectionDataSearch/water/dataList',
     method: 'post',
     data:row
   });
