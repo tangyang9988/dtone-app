@@ -51,7 +51,6 @@
 	} from "../../api/login.js";
 	import {tokenUtil} from '../../utils/token.js'
 	import md5 from '../../utils/md5.js'
-	import { formatData } from '../../utils/webUtils.js'
 	export default {
 		name: "login",
 		data() {

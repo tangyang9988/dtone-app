@@ -1,7 +1,6 @@
 // API
 import request from '@/utils/axios'
 import { appConfig } from '../config/config.js'
-import { formatData } from '../utils/webUtils.js'
 
 // export const localLogin = (params) =>{
 //   return request({
