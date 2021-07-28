@@ -76,10 +76,10 @@ export default {
     return {
 	  column1:{},
 	  chartsData: {},	
-	pixelRatio: 1,
-	cWidth2:'',//圆弧进度图
-	cHeight2:'',//圆弧进度图
-	arcbarWidth: '',
+      pixelRatio: 1,
+      cWidth2:'',//圆弧进度图
+      cHeight2:'',//圆弧进度图
+      arcbarWidth: '',
       platFormId:"",
       data: [],
       barData: [],
@@ -98,6 +98,9 @@ export default {
       factor:'',
       factorName:"",
       trendAnalysisShow: false,
+      enterpriseId:"",
+      current:1,
+      size:10,
     };
   },
   methods: {
@@ -156,7 +159,7 @@ export default {
     getPortDetail() {
       //卡片
       let that = this;
-      getPollutionWaterRtdList()
+      getPollutionWaterRtdList(this.enterpriseId,this.current,this.size)
         .then(
           function (result) {
             let allRecords = result.data.data.records; //记录数组
@@ -305,7 +308,7 @@ export default {
 }
 
 .factorName {
-  width:46px;
+  width:14%;
   height:20px;
   background-color: white;
   text-align:center;
@@ -314,7 +317,7 @@ export default {
 }
 
 .factorValue {
-  width:46px;
+  width:14%;
   height:20px;
   background-color: white;
   text-align:center;

@@ -104,6 +104,12 @@
         </view>
     </view>
     <!-- 卡片列表 -->
+    <view
+      class="lists"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="busy"
+      infinite-scroll-distance="20"
+    >
     <view class="detailCards">
       <view v-for="(item, itemIndex) in tableFactorList" :key="itemIndex">
         <view class="detailCard" v-if="menuType == 'airPollution_index'">
@@ -233,6 +239,7 @@
           </view>
         </view>
       </view>
+    </view>
     </view>
     <!-- 暂无数据 -->
     <view class="noData" v-if="isNoData">暂无数据</view>
@@ -467,16 +474,18 @@ export default {
     },
     // 空气--历史数据列表
     getList(siteId) {
-      var stations = [];
-      var date = [];
-      stations[0] = siteId;
-      date[0] = this.pageStart;
-      date[1] = this.pageEnd;
+      // var stations = [];
+      // var date = [];
+      // stations[0] = siteId;
+      // date[0] = this.pageStart;
+      // date[1] = this.pageEnd;
       var row = {
         dataType: this.type,
-        date,
-        stations: stations,
+        date:[this.pageStart,this.pageEnd],
+        stations: [siteId],
       };
+      debugger
+      console.log(row)
       var that = this;
       if (uni.getStorageSync("url") == "airPollution_index") {
         getHistoryList(row).then(
@@ -531,6 +540,7 @@ export default {
         };
         getPollutionSurfaceWaterHistoryList(row).then(
           function (result) {
+    
             let list = result.data.data.records;
             if (list.length == 0) {
               that.isNoData = true;

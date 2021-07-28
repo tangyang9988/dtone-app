@@ -3,11 +3,11 @@ import request from '@/utils/axios'
 import { appConfig } from '../config/config.js'
 
 // 实时数据
-export const getPollutionWaterRtdList = () =>{
+export const getPollutionWaterRtdList = (enterpriseId,current,size) =>{
   return request({
     url: appConfig.WEB_API + '/bu/pollutemonitor/wasteWater/realvalue',
     method: 'get',
-    params: {}
+    params: {enterpriseId,current,size}
   });
 }
 // 废水企业列表

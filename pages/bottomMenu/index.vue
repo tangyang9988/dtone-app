@@ -84,6 +84,7 @@ export default {
   props: ["url"],
   data() {
     return {
+      // url:uni.getStorageSync('url'),
       PageCur: "",
       clickUrl: "",
       role_name: ""
@@ -150,7 +151,7 @@ export default {
   },
   mounted() {
     // this.PageCur = this.url;
-	this.PageCur= uni.getStorageSync('url');
+	this.PageCur= this.url;
 	this.clickUrl= uni.getStorageSync('clickUrl');
 	this.role_name=uni.getStorageSync('role_name');
   },

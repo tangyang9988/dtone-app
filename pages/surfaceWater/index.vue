@@ -33,16 +33,18 @@
         <view v-for = "(value,key) in portRecord" :key="key" class="detailCard">
           <view class="cardTitle">
             <view class="cardTitleWord">{{value.siteName}}</view>
-            <view class="cardTitleWord">{{value.ad.updateTime}}</view>
+            <view class="cardTitleWord">{{value.updateTime}}</view>
           </view>
         <view class="factorList">
             <view class="factorName" :style="{background:getColor(value.zl.value)}" @click="factorClick('w21011', value,'总磷')">总磷</view>
             <view class="factorName" :style="{background:getColor(value.zd.value)}" @click="factorClick('w21001', value,'总氮')">总氮</view>
             <view class="factorName" :style="{background:getColor(value.ad.value)}" @click="factorClick('w21003', value,'氨氮')">氨氮</view>
-            <view class="factorName" :style="{background:getColor(value.codmn.value)}" @click="factorClick('w01019', value,'高锰酸盐指数')">高锰酸盐指数</view>
+            <view class="factorName" :style="{background:getColor(value.codmn.value)}" @click="factorClick('w01019', value,'高锰酸盐指数')">高锰酸盐</view>
             <view class="factorName" :style="{background:getColor(value.ec.value)}" @click="factorClick('w01014', value,'电导率')">电导率</view>
-            <view class="factorName" :style="{background:getColor(value.rjy.value)}" @click="factorClick('aqi', value,'溶解氧')">溶解氧</view>
-            <view class="factorName" :style="{background:getColor(value.sw.value)}" @click="factorClick('aqi', value,'水温')">水温</view>
+            <view class="factorName" :style="{background:getColor(value.rjy.value)}" @click="factorClick('w01009', value,'溶解氧')">溶解氧</view>
+            <view class="factorName" :style="{background:getColor(value.sw.value)}" @click="factorClick('w01010', value,'水温')">水温</view>
+            <view class="factorName" :style="{background:getColor(value.ph.value)}" @click="factorClick('w01001', value,'PH')">PH</view>
+            <view class="factorName" :style="{background:getColor(value.tub.value)}" @click="factorClick('w01003', value,'浊度')">浊度</view>
         </view>
         <view class="factorList">
           <view class="factorValue">{{value.zl.value}}</view>
@@ -469,7 +471,7 @@ export default {
   flex-wrap: wrap;
   flex-direction: row;
   width: 100%;
-  margin-left:10px;
+  margin:0 10px;
 }
 
 .singleFactor {
@@ -481,7 +483,7 @@ export default {
 }
 
 .factorName {
-  width:14%;
+  width:10.8%;
   height:20px;
   background-color: white;
   text-align:center;
@@ -490,7 +492,7 @@ export default {
 }
 
 .factorValue {
-  width:14%;
+  width:10.8%;
   height:20px;
   background-color: white;
   text-align:center;

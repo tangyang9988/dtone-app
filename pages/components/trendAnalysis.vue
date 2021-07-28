@@ -6,6 +6,7 @@
       <view class="charts-box">
         <qiun-data-charts class="chartColum" type="column" :chartData="echartdata" />
       </view>
+      <span style="margin-left:40%;" v-if="isData">暂无数据</span>
       <view class="rightButton">
         <button
           class="cu-btn"
@@ -30,6 +31,7 @@ export default {
   props: [ "isShow","card","factor","factorName"],
   data() {
     return {
+      isData:false,
       echartdata: {},
       categories:[],
       series:[]
@@ -49,6 +51,9 @@ export default {
       await getHistory48hourData(that.factor,that.card.siteId).then(
         function (result) {
         let list = result.data.data;
+        if(list.length==0){
+          that.isData =true;
+        }
         let yList=[]
         for (let i = 0; i < list.length; i++) {
           let time = that.getTime(list[i].updateTime)
@@ -106,7 +111,7 @@ export default {
   font-weight: 520;
 }
 .charts-box {
-  width: 300px;
+  width: 100%;
   height: 200px;
   z-index: 99;
   overflow-x: scroll;
@@ -130,7 +135,7 @@ export default {
   opacity: 1;
   z-index: 99;
   width: 90%;
-  height: 280px;
+  height: 300px;
   margin: 20% 5%;
   background-color: white;
   border-radius: 10px;

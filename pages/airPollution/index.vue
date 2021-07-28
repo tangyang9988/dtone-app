@@ -80,58 +80,149 @@
           <view class="cardTitleWord">{{ value.siteName }}</view>
           <view class="cardTitleWord">{{ value.updateTime }}</view>
         </view>
+        <view class="lineList">
         <view class="factorList">
+          <view>
           <view
             class="factorName"
             :style="{ background: getColor(value.aqi.value) }"
             @click="factorClick('aqi', value,'AQI')"
             >AQI</view
           >
+          <view class="factorValue">{{ value.aqi.value }}</view>
+          </view>
+          <view>
           <view
             class="factorName"
             :style="{ background: getColor(value.pm25.value) }"
             @click="factorClick('a34004', value,'PM2.5')"
             >PM2.5</view
           >
+          <view class="factorValue">{{ value.pm25.value }}</view>
+          </view>
+          <view>
           <view
             class="factorName"
             :style="{ background: getColor(value.pm10.value) }"
             @click="factorClick('a34002', value,'PM10')"
             >PM10</view
           >
+          <view class="factorValue">{{ value.pm10.value }}</view>
+          </view>
+          <view>
           <view
             class="factorName"
             :style="{ background: getColor(value.so2.value) }"
             @click="factorClick('a21026', value,'SO2')"
             >SO2</view
           >
+          <view class="factorValue">{{ value.so2.value }}</view>
+          </view>
+          <view>
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.no.value) }"
+            @click="factorClick('a21004', value,'NO')"
+            >NO</view
+          >
+          <view class="factorValue">{{ value.no.value }}</view>
+          </view>
+          <view>
           <view
             class="factorName"
             :style="{ background: getColor(value.no2.value) }"
             @click="factorClick('a21004', value,'NO2')"
-            >NO2</view
+            >NO2</view>
+          <view class="factorValue">{{ value.no2.value }}</view>
+          </view>
+          <view>
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.nox.value) }"
+            @click="factorClick('a21004', value,'氮氧化物')"
+            >氮氧化物</view
           >
+          <view class="factorValue">{{ value.nox.value }}</view>
+          </view>
+          <view>
           <view
             class="factorName"
             :style="{ background: getColor(value.co.value) }"
             @click="factorClick('a21005', value,'CO')"
             >CO</view
           >
+          <view class="factorValue">{{ value.co.value }}</view>
+          </view>
+          <view>
           <view
             class="factorName"
             :style="{ background: getColor(value.o3.value) }"
             @click="factorClick('a05024', value,'O3')"
             >O3</view
           >
+          <view class="factorValue">{{ value.o3.value }}</view>
+          </view>
+          <view>
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.temp.value) }"
+            @click="factorClick('a01001', value,'温度')"
+            >温度</view
+          >
+          <view class="factorValue">{{ value.temp.value }}</view>
+          </view>
+          <view>
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.humi.value) }"
+            @click="factorClick('a01002', value,'湿度')"
+            >湿度</view
+          >
+          <view class="factorValue">{{ value.humi.value }}</view>
+          </view>
+          <view>
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.aws.value) }"
+            @click="factorClick('a01007', value,'风速')"
+            >风速</view
+          >
+          <view class="factorValue">{{ value.aws.value }}</view>
+          </view>
+          <view>
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.wdir.value) }"
+            @click="factorClick('a01008', value,'风向')"
+            >风向</view
+          >
+          <view class="factorValue">{{ value.wdir.value }}</view>
+          </view>
+          <view>
+          <view
+            class="factorName"
+            :style="{ background: getColor(value.press.value) }"
+            @click="factorClick('a01008', value,'气压')"
+            >气压</view
+          >
+          <view class="factorValue">{{ value.press.value }}</view>
+          </view>
         </view>
-        <view class="factorList">
-          <view class="factorValue">{{ value.aqi.value }}</view>
+        <!-- <view class="factorList">
           <view class="factorValue">{{ value.pm25.value }}</view>
           <view class="factorValue">{{ value.pm10.value }}</view>
-          <view class="factorValue">{{ value.so2.value }}</view>
+           <view class="factorValue">{{ value.so2.value }}</view>
+          <view class="factorValue">{{ value.no.value }}</view>
           <view class="factorValue">{{ value.no2.value }}</view>
+          <view class="factorValue">{{ value.nox.value }}</view>
           <view class="factorValue">{{ value.co.value }}</view>
           <view class="factorValue">{{ value.o3.value }}</view>
+          <view class="factorValue">{{ value.temp.value }}</view>
+          <view class="factorValue">{{ value.humi.value }}</view>
+          <view class="factorValue">{{ value.aws.value }}</view>
+          <view class="factorValue">{{ value.wdir.value }}</view>
+          <view class="factorValue">{{ value.press.value }}</view>
+        </view> -->
         </view>
       </view>
     </view>
@@ -585,19 +676,21 @@ export default {
   opacity: 1;
   border-radius: 12px;
 }
-
+.lineList{
+  overflow-x: scroll;
+  white-space: nowrap;
+  margin: 0 10px;
+}
 .factorList {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-  flex-direction: row;
-  width: 100%;
-  margin-left: 10px;
+  // justify-content: flex-start;
+  // align-items: center;
+  flex-wrap: nowrap;
+  // flex-direction: row;
 }
 
 .factorName {
-  width: 14%;
+  margin: 0 2px;
   height: 20px;
   background-color: white;
   text-align: center;
@@ -606,7 +699,7 @@ export default {
 }
 
 .factorValue {
-  width: 14%;
+  margin: 0 2px;
   height: 20px;
   background-color: white;
   text-align: center;
