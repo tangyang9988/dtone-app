@@ -1,10 +1,10 @@
 // API
 import request from '@/utils/axios'
 import { appConfig } from '../config/config.js'
-
+import { formatData } from '../utils/webUtils'
 // export const localLogin = (params) =>{
 //   return request({
-//     url: appConfig.WEB_API + '/api/dutjt-auth/oauth/token?'+formatData(params),
+//     url: appConfig.WEB_API + '/dutjt-auth/oauth/token?'+formatData(params),
 //     method: 'post',
 //     headers: {
 //       'Tenant-Id': params.tenantId,

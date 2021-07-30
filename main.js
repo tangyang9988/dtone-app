@@ -14,7 +14,9 @@ Vue.component('cu-custom',cuCustom)
 import zhouWeiNavBar from "./components/zhouWei-navBar";
 Vue.component("nav-bar", zhouWeiNavBar);
 
-// require('./utils/vconsole.js')
+import infiniteScroll from 'vue-infinite-scroll'
+// 懒加载
+Vue.use(infiniteScroll)
 
 Vue.config.productionTip = false
 // import hljs from 'highlight.js/lib/highlight';

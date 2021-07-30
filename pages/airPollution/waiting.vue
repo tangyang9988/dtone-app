@@ -15,9 +15,7 @@
           <text class="content_value_name" style="margin-left: 20px"
             >请选择企业：</text
           >
-          <text class="content_value_name" v-if="siteList[index]">{{
-            siteList[index].stationName
-          }}</text>
+          <text class="content_value_name" v-if="siteList[index]">{{siteList[index].stationName}}</text>
         </picker>
       </view>
     </view>
@@ -191,7 +189,6 @@ export default {
       index: 0,
       siteId: "",
       isNoData: false,
-      show: false,
       current: 1,
       size: 10,
       busy: false,

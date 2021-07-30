@@ -305,7 +305,6 @@ export default {
       this.tableFactorList = [];
       this.index = e.target.value;
       this.siteId = this.siteList[e.target.value].id;
-      console.log(this.siteId);
       this.getList(this.siteId);
     },
     formatSelectDate(date) {
@@ -394,19 +393,19 @@ export default {
       // });
     },
     // 加载更多
-    // loadMore() {
-    // this.isNoData = false;
-    //   if (this.current >= this.totalPage) {
-    //     this.isNoData = true;
-    //     return false;
-    //   }
-    //   this.busy = true;
-    //   setTimeout(() => {
-    //     this.current++;
-    //     this.getList();
-    //     this.busy = false;
-    //   }, 1000);
-    // },
+    loadMore() {
+    this.isNoData = false;
+      if (this.current >= this.totalPage) {
+        this.isNoData = true;
+        return false;
+      }
+      this.busy = true;
+      setTimeout(() => {
+        this.current++;
+        this.getList(that.siteId);
+        this.busy = false;
+      }, 1000);
+    },
     //选择站点
     selectPort(e) {
       var that = this;
@@ -484,14 +483,12 @@ export default {
         date:[this.pageStart,this.pageEnd],
         stations: [siteId],
       };
-      debugger
-      console.log(row)
       var that = this;
       if (uni.getStorageSync("url") == "airPollution_index") {
-        getHistoryList(row).then(
+        getHistoryList(JSON.stringify(row)).then(
           function (result) {
             let list = result.data.data.records;
-            if (list.length == 0) {
+            if (list && list.length == 0) {
               that.isNoData = true;
             }
             if (list) {
@@ -540,7 +537,6 @@ export default {
         };
         getPollutionSurfaceWaterHistoryList(row).then(
           function (result) {
-    
             let list = result.data.data.records;
             if (list.length == 0) {
               that.isNoData = true;

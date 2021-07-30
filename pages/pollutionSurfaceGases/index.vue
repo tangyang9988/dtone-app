@@ -22,14 +22,34 @@
              <view class="abnormalLine"></view>
              <span id="testQuality" class="abnormalTitle">实时数据</span>
      </view>
+    <view class="cu-bar search bg-white">
+      <view class="search-form round">
+        <picker
+          @change="bindPickerChange"
+          :range="siteList"
+          :value="index"
+          :range-key="'stationName'"
+        >
+          <text class="content_value_name" style="margin-left: 20px"
+            >请选择企业：</text
+          >
+          <text class="content_value_name" v-if="siteList[index]">{{siteList[index].stationName}}</text>
+        </picker>
+      </view>
+    </view>
     <!-- 真实记录 开始 -->
-    <view>
+    <view
+      class="lists"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="busy"
+      infinite-scroll-distance="20"
+    >
       <!-- 卡片开始 -->
       <view class="detailCards">
         <view v-for = "(value,key) in portRecord" :key="key" class="detailCard">
           <view class="cardTitle">
               <view class="cardTitleWord">{{value.enterpriseName}}</view>
-              <view class="cardTitleWord">{{value.updateTime}}</view>
+              <view class="cardTitleWord">{{value.monitorTime}}</view>
           </view>
           <!-- <view class="factorList">
             <view class="singleFactor" v-if="JSON.stringify(value.ch4)!='{}'">
@@ -88,10 +108,11 @@
             <view class="factorValue">{{value.yqls.value}}</view>
           </view>
         </view>
+        <view class="noData" v-if="isNoData">暂无数据</view>
       </view>
     </view>
 <!-- 引入自定义菜单组件 -->
-<bottomMenu url="surfaceWater_index"></bottomMenu>
+<bottomMenu url="pollutionSurfaceGases_index"></bottomMenu>
 <trendAnalysis
   v-if="trendAnalysisShow"
   @close="closeDialog()"
@@ -103,7 +124,7 @@
 </view>
 </template>
 <script>
-import {getPollutionWasteGasRtdList} from "../../api/pollutionSurfaceGases.js"
+import {getPollutionWasteGasRtdList,getGasEnterpriseList} from "../../api/pollutionSurfaceGases.js"
 import demodata from '@/mockdata/demodata.json';
 import bottomMenu from '../bottomMenu/index'
 import trendAnalysis from "../components/trendAnalysis.vue";
@@ -112,13 +133,14 @@ export default {
   name: "about",
   data() {
     return {
-	  column1:{},
-	  chartsData: {},	
-    pixelRatio: 1,
-    cWidth2:'',//圆弧进度图
-    cHeight2:'',//圆弧进度图
-    arcbarWidth: '',
-      platFormId:"",
+    siteList: [],
+    index: 0,
+    enterpriseId:"",
+	  // chartsData: {},	
+    // pixelRatio: 1,
+    // cWidth2:'',//圆弧进度图
+    // cHeight2:'',//圆弧进度图
+    // arcbarWidth: '',
       data: [],
       barData: [],
       portRecord: [],
@@ -136,9 +158,36 @@ export default {
       factor:'',
       factorName:"",
       trendAnalysisShow: false,
+      current:1,
+      size:10,
+      totalPage: 0,
+      isNoData:false,
+      busy: false,
     };
   },
   methods: {
+    // 加载更多
+    loadMore() {
+    this.isNoData = false;
+      if (this.current >= this.totalPage) {
+        this.isNoData = true;
+        return false;
+      }
+      this.busy = true;
+      setTimeout(() => {
+        this.current++;
+        this.getPortDetail(this.enterpriseId);
+        this.busy = false;
+      }, 1000);
+    },
+    bindPickerChange(e) {
+      this.portRecord = [];
+      this.current=0;
+      this.totalPage =0;
+      this.index = e.target.value;
+      this.enterpriseId = this.siteList[e.target.value].id;
+      this.getPortDetail(this.enterpriseId);
+    },
     factorClick(factor, card,factorName) {
       this.trendAnalysisShow = true;
       this.card = card
@@ -183,21 +232,33 @@ export default {
       }
       return str;
     },
-    getServerData() {
-      setTimeout(() => {
-        this.column1=JSON.parse(JSON.stringify(demodata.Column))
-      	this.chartsData.Arcbar1=JSON.parse(JSON.stringify(demodata.Arcbar1))
-      	this.chartsData.Rose1=JSON.parse(JSON.stringify(demodata.PieA))
-      	this.$forceUpdate();
-      }, 1500);
+    async selectPort() {
+      var that =this;
+      await getGasEnterpriseList().then(
+        function (result) {
+          let list = result.data;
+          that.siteList.push({
+            id: "",
+            stationName: "空",
+          });
+          for (let i = 0; i < list.length; i++) {
+            that.siteList.push({
+              id: list[i].value,
+              stationName: list[i].label,
+            });
+          }
+          that.getPortDetail(that.enterpriseId)
+        },
+        function (err) {}
+      );
     },
-    getPortDetail() {
+    getPortDetail(enterpriseId) {
       //卡片
       let that = this;
-      getPollutionWasteGasRtdList()
-        .then(
+      getPollutionWasteGasRtdList(enterpriseId,this.current,this.size).then(
           function (result) {
             let allRecords = result.data.data.records; //记录数组
+            that.totalPage=result.data.data.pages;
             for (let i = 0; i < allRecords.length; i++) {
               that.portRecord.push(allRecords[i]);
             }
@@ -214,8 +275,7 @@ export default {
     
   },
   mounted() {
-    this.getServerData()
-    this.getPortDetail()
+    this.selectPort();
   },
   onLoad() {
   },
@@ -613,5 +673,11 @@ export default {
   background-color: yellow;
   text-align: center;
   line-height: 30px;
+}
+.noData{
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  margin:20px 0px;
 }
 </style>

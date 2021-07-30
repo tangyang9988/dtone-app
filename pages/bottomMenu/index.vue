@@ -10,7 +10,7 @@
         </view>
         <view
           :class="
-            PageCur == 'airPollution_index' || PageCur == 'surfaceWater_index'
+            currentUrl == 'airPollution_index' || currentUrl == 'surfaceWater_index' || currentUrl =='pollutionSurfaceWater_index'|| currentUrl =='pollutionSurfaceGases_index'
               ? 'text-green'
               : 'text-gray'
           "
@@ -23,7 +23,7 @@
         </view>
         <view
           :class="
-            PageCur == 'airPollution_history' ? 'text-green' : 'text-gray'
+            currentUrl == 'airPollution_history' ? 'text-green' : 'text-gray'
           "
           >历史数据</view
         >
@@ -41,28 +41,17 @@
           <image src="../../static/images/icon/s11.png"></image>
         </view>
         <view
-          :class="PageCur == 'airPollution_alert' ? 'text-green' : 'text-gray'"
+          :class="currentUrl == 'airPollution_alert' ? 'text-green' : 'text-gray'"
           >预警管理</view
         >
       </view>
-      <!-- <view class="action" @click="hisClick" data-cur="airPollution_siteReport">
-        <view class="cuIcon-cu-image">
-          <image src="../../static/images/icon/s12.png"></image>
-        </view>
-        <view
-          :class="
-            PageCur == 'airPollution_siteReport' ? 'text-green' : 'text-gray'
-          "
-          >站点报表</view
-        >
-      </view> -->
       <view class="action" @click="hisClick" data-cur="airPollution_waiting" v-if="role_name=='pollute_maintain'">
         <view class="cuIcon-cu-image">
           <image src="../../static/images/icon/s12.png"></image>
         </view>
         <view
           :class="
-            PageCur == 'airPollution_waiting' ? 'text-green' : 'text-gray'
+            currentUrl == 'airPollution_waiting' ? 'text-green' : 'text-gray'
           "
           >待办</view
         >
@@ -71,7 +60,7 @@
         <view class="cuIcon-cu-image">
           <image src="../../static/images/icon/s3.png"></image>
         </view>
-        <view :class="PageCur == 'home_page' ? 'text-green' : 'text-gray'"
+        <view :class="currentUrl == 'home_page' ? 'text-green' : 'text-gray'"
           >主菜单</view
         >
       </view>
@@ -84,38 +73,34 @@ export default {
   props: ["url"],
   data() {
     return {
-      // url:uni.getStorageSync('url'),
-      PageCur: "",
-      clickUrl: "",
-      role_name: ""
+      currentUrl:"",
+      PageCur: uni.getStorageSync('url'),
+      clickUrl: uni.getStorageSync('clickUrl'),
+      role_name: uni.getStorageSync('role_name')
     };
   },
   methods: {
     hisClick: function (e) {
       if (e.currentTarget.dataset.cur == "airPollution_index") {
-        if (PageCur == "airPollution_index") {
+        if (this.PageCur == "airPollution_index") {
           setTimeout(function () {
             uni.navigateTo({
               url: "/pages/airPollution/index",
             });
           }, 500);
-        } else if (PageCur == "surfaceWater_index") {
+        } else if (this.PageCur == "surfaceWater_index") {
           setTimeout(function () {
             uni.navigateTo({
               url: "/pages/surfaceWater/index",
             });
           }, 500);
-        } else if (
-          PageCur == "pollutionSurfaceWater_index"
-        ) {
+        } else if (this.PageCur == "pollutionSurfaceWater_index") {
           setTimeout(function () {
             uni.navigateTo({
               url: "/pages/pollutionSurfaceWater/index",
             });
           }, 500);
-        }else if (
-          PageCur == "pollutionSurfaceGases_index"
-        ) {
+        }else if (this.PageCur == "pollutionSurfaceGases_index") {
           setTimeout(function () {
             uni.navigateTo({
               url: "/pages/pollutionSurfaceGases/index",
@@ -150,10 +135,7 @@ export default {
     },
   },
   mounted() {
-    // this.PageCur = this.url;
-	this.PageCur= this.url;
-	this.clickUrl= uni.getStorageSync('clickUrl');
-	this.role_name=uni.getStorageSync('role_name');
+    this.currentUrl =this.url
   },
 };
 </script>

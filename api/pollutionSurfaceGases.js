@@ -3,11 +3,11 @@ import request from '@/utils/axios'
 import { appConfig } from '../config/config.js'
 
 // 实时数据
-export const getPollutionWasteGasRtdList = () =>{
+export const getPollutionWasteGasRtdList = (enterpriseId,current,size) =>{
   return request({
     url: appConfig.WEB_API + '/bu/pollutemonitor/wasteGas/air/realvalue',
     method: 'get',
-    params: {}
+    params: {enterpriseId,current,size}
   });
 }
 // 历史数据

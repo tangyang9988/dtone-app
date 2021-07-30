@@ -73,9 +73,11 @@ export default {
       );
     }else if(uni.getStorageSync("url") == "pollutionSurfaceWater_index" || uni.getStorageSync("url") == "pollutionSurfaceGases_index"){
       var that =this;
-      await getWaterGasesHistory48hourData(that.factor,that.card.id).then(
-        function (result) {
+      await getWaterGasesHistory48hourData(that.factor,that.card.id).then(function (result) {
         let list = result.data.data;
+        if(list.length==0){
+          that.isData =true;
+        }
         let yList=[]
         for (let i = 0; i < list.length; i++) {
           let time = that.getTime(list[i].updateTime)

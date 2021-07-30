@@ -23,6 +23,7 @@
     "js-base64": "^2.5.1",
     "qs": "^6.10.1",
     "uni-request": "^1.0.2",
-    "vconsole": "^3.9.0"
+    "vconsole": "^3.9.0",
+    "vue-infinite-scroll": "^2.0.2"
   }
 }
