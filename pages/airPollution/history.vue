@@ -485,7 +485,7 @@ export default {
       };
       var that = this;
       if (uni.getStorageSync("url") == "airPollution_index") {
-        getHistoryList(JSON.stringify(row)).then(
+        getHistoryList(row).then(
           function (result) {
             let list = result.data.data.records;
             if (list && list.length == 0) {

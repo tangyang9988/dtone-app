@@ -33,8 +33,8 @@
         @click="hisClick"
         data-cur="airPollution_alert"
         v-if="
-          clickUrl == 'pollutionSurfaceWater_index' ||
-          clickUrl == 'pollutionSurfaceGases_index'
+          PageCur == 'pollutionSurfaceWater_index' ||
+          PageCur == 'pollutionSurfaceGases_index'
         "
       >
         <view class="cuIcon-cu-image">
@@ -42,8 +42,7 @@
         </view>
         <view
           :class="currentUrl == 'airPollution_alert' ? 'text-green' : 'text-gray'"
-          >预警管理</view
-        >
+          >预警管理</view>
       </view>
       <view class="action" @click="hisClick" data-cur="airPollution_waiting" v-if="role_name=='pollute_maintain'">
         <view class="cuIcon-cu-image">

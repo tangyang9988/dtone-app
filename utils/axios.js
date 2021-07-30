@@ -1,11 +1,9 @@
 
-// import axios from 'axios'
-import uniRequest from 'uni-request';
+import axios from 'axios'
 import { Base64 } from 'js-base64';
-uniRequest.defaults.withCredentials = true;
 
 //添加一个请求拦截器
-uniRequest.interceptors.request.use(function (config) {
+axios.interceptors.request.use(function (config) {
   const clientId = "saber", clientSecret = "saber_secret";
   const meta = (config.meta || {});
   const isToken = meta.isToken === false;
@@ -16,16 +14,12 @@ uniRequest.interceptors.request.use(function (config) {
   if (tokeValue && !isToken) {
     config.headers["dutjt-Auth"] = 'bearer ' +tokeValue;
   }
-  //headers中配置text请求
-  // if (config.text === true) {
-    
-  // }
   return config;
 }, function (error) {
   return Promise.reject(error);
 });
 // 添加一个响应拦截器
-uniRequest.interceptors.response.use(
+axios.interceptors.response.use(
   response => {
     if(response.data.code=="401"){
       setTimeout(function() {
@@ -46,4 +40,4 @@ uniRequest.interceptors.response.use(
     return Promise.reject(error.response)
   }
 )
-export default uniRequest;
+export default axios;

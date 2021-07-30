@@ -210,9 +210,8 @@
 .menu{
 display: flex;
 flex-wrap: wrap;
-justify-content: space-between;
+justify-content:space-around;
 margin:10px 20px;
-padding:20px;
 background: #ffffff;
 box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
 opacity: 1;
@@ -224,23 +223,26 @@ border-radius: 12px;
   margin:15px 20px;
 }
 .bacimage1{
-  width:100%;
-  height:60px;
+  height:100px;
+  width: 100px;
   background: url(../../static/images/icon/s1.png) no-repeat;
   background-size: cover;
 }
 .bacimage2{
-  height:60px;
+  height:100px;
+  width: 100px;
   background: url(../../static/images/icon/s2.png) no-repeat;
   background-size: cover;
 }
 .bacimage3{
-  height:60px;
+  height:100px;
+  width: 100px;
   background: url(../../static/images/icon/s3.png) no-repeat;
   background-size: cover;
 }
 .bacimage4{
-  height:60px;
+  height:100px;
+  width: 100px;
   background: url(../../static/images/icon/s4.png) no-repeat;
   background-size: cover;
 }
