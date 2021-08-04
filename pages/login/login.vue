@@ -59,8 +59,8 @@
 				loginForm: {
 					//租户ID
 					tenantId: "000000",
-					userName: "admin",
-					password: "DtoneAdmin",
+					userName: "",
+					password: "",
 					//账号类型
 					type: "account",
 					code: "",

@@ -3,14 +3,19 @@
     <view class="cpt-mask" v-if="isShow">
       <view class="leftTitle">处置提示</view>
       <view v-if="userTaskId == 'pollution_warning_maintain'">
-        <view class="leftLable">上传调查结果</view>
-        <view class="show_img">
-          <image :src="imagSrc"></image>
+      <view class="leftLable">上传调查结果</view>
+      <view class="show_img">
+        <image :src="imagSrc" @click="chooseImage" class="show_img_image"></image>   
+        <view class="" v-for="(item,index) in imgList" :key="index" :data-url="imgList[index]">
+          <image :src="imgList[index]" class="show_img_image"></image>
+            <!-- <view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
+                <text class='cuIcon-close'></text>
+          </view> -->
         </view>
-        <!-- <view  v-for="(item,index) in imgList" :key="index" class=" imgarr">
-            <view class="icon-cuo" @tap="delect(index)">&#xe61a;</view>
-             <image class="images" :src="item" @click="lookImg(index)"></image>
-        </view> -->
+      <!-- <view class="solids" @click="chooseImage">
+            <text class='cuIcon-cameraadd'></text>
+      </view> -->
+        </view>
         <view class="leftLable"
           >处置意见:
           <textarea
@@ -63,6 +68,7 @@ export default {
   props: ["selectCard", "isShow"],
   data() {
     return {
+      imgList:[],
       polluteManageLevelLabel: "",
       userTaskId: "",
       options: "",
@@ -73,6 +79,22 @@ export default {
     };
   },
   methods: {
+    chooseImage() {
+      uni.chooseImage({
+          count: 3, //默认9
+          sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album'], //从相册选择
+          success: (res) => {
+              if (this.imgList.length != 0) {
+                  this.imgList = this.imgList.concat(res.tempFilePaths)
+              } else {
+                  this.imgList = res.tempFilePaths
+              }
+              console.log(this.imgList)
+          }
+          
+      });
+    },
     confirm() {
       var that = this;
       if (that.options == "") {
@@ -88,13 +110,12 @@ export default {
           status: that.status, //处理状态： flag是1，status是3；flag是0，status是6
           processInstanceId: that.selectCard.processInstanceId, //对应processInstanceId
           filesList: that.filesList,
-          // filesList:[{
-          // link:”http://58.216.249.82:9000/000000-dutjtx/upload/20210617/
-          // 86fc50040bb7b931ca1e19aa8321ab82.txt” ,//附件地址
-          // buId:”1402913481744564224”,//对应待办中的id
-          // originalName:”111.txt”,//附件原始名称
-          // userTaskId:”air_warning_maintain”,//对应待办中的userTaskId
-          // }]
+          filesList:[{
+          link:"" ,//附件地址
+          buId:that.selectCard.id,//对应待办中的id
+          originalName:"",//附件原始名称
+          userTaskId:that.selectCard.userTaskId,//对应待办中的userTaskId
+          }]
         };
         dealWithPollution(obj).then(
           function (result) {
@@ -150,17 +171,22 @@ export default {
   font-weight: 500;
 }
 .show_img {
-  width: 140upx;
-  height: 140upx;
+  display: flex;
+  flex-wrap: nowrap;
+  width:100%;
+  height:100%;
   border: 2upx dashed #eee;
   margin: 10px 20px;
-  image {
-    width: 100%;
-    height: 100%;
+}
+.show_img_image {
+    width:80px;
+    height:80px;
     border: 2upx dashed #eee;
-  }
+    background-size: cover;
+    margin-right: 5px;
 }
 .textarea {
+  width:100%;
   border: 1px solid #a5a5a5;
   height: 60px;
 }
@@ -178,7 +204,7 @@ export default {
   opacity: 1;
   z-index: 99;
   width: 90%;
-  height: 280px;
+  height: 300px;
   margin: 40% 5%;
   background-color: white;
   border-radius: 10px;

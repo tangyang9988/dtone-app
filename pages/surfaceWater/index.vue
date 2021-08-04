@@ -54,6 +54,8 @@
           <view class="factorValue">{{value.ec.value}}</view>
           <view class="factorValue">{{value.rjy.value}}</view>
           <view class="factorValue">{{value.sw.value}}</view>
+          <view class="factorValue">{{value.ph.value}}</view>
+          <view class="factorValue">{{value.tub.value}}</view>
         </view>
         </view>
       </view>
@@ -483,7 +485,7 @@ export default {
 }
 
 .factorName {
-  width:10.8%;
+  width:10.5%;
   height:20px;
   background-color: white;
   text-align:center;
@@ -492,7 +494,7 @@ export default {
 }
 
 .factorValue {
-  width:10.8%;
+  width:10.5%;
   height:20px;
   background-color: white;
   text-align:center;

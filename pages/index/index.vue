@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block>
+		<cu-custom bgColor="bg-gradual-pink" :isBack="false">
 			<block slot="content">智慧环保</block>
 		</cu-custom>
 		<view class="margin-top margin-left solid-bottom">
@@ -210,8 +210,9 @@
 .menu{
 display: flex;
 flex-wrap: wrap;
-justify-content:space-around;
+justify-content:space-between;
 margin:10px 20px;
+padding:0 10px;
 background: #ffffff;
 box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
 opacity: 1;
@@ -223,27 +224,27 @@ border-radius: 12px;
   margin:15px 20px;
 }
 .bacimage1{
-  height:100px;
-  width: 100px;
-  background: url(../../static/images/icon/s1.png) no-repeat;
+  height:80px;
+  width: 80px;
+  background: url(../../static/images/icon/21.png) no-repeat;
   background-size: cover;
 }
 .bacimage2{
-  height:100px;
-  width: 100px;
-  background: url(../../static/images/icon/s2.png) no-repeat;
+  height:80px;
+  width: 80px;
+  background: url(../../static/images/icon/22.png) no-repeat;
   background-size: cover;
 }
 .bacimage3{
-  height:100px;
-  width: 100px;
-  background: url(../../static/images/icon/s3.png) no-repeat;
+  height:80px;
+  width: 80px;
+  background: url(../../static/images/icon/24.png) no-repeat;
   background-size: cover;
 }
 .bacimage4{
-  height:100px;
-  width: 100px;
-  background: url(../../static/images/icon/s4.png) no-repeat;
+  height:80px;
+  width: 80px;
+  background: url(../../static/images/icon/23.png) no-repeat;
   background-size: cover;
 }
 

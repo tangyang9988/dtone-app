@@ -110,19 +110,11 @@
           </view>
           <view class="cardButtons" v-if="menuurl == 'airPollution_index' ||menuurl == 'surfaceWater_index'">
             <button
-              v-if="item.status == '2'"
               class="cu-btn round bg-green"
               size="mini"
               @click="showForm(item)"
             >
-              处理
-            </button>
-            <button
-              v-else-if="item.status == '3' || item.status == '6'"
-              class="cu-btn round bg-red"
-              size="mini"
-            >
-              已处理
+              {{item.statusLabel}}
             </button>
           </view>
           <view class="cardButtons" v-else>
@@ -132,14 +124,7 @@
             size="mini"
             @click="dealForm(item)"
           >
-            处理
-          </button>
-          <button
-            v-else-if="item.status == '12' || item.status == '6'"
-            class="cu-btn round bg-red"
-            size="mini"
-          >
-            已处理
+            {{item.statusLabel}}
           </button>
         </view>
         </view>
@@ -206,6 +191,7 @@ export default {
     closeDialog() {
       this.abnormalFormHShow = false;
       this.waterAndGasFormShow = false;
+      this.getList(this.siteId);
     },
     startopen() {
       this.$refs.calendar.open();

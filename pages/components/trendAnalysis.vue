@@ -4,20 +4,12 @@
       <view class="leftTitle">因子48小时曲线</view>
       <!-- 卡片列表 -->
       <view class="charts-box">
-        <qiun-data-charts class="chartColum" type="column" :chartData="echartdata" />
+        <qiun-data-charts class="chartColum" type="line" :chartData="echartdata"/>
       </view>
       <span style="margin-left:40%;" v-if="isData">暂无数据</span>
       <view class="rightButton">
-        <button
-          class="cu-btn"
-          size="mini"
-          @click="close()"
-          style="margin-right: 20px"
-        >
-          取消
-        </button>
-        <button class="cu-btn bg-green" size="mini" @click="confirm()">
-          确定
+        <button class="cu-btn bg-green" size="mini" @click="close()">
+          关闭
         </button>
       </view>
     </view>
@@ -119,13 +111,13 @@ export default {
   overflow-x: scroll;
   white-space: nowrap;
 }
-.chartColum {
-  width:900px;
-}
 .charts-box::-webkit-scrollbar {
   width: 10;
   height: 10;
   display: none;
+}
+.chartColum{
+  width:900px;
 }
 .rightButton {
   position: absolute;

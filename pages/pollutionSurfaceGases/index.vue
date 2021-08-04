@@ -90,9 +90,9 @@
             </view>
           </view> -->
           <view class="factorList">
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">CH4</view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">甲烷</view>
               <view class="factorName" :style="{background:getColor(value.no2.value)}"  @click="factorClick('no2', value,'NO2')">NO2</view>
-              <view class="factorName" :style="{background:getColor(value.nox.value)}"  @click="factorClick('nox', value,'NOX')">NOX</view>
+              <view class="factorName" :style="{background:getColor(value.nox.value)}"  @click="factorClick('nox', value,'NOX')">氮氧化合物</view>
               <view class="factorName" :style="{background:getColor(value.so2.value)}"  @click="factorClick('so2', value,'SO2')">SO2</view>
               <view class="factorName" :style="{background:getColor(value.nmhc.value)}"  @click="factorClick('nmhc', value,'非甲烷总烃')">非甲烷总烃</view>
               <view class="factorName" :style="{background:getColor(value.yc.value)}"  @click="factorClick('yc', value,'烟尘')">烟尘</view>

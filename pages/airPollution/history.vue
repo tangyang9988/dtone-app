@@ -104,12 +104,7 @@
         </view>
     </view>
     <!-- 卡片列表 -->
-    <view
-      class="lists"
-      v-infinite-scroll="loadMore"
-      infinite-scroll-disabled="busy"
-      infinite-scroll-distance="20"
-    >
+    <view>
     <view class="detailCards">
       <view v-for="(item, itemIndex) in tableFactorList" :key="itemIndex">
         <view class="detailCard" v-if="menuType == 'airPollution_index'">
@@ -135,27 +130,33 @@
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">CO：</view>
+              <view class="content_value_name">一氧化碳：</view>
               <view class="content_value">
                 <view>{{ item.CO }}</view>
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">NO：</view>
+              <view class="content_value_name">一氧化氮：</view>
               <view class="content_value">
                 <view>{{ item.no }}</view>
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">NO2：</view>
+              <view class="content_value_name">二氧化氮：</view>
               <view class="content_value">
                 <view>{{ item.no2 }}</view>
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">O3：</view>
+              <view class="content_value_name">臭氧：</view>
               <view class="content_value">
                 <view>{{ item.o3 }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">二氧化硫：</view>
+              <view class="content_value">
+                <view>{{ item.so2 }}</view>
               </view>
             </view>
             <view class="singleFactor">
@@ -170,15 +171,9 @@
                 <view>{{ item.pm10 }}</view>
               </view>
             </view>
-            <view class="singleFactor">
-              <view class="content_value_name">SO2：</view>
-              <view class="content_value">
-                <view>{{ item.so2 }}</view>
-              </view>
-            </view>
           </view>
         </view>
-        <view class="detailCard" v-else>
+        <view class="detailCard" v-else-if="menuType=='surfaceWater_index' || menuType=='pollutionSurfaceWater_index'">
           <view class="detailCard_header">
             <view class="header_title">
               {{ item.stationName }}
@@ -189,51 +184,107 @@
           </view>
           <view class="content">
             <view class="singleFactor">
-              <view class="content_value_name">ad：</view>
+              <view class="content_value_name">氨氮：</view>
               <view class="content_value">
                 <view>{{ item.ad }}</view>
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">cf：</view>
+              <view class="content_value_name">总磷：</view>
               <view class="content_value">
-                <view>{{ item.cf }}</view>
+                <view>{{ item.zl }}</view>
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">codmn：</view>
+              <view class="content_value_name">总氮：</view>
+              <view class="content_value">
+                <view>{{ item.zd }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">高锰酸盐：</view>
               <view class="content_value">
                 <view>{{ item.codmn }}</view>
               </view>
             </view>
+
             <view class="singleFactor">
-              <view class="content_value_name">do：</view>
-              <view class="content_value">
-                <view>{{ item.do }}</view>
-              </view>
-            </view>
-            <view class="singleFactor">
-              <view class="content_value_name">ec：</view>
+              <view class="content_value_name">电导率：</view>
               <view class="content_value">
                 <view>{{ item.ec }}</view>
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">ph：</view>
+              <view class="content_value_name">PH：</view>
               <view class="content_value">
                 <view>{{ item.ph }}</view>
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">sw：</view>
+              <view class="content_value_name">水温：</view>
               <view class="content_value">
                 <view>{{ item.sw }}</view>
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">tub：</view>
+              <view class="content_value_name">浊度：</view>
               <view class="content_value">
                 <view>{{ item.tub }}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="detailCard" v-else-if="menuType=='pollutionSurfaceGases_index'">
+          <view class="detailCard_header">
+            <view class="header_title">
+              {{ item.outletName }}
+            </view>
+            <view class="header_title">
+              {{ item.updateTime }}
+            </view>
+          </view>
+          <view class="content">
+            <view class="singleFactor">
+              <view class="content_value_name">甲烷：</view>
+              <view class="content_value">
+                <view>{{ item.ch4 }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">二氧化氮：</view>
+              <view class="content_value">
+                <view>{{ item.no2 }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">氮氧化合物：</view>
+              <view class="content_value">
+                <view>{{ item.nox }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">二氧化硫：</view>
+              <view class="content_value">
+                <view>{{ item.so2 }}</view>
+              </view>
+            </view>
+
+            <view class="singleFactor">
+              <view class="content_value_name">非甲烷总烃：</view>
+              <view class="content_value">
+                <view>{{ item.nmhc }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">烟尘：</view>
+              <view class="content_value">
+                <view>{{ item.yc }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">流速：</view>
+              <view class="content_value">
+                <view>{{ item.yqls }}</view>
               </view>
             </view>
           </view>
@@ -290,16 +341,10 @@ export default {
   },
   methods: {
     startopen() {
-      if (this.active != "auto") {
-      } else {
-        this.$refs.calendar.open();
-      }
+      this.$refs.calendar.open();
     },
     endopen() {
-      if (this.active != "auto") {
-      } else {
-        this.$refs.calendar2.open();
-      }
+      this.$refs.calendar2.open();
     },
     bindPickerChange(e) {
       this.tableFactorList = [];
@@ -393,19 +438,6 @@ export default {
       // });
     },
     // 加载更多
-    loadMore() {
-    this.isNoData = false;
-      if (this.current >= this.totalPage) {
-        this.isNoData = true;
-        return false;
-      }
-      this.busy = true;
-      setTimeout(() => {
-        this.current++;
-        this.getList(that.siteId);
-        this.busy = false;
-      }, 1000);
-    },
     //选择站点
     selectPort(e) {
       var that = this;
