@@ -34,8 +34,7 @@
             @blur="bindTextAreaBlur"
           />
         </view>
-        <view class="leftLable"
-          ><span>是否上传附件:</span>
+        <view class="leftLable"><span>是否上传附件:</span>
           <radio-group @change="fileChange">
             <label class="radio" style="margin-right: 30rpx">
               <radio value="0" style="transform: scale(0.7)" />否
@@ -44,6 +43,12 @@
               <radio value="1" style="transform: scale(0.7)" />是
             </label>
           </radio-group>
+        </view>
+        <view class="show_img" v-if="fileValue=='1'">
+          <image :src="imagSrc" @click="chooseImage" class="show_img_image"></image>   
+          <view class="" v-for="(item,index) in imgList" :key="index" :data-url="imgList[index]">
+            <image :src="imgList[index]" class="show_img_image"></image>
+          </view>
         </view>
       </view>
       <view class="rightButton">
@@ -76,6 +81,7 @@ export default {
       status: "",
       loading: false,
       imagSrc: "../../static/images/upload.png",
+      fileValue:"",
       filesList: [],
     };
   },
@@ -172,12 +178,7 @@ export default {
       this.options = e.detail.value;
     },
     fileChange(evt) {
-      let value = evt.detail.value;
-      if (value == "0") {
-        this.filesList = [];
-      } else if (value == "1") {
-        this.filesList = [];
-      }
+      this.fileValue = evt.detail.value;
     },
     close() {
       this.$emit("close");

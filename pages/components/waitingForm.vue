@@ -21,8 +21,7 @@
         >处置意见:
         <textarea class="textarea" style="font-size: 13px;" @blur="bindTextAreaBlur" />
       </view>
-      <view class="leftLable"
-        ><span>是否上传附件:</span>
+      <view class="leftLable"><span>是否上传附件:</span>
         <radio-group @change="fileChange">
           <label class="radio" style="margin-right: 30rpx">
             <radio value="0" style="transform: scale(0.7)" />否
@@ -31,6 +30,12 @@
             <radio value="1" style="transform: scale(0.7)" />是
           </label>
         </radio-group>
+      </view>
+      <view class="show_img" v-if="fileValue=='1'">
+        <image :src="imagSrc" @click="chooseImage" class="show_img_image"></image>   
+        <view class="" v-for="(item,index) in imgList" :key="index" :data-url="imgList[index]">
+          <image :src="imgList[index]" class="show_img_image"></image>
+        </view>
       </view>
       <view class="rightButton">
         <button
@@ -59,10 +64,56 @@ export default {
       options: "",
       status: "",
       loading: false,
+      imagSrc: "../../static/images/upload.png",
+      imgList:[],
+      fileValue:"",
       filesList: [],
     };
   },
   methods: {
+    chooseImage() {
+        uni.chooseImage({
+            success: (chooseImageRes) => {
+                const tempFilePaths = chooseImageRes.tempFilePaths;
+                const tokeValue=uni.getStorageSync("access-user")
+                if (this.imgList.length != 0) {
+                    this.imgList = this.imgList.concat(tempFilePaths)
+                } else {
+                    this.imgList = tempFilePaths
+                }
+                uni.uploadFile({
+                    url: appConfig.WEB_API +'/dutjt-resource/oss/endpoint/put-file', //仅为示例，非真实的接口地址
+                    header:{
+                      "dutjt-Auth":'bearer ' +tokeValue
+                    },
+                    method: 'post',
+                    filePath: tempFilePaths[0],
+                    name: 'file',
+                    formData:{},
+                    success: (res) => {
+                      var resData = JSON.parse(res.data)
+                      JSON.stringify()
+                        uni.showToast({
+                          title: "上传文件成功!",
+                          icon: "none"
+                        })
+                      this.filesList=[{
+                      link:resData.data.link,//附件地址
+                      buId:this.selectCard.id,//对应待办中的id
+                      originalName:resData.data.originalName,//附件原始名称
+                      userTaskId:this.selectCard.userTaskId,//对应待办中的userTaskId
+                      }]
+                    },
+                    fail: () => {
+                      uni.showToast({
+                        title: '上传文件失败!',
+                        icon: 'none',
+                      })
+                    },
+                });
+            }
+        });
+    },
     confirm() {
       var that = this;
       if (that.options == "") {
@@ -115,12 +166,7 @@ export default {
       }
     },
     fileChange(evt) {
-      let value = evt.detail.value;
-      if (value == "0") {
-        this.filesList = [];
-      } else if (value == "1") {
-        this.filesList = [];
-      }
+      this.fileValue = evt.detail.value;
     },
     close() {
       this.$emit("close");
@@ -147,12 +193,27 @@ export default {
   height: 60px;
 }
 .rightButton {
-  position: absolute;
-  right: 20px;
+  text-align: right;
+  margin-right:5px;
 }
 .radio {
   height: 15px;
   weight: 15px;
+}
+.show_img {
+  display: flex;
+  flex-wrap: nowrap;
+  width:100%;
+  height:100%;
+  border: 2upx dashed #eee;
+  margin: 10px 20px;
+}
+.show_img_image {
+    width:80px;
+    height:80px;
+    border: 2upx dashed #eee;
+    background-size: cover;
+    margin-right: 5px;
 }
 .cpt-mask {
   position: absolute;
@@ -160,7 +221,7 @@ export default {
   opacity: 1;
   z-index: 99;
   width: 90%;
-  height: 280px;
+  padding:5px;
   margin: 40% 5%;
   background-color: white;
   border-radius: 10px;
