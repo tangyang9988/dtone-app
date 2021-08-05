@@ -200,13 +200,10 @@ export default {
       this.$refs.calendar2.open();
     },
     upper: function (e) {
-      console.log(e);
     },
     lower: function (e) {
-      console.log(e);
     },
     scroll: function (e) {
-      console.log(e);
       this.old.scrollTop = e.detail.scrollTop;
     },
     bindPickerChange(e) {
@@ -345,6 +342,7 @@ export default {
       }
     },
     getAirWaringSelectPage(siteId,source,processKey){
+      this.tableFactorList = [];
       var that = this;
       airWaringSelectPage(
         siteId,
@@ -370,6 +368,7 @@ export default {
       );
     },
     getPollutionWarningSelectPage(siteId,processKey){
+      this.tableFactorList = [];
       var that = this;
       pollutionWarningSelectPage(
         siteId,

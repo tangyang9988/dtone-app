@@ -64,6 +64,7 @@
 </template>
 <script>
 import { dealWithPollution } from "../../api/airPollution.js";
+import { appConfig } from '../../config/config.js'
 export default {
   props: ["selectCard", "isShow"],
   data() {
@@ -80,20 +81,61 @@ export default {
   },
   methods: {
     chooseImage() {
-      uni.chooseImage({
-          count: 3, //默认9
-          sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-          sourceType: ['album'], //从相册选择
-          success: (res) => {
-              if (this.imgList.length != 0) {
-                  this.imgList = this.imgList.concat(res.tempFilePaths)
-              } else {
-                  this.imgList = res.tempFilePaths
-              }
-              console.log(this.imgList)
-          }
+      // uni.chooseImage({
+      //     count: 3, //默认9
+      //     sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+      //     sourceType: ['album'], //从相册选择
+      //     success: (res) => {
+      //         if (this.imgList.length != 0) {
+      //             this.imgList = this.imgList.concat(res.tempFilePaths)
+      //         } else {
+      //             this.imgList = res.tempFilePaths
+      //         }
+      //         console.log(this.imgList)
+      //     }
           
-      });
+      // });
+        uni.chooseImage({
+            success: (chooseImageRes) => {
+                const tempFilePaths = chooseImageRes.tempFilePaths;
+                const tokeValue=uni.getStorageSync("access-user")
+                if (this.imgList.length != 0) {
+                    this.imgList = this.imgList.concat(tempFilePaths)
+                } else {
+                    this.imgList = tempFilePaths
+                }
+                uni.uploadFile({
+                    url: appConfig.WEB_API +'/dutjt-resource/oss/endpoint/put-file', //仅为示例，非真实的接口地址
+                    header:{
+                      "dutjt-Auth":'bearer ' +tokeValue
+                    },
+                    method: 'post',
+                    filePath: tempFilePaths[0],
+                    name: 'file',
+                    formData:{},
+                    success: (res) => {
+                      var resData = JSON.parse(res.data)
+                      JSON.stringify()
+                        uni.showToast({
+                          title: "上传文件成功!",
+                          icon: "none"
+                        })
+                      this.filesList=[{
+                      link:resData.data.link,//附件地址
+                      buId:this.selectCard.id,//对应待办中的id
+                      originalName:resData.data.originalName,//附件原始名称
+                      userTaskId:this.selectCard.userTaskId,//对应待办中的userTaskId
+                      }]
+                    },
+                    fail: () => {
+                      uni.showToast({
+                        title: '上传文件失败!',
+                        icon: 'none',
+                      })
+                    },
+                });
+            }
+        });
     },
     confirm() {
       var that = this;
@@ -110,12 +152,6 @@ export default {
           status: that.status, //处理状态： flag是1，status是3；flag是0，status是6
           processInstanceId: that.selectCard.processInstanceId, //对应processInstanceId
           filesList: that.filesList,
-          filesList:[{
-          link:"" ,//附件地址
-          buId:that.selectCard.id,//对应待办中的id
-          originalName:"",//附件原始名称
-          userTaskId:that.selectCard.userTaskId,//对应待办中的userTaskId
-          }]
         };
         dealWithPollution(obj).then(
           function (result) {
