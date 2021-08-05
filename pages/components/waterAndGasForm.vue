@@ -48,6 +48,7 @@
           <image :src="imagSrc" @click="chooseImage" class="show_img_image"></image>   
           <view class="" v-for="(item,index) in imgList" :key="index" :data-url="imgList[index]">
             <image :src="imgList[index]" class="show_img_image"></image>
+            <view style="text-align:center">{{iconName}}</view>
           </view>
         </view>
       </view>
@@ -82,6 +83,7 @@ export default {
       loading: false,
       imagSrc: "../../static/images/upload.png",
       fileValue:"",
+      iconName:"",
       filesList: [],
     };
   },
@@ -103,6 +105,7 @@ export default {
       // });
         uni.chooseImage({
             success: (chooseImageRes) => {
+                this.iconName = chooseImageRes.tempFiles[0].name
                 const tempFilePaths = chooseImageRes.tempFilePaths;
                 const tokeValue=uni.getStorageSync("access-user")
                 if (this.imgList.length != 0) {

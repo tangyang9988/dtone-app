@@ -33,8 +33,9 @@
       </view>
       <view class="show_img" v-if="fileValue=='1'">
         <image :src="imagSrc" @click="chooseImage" class="show_img_image"></image>   
-        <view class="" v-for="(item,index) in imgList" :key="index" :data-url="imgList[index]">
+        <view v-for="(item,index) in imgList" :key="index" :data-url="imgList[index]">
           <image :src="imgList[index]" class="show_img_image"></image>
+          <view style="text-align:center">{{iconName}}</view>
         </view>
       </view>
       <view class="rightButton">
@@ -55,6 +56,7 @@
 </template>
 <script>
 import { dealWithAir } from "../../api/airPollution.js";
+import { appConfig } from '../../config/config.js'
 export default {
   props: ["selectCard", "isShow"],
   data() {
@@ -67,6 +69,7 @@ export default {
       imagSrc: "../../static/images/upload.png",
       imgList:[],
       fileValue:"",
+      iconName:"",
       filesList: [],
     };
   },
@@ -74,7 +77,9 @@ export default {
     chooseImage() {
         uni.chooseImage({
             success: (chooseImageRes) => {
+              debugger
                 const tempFilePaths = chooseImageRes.tempFilePaths;
+                this.iconName = chooseImageRes.tempFiles[0].name
                 const tokeValue=uni.getStorageSync("access-user")
                 if (this.imgList.length != 0) {
                     this.imgList = this.imgList.concat(tempFilePaths)
