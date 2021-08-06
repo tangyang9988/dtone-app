@@ -6,6 +6,9 @@ import axios from 'axios'
 import qs from 'qs'
 Vue.prototype.$qs = qs
 
+// import Vconsole from 'vconsole';
+// new Vconsole();
+
 import blogHome from './pages/home/home.vue'
 Vue.component('blogHome',blogHome)
 import cuCustom from './colorui/components/cu-custom.vue'
@@ -14,9 +17,9 @@ Vue.component('cu-custom',cuCustom)
 import zhouWeiNavBar from "./components/zhouWei-navBar";
 Vue.component("nav-bar", zhouWeiNavBar);
 
-import infiniteScroll from 'vue-infinite-scroll'
-// 懒加载
-Vue.use(infiniteScroll)
+// import infiniteScroll from 'vue-infinite-scroll'
+// // 懒加载
+// Vue.use(infiniteScroll)
 
 Vue.config.productionTip = false
 // import hljs from 'highlight.js/lib/highlight';

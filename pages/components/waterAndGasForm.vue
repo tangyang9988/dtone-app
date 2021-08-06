@@ -105,7 +105,7 @@ export default {
       // });
         uni.chooseImage({
             success: (chooseImageRes) => {
-                this.iconName = chooseImageRes.tempFiles[0].name
+            this.iconName = chooseImageRes.tempFiles[0].name
                 const tempFilePaths = chooseImageRes.tempFilePaths;
                 const tokeValue=uni.getStorageSync("access-user")
                 if (this.imgList.length != 0) {
