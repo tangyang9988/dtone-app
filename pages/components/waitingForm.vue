@@ -55,7 +55,6 @@
   </div>
 </template>
 <script>
-import { dealWithAir } from "../../api/airPollution.js";
 import { appConfig } from '../../config/config.js'
 export default {
   props: ["selectCard", "isShow"],
@@ -102,12 +101,13 @@ export default {
                           title: "上传文件成功!",
                           icon: "none"
                         })
-                      this.filesList=[{
+                      var obj={
                       link:resData.data.link,//附件地址
                       buId:this.selectCard.id,//对应待办中的id
                       originalName:resData.data.originalName,//附件原始名称
                       userTaskId:this.selectCard.userTaskId,//对应待办中的userTaskId
-                      }]
+                      }
+                      this.filesList.push(obj)
                     },
                     fail: () => {
                       uni.showToast({
@@ -127,36 +127,36 @@ export default {
 							icon: "none"
 						})
       } else {
-        var obj = {
-          id: that.selectCard.id, //对应待办中的id
-          userTaskId: that.selectCard.userTaskId, //对应待办中的userTaskId
-          taskId: that.selectCard.taskId, //对应taskId
-          flag: that.flag, // 1表示选择存在污染源，0表示正常条件
-          options: that.options, //处置意见内容
-          status: that.status, //处理状态： flag是1，status是3；flag是0，status是6
-          processInstanceId: that.selectCard.processInstanceId, //对应processInstanceId
-          filesList: that.filesList,
-          // filesList:[{
-          // link:”http://58.216.249.82:9000/000000-dutjtx/upload/20210617/
-          // 86fc50040bb7b931ca1e19aa8321ab82.txt” ,//附件地址
-          // buId:”1402913481744564224”,//对应待办中的id
-          // originalName:”111.txt”,//附件原始名称
-          // userTaskId:”air_warning_maintain”,//对应待办中的userTaskId
-          // }]
-        };
-        dealWithAir(obj).then(
-          function (result) {
-            uni.showToast({
-              title: "处理成功！",
-            });
-            that.$emit("close");
-          },
-          function (err) {
-            uni.showToast({
-              title: "处理异常！",
-            });
-          }
-        );
+        const tokeValue=uni.getStorageSync("access-user")
+        uni.request({
+            url: appConfig.WEB_API + '/bu/airWarningManage/dealWithAir',
+            method: 'post',
+            data: {
+              id: that.selectCard.id, //对应待办中的id
+              userTaskId: that.selectCard.userTaskId, //对应待办中的userTaskId
+              taskId: that.selectCard.taskId, //对应taskId
+              flag: that.flag, // 1表示选择存在污染源，0表示正常条件
+              options: that.options, //处置意见内容
+              status: that.status, //处理状态： flag是1，status是3；flag是0，status是6
+              processInstanceId: that.selectCard.processInstanceId, //对应processInstanceId
+              filesList: that.filesList,
+            },
+            header:{
+              "dutjt-Auth":'bearer ' +tokeValue
+            },
+            success: (res) => {
+              if(res.data.code==200){
+                uni.showToast({
+                  title: "处理成功！",
+                });
+                that.$emit("close");
+              }else{
+                uni.showToast({
+                  title: "处理失败！",
+                });
+              }
+            }
+        });
       }
     },
     bindTextAreaBlur(e) {

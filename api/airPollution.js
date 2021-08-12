@@ -75,14 +75,14 @@ export const comparativeAnalysis = (obj) =>{
     // params: {stations,from,end,kong,level}
   });
 }
-// 待办处理
-export const dealWithAir = (obj) =>{
-  return request({  
-    url: appConfig.WEB_API + '/bu/airWarningManage/dealWithAir',
-    method: 'post',
-    data:obj
-  });
-}
+// 空气待办处理
+// export const dealWithAir = (obj) =>{
+//   return request({  
+//     url: appConfig.WEB_API + '/bu/airWarningManage/dealWithAir',
+//     method: 'post',
+//     data:obj
+//   });
+// }
 //废水待办列表
 export const pollutionWarningSelectPage = (enterpriseId,processKey,current,size,start,end) =>{
   return request({  
@@ -92,13 +92,13 @@ export const pollutionWarningSelectPage = (enterpriseId,processKey,current,size,
   });
 }
 //废水待办处理
-export const dealWithPollution = (obj) =>{
-  return request({  
-    url: appConfig.WEB_API + '/bu/airWarningManage/dealWithPollution',
-    method: 'post',
-    data:obj
-  });
-}
+// export const dealWithPollution = (obj) =>{
+//   return request({  
+//     url: appConfig.WEB_API + '/bu/airWarningManage/dealWithPollution',
+//     method: 'post',
+//     data:obj
+//   });
+// }
 
 //48小时因子图标
 export const getHistory48hourData = (factor,stationId) =>{

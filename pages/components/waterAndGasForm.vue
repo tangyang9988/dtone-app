@@ -89,20 +89,6 @@ export default {
   },
   methods: {
     chooseImage() {
-      // uni.chooseImage({
-      //     count: 3, //默认9
-      //     sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-      //     sourceType: ['album'], //从相册选择
-      //     success: (res) => {
-      //         if (this.imgList.length != 0) {
-      //             this.imgList = this.imgList.concat(res.tempFilePaths)
-      //         } else {
-      //             this.imgList = res.tempFilePaths
-      //         }
-      //         console.log(this.imgList)
-      //     }
-          
-      // });
         uni.chooseImage({
             success: (chooseImageRes) => {
             this.iconName = chooseImageRes.tempFiles[0].name
@@ -129,12 +115,13 @@ export default {
                           title: "上传文件成功!",
                           icon: "none"
                         })
-                      this.filesList=[{
+                      var obj ={
                       link:resData.data.link,//附件地址
                       buId:this.selectCard.id,//对应待办中的id
                       originalName:resData.data.originalName,//附件原始名称
                       userTaskId:this.selectCard.userTaskId,//对应待办中的userTaskId
-                      }]
+                      }
+                      this.filesList.push(obj)
                     },
                     fail: () => {
                       uni.showToast({
@@ -153,30 +140,35 @@ export default {
           title: "请输入处理意见",
         });
       } else {
-        var obj = {
-          id: that.selectCard.id, //对应待办中的id
-          userTaskId: that.selectCard.userTaskId, //对应待办中的userTaskId
-          taskId: that.selectCard.taskId, //对应taskId
-          options: that.options, //处置意见内容
-          status: that.status, //处理状态： flag是1，status是3；flag是0，status是6
-          processInstanceId: that.selectCard.processInstanceId, //对应processInstanceId
-          filesList: that.filesList,
-        };
-        dealWithPollution(obj).then(function (result) {
-          if(result.data.code==200){
-            uni.showToast({
-              title: "处理成功！",
-            });
-          }else{
-            uni.showToast({
-              title: "处理异常！",
-            });
-          }
-            that.$emit("close");
-          },
-          function (err) {
-          }
-        );
+        const tokeValue=uni.getStorageSync("access-user")
+        uni.request({
+            url: appConfig.WEB_API + '/bu/airWarningManage/dealWithPollution',
+            method: 'post',
+            data: {
+              id: that.selectCard.id, //对应待办中的id
+              userTaskId: that.selectCard.userTaskId, //对应待办中的userTaskId
+              taskId: that.selectCard.taskId, //对应taskId
+              options: that.options, //处置意见内容
+              status: that.status, //处理状态： flag是1，status是3；flag是0，status是6
+              processInstanceId: that.selectCard.processInstanceId, //对应processInstanceId
+              filesList: that.filesList
+            },
+            header:{
+              "dutjt-Auth":'bearer ' +tokeValue
+            },
+            success: (res) => {
+              if(res.data.code==200){
+                uni.showToast({
+                  title: "处理成功！",
+                });
+                that.$emit("close");
+              }else{
+                uni.showToast({
+                  title: "处理失败！",
+                });
+              }
+            }
+        });
       }
     },
     bindTextAreaBlur(e) {
