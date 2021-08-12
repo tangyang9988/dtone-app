@@ -44,7 +44,7 @@
           :class="url == 'airPollution_alert' ? 'text-green' : 'text-gray'"
           >预警管理</view>
       </view>
-      <view class="action" @click="hisClick" data-cur="airPollution_waiting" v-if="role_name.indexOf(pollute_maintain)">
+      <view class="action" @click="hisClick" data-cur="airPollution_waiting" v-if="role_name.indexOf('pollute_maintain')!= -1">
         <view class="cuIcon-cu-image">
           <image src="../../static/images/icon/s12.png"></image>
         </view>

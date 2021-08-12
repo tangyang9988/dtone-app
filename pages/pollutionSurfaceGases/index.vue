@@ -103,7 +103,7 @@
             <view class="factorValue">{{value.yqls.value}}</view>
           </view>
         </view>
-        <view class="noData" v-if="isNoData">暂无数据</view>
+        <view class="noData" v-if="isNoData">没有更多数据啦</view>
       </view>
     </view>
 <!-- 引入自定义菜单组件 -->
@@ -157,28 +157,13 @@ export default {
       size:10,
       totalPage: 0,
       isNoData:false,
-      busy: false,
     };
   },
   methods: {
-    // 加载更多
-    loadMore() {
-    this.isNoData = false;
-      if (this.current >= this.totalPage) {
-        this.isNoData = true;
-        return false;
-      }
-      this.busy = true;
-      setTimeout(() => {
-        this.current++;
-        this.getPortDetail(this.enterpriseId);
-        this.busy = false;
-      }, 1000);
-    },
     bindPickerChange(e) {
       this.portRecord = [];
-      this.current=0;
-      this.totalPage =0;
+      this.current=1;
+      this.size= 10;
       this.index = e.target.value;
       this.enterpriseId = this.siteList[e.target.value].id;
       this.getPortDetail(this.enterpriseId);
@@ -268,6 +253,16 @@ export default {
         });
     },
     
+  },
+  onReachBottom() {
+    // 判断当前页是否大于等于总页数
+    if (this.totalPage <= this.current) {
+        this.isNoData = true;
+    } else {
+    this.current++;
+    this.isNoData = false;
+    this.getPortDetail(this.enterpriseId);   // 每次滑动请求接口，实现上拉加载更多数据
+    }
   },
   mounted() {
     this.selectPort();

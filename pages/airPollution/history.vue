@@ -290,10 +290,10 @@
           </view>
         </view>
       </view>
+      <!-- 暂无数据 -->
+      <view class="noData" v-if="isNoData">没有更多数据啦</view>
     </view>
     </view>
-    <!-- 暂无数据 -->
-    <view class="noData" v-if="isNoData">暂无数据</view>
     <!-- 引入自定义菜单组件 -->
     <bottomMenu url="airPollution_history"></bottomMenu>
   </view>
@@ -321,21 +321,15 @@ export default {
       isNoData: false,
       selectMenu: "his",
       menuType: "",
-      isAuto: true,
-      startShow: false,
-      endShow: false,
       current: 1,
       size: 10,
       totalPage: 0,
-      busy: false,
       start: new Date(),
       end: new Date(),
       pageStart: new Date(),
       pageEnd: new Date(),
       minDate: new Date(2010, 0, 1),
       maxDate: new Date(),
-      loading: false,
-      finished: false,
       tableFactorList: [],
     };
   },
@@ -348,6 +342,8 @@ export default {
     },
     bindPickerChange(e) {
       this.tableFactorList = [];
+      this.current =1;
+      this.size =10;
       this.index = e.target.value;
       this.siteId = this.siteList[e.target.value].id;
       this.getList(this.siteId);
@@ -366,6 +362,8 @@ export default {
     },
     onStartConfirm(date) {
       this.tableFactorList = [];
+      this.current =1;
+      this.size =10;
       this.pageStart = date.fulldate;
       if (this.pageStart > this.pageEnd) {
         this.pageEnd = date.fulldate;
@@ -390,6 +388,8 @@ export default {
     },
     onEndConfirm(date) {
       this.tableFactorList = [];
+      this.current =1;
+      this.size =10;
       this.pageEnd = date.fulldate;
       if (this.pageStart > this.pageEnd) {
         this.pageStart = date.fulldate;
@@ -415,6 +415,8 @@ export default {
         this.pageEnd = this.formatSelectDate(curDate);
       }
       this.tableFactorList = [];
+      this.current =1;
+      this.size =10;
       this.getList(this.siteId);
     },
     historyData(item) {
@@ -428,14 +430,6 @@ export default {
             encodeURIComponent(JSON.stringify(siteId)),
         });
       }, 500);
-      // var groupId = e.siteId;
-      // var start = e.collectTime.split(" ")[0];
-      // var end = e.collectTime.split(" ")[0];
-      // var point = e.deptName +"-" + e.siteName;
-      // this.$router.push({
-      //   path: "/surfaceWater/history",
-      //   query: { groupId: groupId, point: point, start: start, end: end },
-      // });
     },
     // 加载更多
     //选择站点
@@ -505,21 +499,19 @@ export default {
     },
     // 空气--历史数据列表
     getList(siteId) {
-      // var stations = [];
-      // var date = [];
-      // stations[0] = siteId;
-      // date[0] = this.pageStart;
-      // date[1] = this.pageEnd;
       var row = {
         dataType: this.type,
         date:[this.pageStart,this.pageEnd],
         stations: [siteId],
+        current:this.current,
+        size:this.size
       };
       var that = this;
       if (uni.getStorageSync("url") == "airPollution_index") {
         getHistoryList(row).then(
           function (result) {
             let list = result.data.data.records;
+            that.totalPage = result.data.data.total;
             if (list && list.length == 0) {
               that.isNoData = true;
             }
@@ -541,10 +533,13 @@ export default {
           dataType: this.type,
           date,
           stations: stations,
+          current:this.current,
+          size:this.size
         };
         getSurfaceWaterHistoryList(row).then(
           function (result) {
             let list = result.data.data.records;
+            that.totalPage = result.data.data.total;
             if (list.length == 0) {
               that.isNoData = true;
             }
@@ -570,6 +565,7 @@ export default {
         getPollutionSurfaceWaterHistoryList(row).then(
           function (result) {
             let list = result.data.data.records;
+            that.totalPage = result.data.data.total;
             if (list.length == 0) {
               that.isNoData = true;
             }
@@ -595,6 +591,7 @@ export default {
         getPollutionWasteGasHistoryList(row).then(
           function (result) {
             let list = result.data.data.records;
+            that.totalPage = result.data.data.total;
             if (list.length == 0) {
               that.isNoData = true;
             }
@@ -608,6 +605,16 @@ export default {
         );
       }
     },
+  },// uni-app页面滚动到底部的事件，常用于上滑加载下一页数据
+  onReachBottom() {
+    // 判断当前页是否大于等于总页数
+    if (this.totalPage <= this.current) {
+        this.isNoData = true;
+    } else {
+    this.current++;
+    this.isNoData = false;
+    this.getList(this.siteId);   // 每次滑动请求接口，实现上拉加载更多数据
+    }
   },
   mounted: function () {
     this.selectPort();

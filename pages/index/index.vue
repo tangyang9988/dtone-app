@@ -212,7 +212,7 @@ display: flex;
 flex-wrap: wrap;
 justify-content:space-between;
 margin:10px 20px;
-padding:0 10px;
+padding:20px;
 background: #ffffff;
 box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
 opacity: 1;
@@ -224,26 +224,26 @@ border-radius: 12px;
   margin:15px 20px;
 }
 .bacimage1{
-  height:80px;
-  width: 80px;
+  height:85px;
+  width: 85px;
   background: url(../../static/images/icon/21.png) no-repeat;
   background-size: cover;
 }
 .bacimage2{
-  height:80px;
-  width: 80px;
+  height:85px;
+  width: 85px;
   background: url(../../static/images/icon/22.png) no-repeat;
   background-size: cover;
 }
 .bacimage3{
-  height:80px;
-  width: 80px;
+  height:85px;
+  width: 85px;
   background: url(../../static/images/icon/24.png) no-repeat;
   background-size: cover;
 }
 .bacimage4{
-  height:80px;
-  width: 80px;
+  height:85px;
+  width: 85px;
   background: url(../../static/images/icon/23.png) no-repeat;
   background-size: cover;
 }

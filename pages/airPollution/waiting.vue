@@ -129,7 +129,7 @@
         </view>
         </view>
       </view>
-      <view class="noData" v-if="isNoData">暂无数据</view>
+      <view class="noData" v-if="isNoData">没有更多数据啦</view>
     </scroll-view>
     <bottomMenu url="airPollution_waiting"></bottomMenu>
     <view>
@@ -176,10 +176,9 @@ export default {
       isNoData: false,
       current: 1,
       size: 10,
-      busy: false,
+      totalPage: 0,
       start: new Date(),
       end: new Date(),
-      loading: false,
       tableFactorList: [],
       abnormalFormHShow: false,
       waterAndGasFormShow: false,
@@ -207,6 +206,8 @@ export default {
       this.old.scrollTop = e.detail.scrollTop;
     },
     bindPickerChange(e) {
+      this.current= 1;
+      this.size= 10;
       this.tableFactorList = [];
       this.index = e.target.value;
       this.siteId = this.siteList[e.target.value].id;
@@ -232,6 +233,8 @@ export default {
       return str;
     },
     onStartConfirm(date) {
+      this.current= 1;
+      this.size= 10;
       this.tableFactorList = [];
       this.start = date.fulldate;
       if (this.start > this.end) {
@@ -240,24 +243,14 @@ export default {
       this.getList(this.siteId);
     },
     onEndConfirm(date) {
+      this.current= 1;
+      this.size= 10;
       this.tableFactorList = [];
       this.end = date.fulldate;
       if (this.start > this.end) {
         this.start = date.fulldate;
       }
       this.getList(this.siteId);
-    },
-    // 加载更多
-    loadMore() {
-      let that = this;
-      if (that.busy) {
-      } else {
-        setTimeout(() => {
-          //发送请求有时间间隔第一个滚动时间结束后才发送第二个请求
-          that.current++; //滚动之后加载第二页
-          that.getList();
-        }, 100);
-      }
     },
     selectPort(e) {
       var that = this;
@@ -355,6 +348,7 @@ export default {
       ).then(
         function (result) {
           let list = result.data.data.records;
+          that.totalPage = result.data.data.total;
           if (list.length == 0) {
             that.isNoData = true;
           }
@@ -380,6 +374,7 @@ export default {
       ).then(
         function (result) {
           let list = result.data.data.records;
+          that.totalPage = result.data.data.total;
           if (list.length == 0) {
             that.isNoData = true;
           }
@@ -391,6 +386,16 @@ export default {
         },
         function (err) {}
       );
+    }
+  },
+  onReachBottom() {
+    // 判断当前页是否大于等于总页数
+    if (this.totalPage <= this.current) {
+        this.isNoData = true;
+    } else {
+    this.current++;
+    this.isNoData = false;
+    this.getList(this.siteId);   // 每次滑动请求接口，实现上拉加载更多数据
     }
   },
   mounted: function () {

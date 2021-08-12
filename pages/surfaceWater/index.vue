@@ -3,29 +3,26 @@
 	<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block>
 		<block slot="content">地表水</block>
 	</cu-custom>
-  <view class="chartTitle2 ">
+  <!-- <view class="chartTitle2 ">
     <view class="chartMainTitle abnormal">
         <view class="abnormalLine"></view>
         <span id="testQuality" class="abnormalTitle">当月水质等级</span>
     </view>
-  </view>
-    <view class="wholeCard chartCardRadis">
-      <view  class="chartsCard">
-		<text class="totalDays">城市:金坛</text>
-        <text class="totalDays">更新时间:{{formatDate(new Date())}}</text>
-		<!-- <view class="charts-box">
-		  <qiun-data-charts type="arcbar" :opts="{title:{name:'65',color:'#2fc25b',fontSize:20},subtitle:{name:'AQI',color:'#666666',fontSize:18}}" :chartData="chartsData.Arcbar1"/>
-		</view> -->
-    <view class="charts-box margin-top">
-      <qiun-data-charts type="rose" :opts="{legend:{position: 'bottom'}}" :chartData="chartsData.Rose1"/>
-    </view>
-	  </view>
-    </view>
-	
-     <view class="chartMainTitle abnormal">
-             <view class="abnormalLine"></view>
-             <span id="testQuality" class="abnormalTitle">实时数据</span>
+  </view> -->
+  <!-- <view class="wholeCard chartCardRadis">
+    <view  class="chartsCard">
+      <text class="totalDays">城市:金坛</text>
+      <text class="totalDays">更新时间:{{formatDate(new Date())}}</text>
+      <view class="charts-box margin-top">
+        <qiun-data-charts type="rose" :opts="{legend:{position: 'bottom'}}" :chartData="chartsData.Rose1"/>
       </view>
+    </view>
+  </view> -->
+	
+  <view class="chartMainTitle abnormal">
+    <view class="abnormalLine"></view>
+    <span id="testQuality" class="abnormalTitle">实时数据</span>
+  </view>
     <!-- 真实记录 开始 -->
     <view>
       <!-- 卡片开始 -->
@@ -86,7 +83,7 @@ export default {
   data() {
     return {
     trendAnalysisShow: false,
-	  chartsData: {},	
+	  // chartsData: {},	
     pixelRatio: 1,
     cWidth2:'',//圆弧进度图
     cHeight2:'',//圆弧进度图
@@ -362,7 +359,7 @@ export default {
   },
   onReady() {
     //模拟从服务器获取数据
-    this.getServerData()
+    // this.getServerData()
   },
   created() {},
 };
