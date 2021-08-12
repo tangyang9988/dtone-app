@@ -647,7 +647,7 @@ export default {
 
 .detailCards {
   width: 100%;
-  padding-bottom: 40px;
+  padding-bottom: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;

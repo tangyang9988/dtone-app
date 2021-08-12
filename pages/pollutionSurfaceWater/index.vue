@@ -10,10 +10,11 @@
   <view class="cu-bar search bg-white">
     <view class="search-form round">
       <picker
-        @change="bindPickerChange"
+      @change="bindPickerChange"
         :range="siteList"
         :value="index"
         :range-key="'stationName'"
+        style="width: 100%;"
       >
         <text class="content_value_name" style="margin-left: 20px"
           >请选择企业：</text

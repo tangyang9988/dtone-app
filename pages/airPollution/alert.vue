@@ -12,6 +12,7 @@
           :range="siteList"
           :value="index"
           :range-key="'stationName'"
+          style="width: 100%;"
         >
           <text class="content_value_name" style="margin-left: 20px"
             >选择企业：</text>
@@ -29,6 +30,7 @@
           :range="statusList"
           :value="sindex"
           :range-key="'status'"
+          style="width: 100%;"
         >
           <text class="content_value_name" style="margin-left: 20px"
             >选择状态：</text
@@ -105,14 +107,13 @@
       </checkbox-group>
     </view> -->
     <!-- 列表 -->
-    <scroll-view
+    <!-- <scroll-view
       :scroll-top="scrollTop"
       scroll-y="true"
       class="scroll-Y"
       @scrolltoupper="upper"
       @scrolltolower="lower"
-      @scroll="scroll"
-    >
+      @scroll="scroll"> -->
       <view class="detailCards">
         <view
           v-for="(item, iIndex) in tableFactorList"
@@ -166,9 +167,10 @@
             <view class="inlineFactorValue">{{ item.updateTime }}</view>
           </view>
         </view>
+        <!-- 信息提示无数据! -->
+        <view class="noData" v-if="isNoData">没有更多数据啦</view>
       </view>
-    <view class="noData" v-if="isNoData" style="margin-bottom:10px;">暂无数据</view>
-    </scroll-view>
+    <!-- </scroll-view> -->
     <bottomMenu url="airPollution_alert"></bottomMenu>
   </view>
 </template>
@@ -198,7 +200,7 @@ export default {
       date: "",
       current: 1,
       size: 10,
-      busy: false,
+      totalPage: 0,
       start: new Date(),
       end: new Date(),
       loading: false,
@@ -219,11 +221,12 @@ export default {
       console.log(e);
     },
     scroll: function (e) {
-      console.log(e);
       this.old.scrollTop = e.detail.scrollTop;
     },
     bindPickerChange(e) {
       this.tableFactorList = [];
+      this.current =1;
+      this.size =10;
       this.index = e.target.value;
       this.siteId = this.siteList[e.target.value].id;
       if(this.statusId==undefined){
@@ -233,6 +236,8 @@ export default {
     },
     statusPickerChange(e) {
       this.tableFactorList = [];
+      this.current =1;
+      this.size =10;
       this.sindex = e.target.value;
       this.statusId = this.statusList[e.target.value].id;
       this.getList(this.siteId);
@@ -250,6 +255,8 @@ export default {
     },
     onStartConfirm(date) {
       this.tableFactorList = [];
+      this.current =1;
+      this.size =10;
       this.start = date.fulldate;
       if (this.start > this.end) {
         this.end = date.fulldate;
@@ -258,6 +265,8 @@ export default {
     },
     onEndConfirm(date) {
       this.tableFactorList = [];
+      this.current =1;
+      this.size =10;
       this.end = date.fulldate;
       if (this.start > this.end) {
         this.start = date.fulldate;
@@ -266,18 +275,6 @@ export default {
     },
     formatDate(date) {
       return `${date.getMonth() + 1}/${date.getDate()}`;
-    },
-    // 加载更多
-    loadMore() {
-      let that = this;
-      if (that.busy) {
-      } else {
-        setTimeout(() => {
-          //发送请求有时间间隔第一个滚动时间结束后才发送第二个请求
-          that.current++; //滚动之后加载第二页
-          that.getList();
-        }, 100);
-      }
     },
     async selectPort(e) {
       var that = this;
@@ -328,16 +325,17 @@ export default {
     },
     // 获取列表
     getList(siteId) {
-      var that = this;
       var processKey="pollution_warning"
       if(uni.getStorageSync("url") == "pollutionSurfaceWater_index"){
         var source =4
       }else if(uni.getStorageSync("url") == "pollutionSurfaceGases_index"){
         var source =3
       }
+      var that = this;
       getWarningList(that.start,that.end,processKey,source,that.statusId,siteId,that.current,that.size).then(
         function (result) {
           let list = result.data.data.records;
+          that.totalPage = result.data.data.total;
           if (list.length == 0) {
             that.isNoData = true;
           }
@@ -351,6 +349,16 @@ export default {
       );
     },
   },
+  onReachBottom() {
+    // 判断当前页是否大于等于总页数
+    if (this.totalPage <= this.current) {
+        this.isNoData = true;
+    } else {
+    this.current++;
+    this.isNoData = false;
+    this.getList(this.siteId);   // 每次滑动请求接口，实现上拉加载更多数据
+    }
+  },
   mounted: function () {
     this.selectPort();
     this.start = this.formatSelectDate(new Date(this.start));
@@ -361,7 +369,7 @@ export default {
 <style scoped lang="scss">
 @import "../../static/css/index.css";
 .scroll-Y {
-  height: 900rpx;
+  // height: 900rpx;
 }
 .van-search {
   padding: 2px 12px 5px 12px;
@@ -395,11 +403,12 @@ export default {
 }
 
 .detailCards {
-  width: 100%;
+  padding-bottom:40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 }
 
 .detailCard {
