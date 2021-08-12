@@ -57,7 +57,7 @@
           class="cu-btn"
           size="mini"
           @click="close()"
-          style="margin-right: 20px"
+          style="margin-right:10px;"
         >
           取消
         </button>
@@ -162,17 +162,19 @@ export default {
           processInstanceId: that.selectCard.processInstanceId, //对应processInstanceId
           filesList: that.filesList,
         };
-        dealWithPollution(obj).then(
-          function (result) {
+        dealWithPollution(obj).then(function (result) {
+          if(result.data.code==200){
             uni.showToast({
               title: "处理成功！",
             });
-            that.$emit("close");
-          },
-          function (err) {
+          }else{
             uni.showToast({
               title: "处理异常！",
             });
+          }
+            that.$emit("close");
+          },
+          function (err) {
           }
         );
       }
@@ -231,8 +233,8 @@ export default {
   height: 60px;
 }
 .rightButton {
-  position: absolute;
-  right: 20px;
+  text-align: right;
+  margin-right: 20px;
 }
 .radio {
   height: 15px;
@@ -244,8 +246,8 @@ export default {
   opacity: 1;
   z-index: 99;
   width: 90%;
-  height: 300px;
   margin: 40% 5%;
+  padding:10px 0px;
   background-color: white;
   border-radius: 10px;
 

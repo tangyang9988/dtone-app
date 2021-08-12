@@ -23,12 +23,7 @@
     </view>
   </view>
     <!-- 真实记录 开始 -->
-    <view
-      class="lists"
-      v-infinite-scroll="loadMore"
-      infinite-scroll-disabled="busy"
-      infinite-scroll-distance="20"
-    >
+    <view>
       <!-- 卡片开始 -->
       <view class="detailCards">
         <view v-for = "(value,key) in portRecord" :key="key" class="detailCard">

@@ -142,3 +142,19 @@ Vue.component('cu-custom',cuCustom)
     *  完成元素，组件移植
 	*  icon文件更改名称，避免图标冲突
 	*  针对不同端口做了优化
+* 2021年8月10日
+   node_modules->uni-request->helpers->units 更改方法：deepMerge(),解决uni-request的请求体数组问题
+        export const deepMerge = function () {
+            let result = {};
+            Array.from(arguments).forEach(e =>{
+                if( e && typeof e === 'object' && !isEmptyObject(e) ) {
+                    Object.keys(e).forEach( key => {
+                        if( typeof e[key] === 'object' && !(e[key] instanceof Array) ){
+                            return result[key] = deepMerge( result[key] , e[key] )
+                        }
+                        result[key] = e[key]
+                    });
+                }
+            })
+            return result ;
+        }

@@ -43,7 +43,7 @@
           class="cu-btn"
           size="mini"
           @click="close()"
-          style="margin-right: 20px"
+          style="margin-right: 10px"
         >
           取消
         </button>
@@ -199,7 +199,7 @@ export default {
 }
 .rightButton {
   text-align: right;
-  margin-right:5px;
+  margin-right:10px;
 }
 .radio {
   height: 15px;

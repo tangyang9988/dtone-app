@@ -8,8 +8,9 @@
     "app-plus" : {
         /* 5+App特有相关 */
         "modules" : {
-            "OAuth" : {},
-            "UIWebview" : {}
+            "UIWebview" : {},
+            "Geolocation" : {},
+            "OAuth" : {}
         },
         // "kernel" : {
         //     "ios" : "UIWebview"
@@ -45,12 +46,8 @@
             /* ios打包配置 */
             "sdkConfigs" : {
                 "ad" : {},
-                "oauth" : {
-                    "qq" : {
-                        "appid" : "1110769790"
-                    },
-                    "univerify" : {}
-                }
+                "oauth" : {},
+                "geolocation" : {}
             }
         }
     },
@@ -78,7 +75,7 @@
                     "secure" : false,
                     "changeOrigin" : true,
                     "pathRewrite" : {
-                        "^/api" : ""
+                        "^/api" : "/"
                     }
                 }
             }

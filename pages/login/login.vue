@@ -92,11 +92,6 @@
 				params.type = this.loginForm.type;
 				params.grant_type = this.appConfig.grant_type;
 				params.scope = "all";
-				setTimeout(function() {
-					uni.navigateTo({
-						url: '/pages/index/index',
-					});
-				}, 500);
 				localLogin(params).then(response => {
 					if (response.data.error_description) {
 						uni.showToast({

@@ -10,7 +10,7 @@
         </view>
         <view
           :class="
-            currentUrl == 'airPollution_index' || currentUrl == 'surfaceWater_index' || currentUrl =='pollutionSurfaceWater_index'|| currentUrl =='pollutionSurfaceGases_index'
+            url == 'airPollution_index' || url == 'surfaceWater_index' || url =='pollutionSurfaceWater_index'|| url =='pollutionSurfaceGases_index'
               ? 'text-green'
               : 'text-gray'
           "
@@ -23,7 +23,7 @@
         </view>
         <view
           :class="
-            currentUrl == 'airPollution_history' ? 'text-green' : 'text-gray'
+            url == 'airPollution_history' ? 'text-green' : 'text-gray'
           "
           >历史数据</view
         >
@@ -41,16 +41,16 @@
           <image src="../../static/images/icon/s11.png"></image>
         </view>
         <view
-          :class="currentUrl == 'airPollution_alert' ? 'text-green' : 'text-gray'"
+          :class="url == 'airPollution_alert' ? 'text-green' : 'text-gray'"
           >预警管理</view>
       </view>
-      <view class="action" @click="hisClick" data-cur="airPollution_waiting" v-if="role_name=='pollute_maintain'">
+      <view class="action" @click="hisClick" data-cur="airPollution_waiting" v-if="role_name.indexOf(pollute_maintain)">
         <view class="cuIcon-cu-image">
           <image src="../../static/images/icon/s12.png"></image>
         </view>
         <view
           :class="
-            currentUrl == 'airPollution_waiting' ? 'text-green' : 'text-gray'
+            url == 'airPollution_waiting' ? 'text-green' : 'text-gray'
           "
           >待办</view
         >
@@ -59,7 +59,7 @@
         <view class="cuIcon-cu-image">
           <image src="../../static/images/icon/s3.png"></image>
         </view>
-        <view :class="currentUrl == 'home_page' ? 'text-green' : 'text-gray'"
+        <view :class="url == 'home_page' ? 'text-green' : 'text-gray'"
           >主菜单</view
         >
       </view>
@@ -72,7 +72,6 @@ export default {
   props: ["url"],
   data() {
     return {
-      currentUrl:"",
       PageCur: uni.getStorageSync('url'),
       clickUrl: uni.getStorageSync('clickUrl'),
       role_name: uni.getStorageSync('role_name')
@@ -134,7 +133,6 @@ export default {
     },
   },
   mounted() {
-    this.currentUrl =this.url
   },
 };
 </script>
