@@ -4,7 +4,8 @@
       <view class="leftTitle">因子48小时曲线</view>
       <!-- 卡片列表 -->
       <view class="charts-box">
-        <qiun-data-charts class="chartColum" type="line" :chartData="echartdata"/>
+      <canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" disable-scroll=true @touchstart="touchLineA" @touchmove="moveLineA" @touchend="touchEndLineA"></canvas>
+        <!-- <qiun-data-charts type="line" :chartData="echartdata"/> -->
       </view>
       <span style="margin-left:40%;" v-if="isData">暂无数据</span>
       <view class="rightButton">
@@ -19,6 +20,7 @@
 import {
   getHistory48hourData,getWaterGasesHistory48hourData
 } from "../../api/airPollution.js";
+import uCharts from '../../uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts-v2.0.0.js';
 export default {
   props: [ "isShow","card","factor","factorName"],
   data() {
@@ -108,17 +110,24 @@ export default {
   width: 100%;
   height: 200px;
   z-index: 99;
-  overflow-x: scroll;
-  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+  // overflow-x: scroll;
+  // white-space: nowrap;
 }
-.charts-box::-webkit-scrollbar {
-  width: 10;
-  height: 10;
-  display: none;
-}
-.chartColum{
-  width:900px;
-}
+// .charts-box::-webkit-scrollbar {
+//   width: 10;
+//   height: 10;
+//   display: none;
+// }
+// .chartColum{
+//   width:900px;
+// }
+scroll_view{
+		width: 100%;
+		overflow:hidden;
+		white-space:nowrap;
+	}
 .rightButton {
   position: absolute;
   right: 20px;

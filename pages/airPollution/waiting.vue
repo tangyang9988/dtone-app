@@ -13,9 +13,8 @@
           :range-key="'stationName'"
           style="width: 100%;"
         >
-          <text class="content_value_name" style="margin-left: 20px"
-            >请选择企业：</text
-          >
+          <text class="content_value_name" style="margin-left: 20px" v-if="menuurl == 'airPollution_index' ||menuurl == 'surfaceWater_index'">请选择站点：</text>
+          <text class="content_value_name" style="margin-left: 20px" v-else>请选择企业：</text>
           <text class="content_value_name" v-if="siteList[index]">{{siteList[index].stationName}}</text>
         </picker>
       </view>
@@ -63,17 +62,23 @@
             <view class="inlineFactorName">站点名：</view>
             <view class="inlineFactorValue">{{ item.stationName }}</view>
           </view>
-          <view class="inlineFactor" v-else>
-            <view class="inlineFactorName">企业：</view>
-            <view class="inlineFactorValue">{{ item.enterpriseName }}</view>
+          <view class="factorList" v-else>
+            <view class="singleFactor">
+              <view class="factorName">企业：</view>
+              <view class="factorValue">{{ item.enterpriseName }}</view>
+            </view>
+            <view class="singleFactor">
+              <view class="inlineFactorName">排口：</view>
+              <view class="inlineFactorValue">{{ item.pollutemonitorName }}</view>
+            </view>
           </view>
-          <view class="inlineFactor">
+          <!-- <view class="inlineFactor">
             <view class="inlineFactorName">预警编号：</view>
             <view class="inlineFactorValue">{{ item.number }}</view>
-          </view>
-          <view class="inlineFactor">
-            <view class="inlineFactorName">预警内容：</view>
-            <view class="inlineFactorValue">{{ item.content }}</view>
+          </view> -->
+          <view class="inlineFactor_1">
+            <view class="inlineFactorName_1">预警内容：</view>
+            <view class="inlineFactorValue_1">{{ item.description }}</view>
           </view>
           <view class="factorList">
             <view class="singleFactor">
@@ -95,8 +100,8 @@
               <view class="inlineFactorValue">{{ item.threshold }}</view>
             </view>
           </view>
-          <view class="factorList">
-            <view class="singleFactor">
+          <view class="factorList" v-if="menuurl == 'airPollution_index' ||menuurl == 'surfaceWater_index'">
+            <view class="singleFactor" >
               <view class="factorName">预警类型：</view>
               <view class="factorValue">{{ item.warnType }}</view>
             </view>
@@ -104,6 +109,10 @@
               <view class="inlineFactorName">预警状态：</view>
               <view class="inlineFactorValue">{{ item.statusLabel }}</view>
             </view>
+          </view>
+          <view class="inlineFactor" v-else>
+            <view class="inlineFactorName">预警状态：</view>
+            <view class="inlineFactorValue">{{ item.statusLabel }}</view>
           </view>
           <view class="inlineFactor">
             <view class="inlineFactorName">监测时间：</view>
@@ -115,7 +124,8 @@
               size="mini"
               @click="showForm(item)"
             >
-              {{item.statusLabel}}
+            处置
+              <!-- {{item.statusLabel}} -->
             </button>
           </view>
           <view class="cardButtons" v-else>
@@ -125,7 +135,8 @@
             size="mini"
             @click="dealForm(item)"
           >
-            {{item.statusLabel}}
+            <!-- {{item.statusLabel}} -->
+            处置
           </button>
         </view>
         </view>
@@ -507,10 +518,15 @@ export default {
 .inlineFactor {
   margin-left: 5px;
   display: flex;
-  justify-content: left;
-  align-items: left;
+  flex-wrap:wrap;
   border-bottom: #dedede 1px dashed;
   height: 25px;
+}
+.inlineFactor_1 {
+  margin-left: 5px;
+  display: flex;
+  flex-wrap:nowrap;
+  border-bottom: #dedede 1px dashed;
 }
 .inlineFactorName {
   height: 100%;
@@ -522,12 +538,31 @@ export default {
   color: #000000;
   opacity: 1;
 }
+.inlineFactorName_1 {
+  margin-left: 0px;
+  font-size: 13px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  line-height: 30px;
+  color: #000000;
+  opacity: 1;
+  width:20%;
+}
 .inlineFactorValue {
   font-size: 12px;
   font-weight: bold;
   line-height: 25px;
   color: #000000;
   opacity: 1;
+}
+.inlineFactorValue_1 {
+  font-size: 12px;
+  font-weight: bold;
+  color: #000000;
+  opacity: 1;
+  display: flex;
+  flex-wrap: wrap;
+  width:80%;
 }
 
 .chartTitle {

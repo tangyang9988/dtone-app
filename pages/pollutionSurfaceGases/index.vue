@@ -46,6 +46,7 @@
           <view class="cardTitle">
               <view class="cardTitleWord">{{value.enterpriseName}}</view>
               <view class="cardTitleWord">{{value.monitorTime}}</view>
+              <view class="cardTitleWord">{{value.name}}</view>
           </view>
           <!-- <view class="factorList">
             <view class="singleFactor" v-if="JSON.stringify(value.ch4)!='{}'">
@@ -220,7 +221,7 @@ export default {
           let list = result.data;
           that.siteList.push({
             id: "",
-            stationName: "空",
+            stationName: "",
           });
           for (let i = 0; i < list.length; i++) {
             that.siteList.push({
@@ -458,6 +459,7 @@ export default {
   font-weight: 500;
   color: #000000;
   display: flex;
+  flex-wrap: wrap;
   justify-content:space-between;
 }
 

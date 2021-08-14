@@ -212,7 +212,7 @@ module.exports = {
 		}
 	},
 	"line":{
-		// "enableScroll":"true",//开启图表拖拽功能
+		enableScroll:true,//开启图表拖拽功能
 		"type": "line",
     "color": color,
 		"padding": [15,10,0,15],
@@ -221,8 +221,8 @@ module.exports = {
 			type:'grid',
 			gridType:'dash',
 			labelCount:6,
-			// itemCount:6,//x轴单屏显示数据的数量，默认为5个
-			scrollShow:false,//新增是否显示滚动条，默认false
+			itemCount:6,//x轴单屏显示数据的数量，默认为5个
+			scrollShow:true,//新增是否显示滚动条，默认false
 			scrollAlign:'left',//滚动条初始位置
 			scrollBackgroundColor:'#F7F7FF',//默认为 #EFEBEF
 			scrollColor:'#DEE7F7',//默认为 #A6A6A6

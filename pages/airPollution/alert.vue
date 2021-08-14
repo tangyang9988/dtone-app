@@ -124,10 +124,10 @@
             <view class="inlineFactorName">企业：</view>
             <view class="inlineFactorValue">{{ item.enterpriseName }}</view>
           </view>
-          <view class="inlineFactor">
+          <!-- <view class="inlineFactor">
             <view class="inlineFactorName">预警编号：</view>
             <view class="inlineFactorValue">{{ item.number }}</view>
-          </view>
+          </view> -->
           <view class="inlineFactor">
             <view class="inlineFactorName">预警内容：</view>
             <view class="inlineFactorValue">{{ item.content }}</view>
@@ -152,15 +152,13 @@
               <view class="inlineFactorValue">{{ item.threshold }}</view>
             </view>
           </view>
-          <view class="factorList">
-            <view class="singleFactor">
+            <!-- <view class="singleFactor">
               <view class="factorName">预警类型：</view>
               <view class="factorValue">{{ item.warnType }}</view>
-            </view>
-            <view class="singleFactor">
-              <view class="inlineFactorName">预警状态：</view>
-              <view class="inlineFactorValue">{{ item.statusLabel }}</view>
-            </view>
+            </view> -->
+          <view class="inlineFactor">
+            <view class="inlineFactorName">预警状态：</view>
+            <view class="inlineFactorValue">{{ item.statusLabel }}</view>
           </view>
           <view class="inlineFactor">
             <view class="inlineFactorName">监测时间：</view>

@@ -31,7 +31,9 @@
           <view class="cardTitle">
               <view class="cardTitleWord">{{value.enterpriseName}}</view>
               <view class="cardTitleWord">{{value.monitorTime}}</view>
-          </view>
+              <view class="cardTitleWord">{{value.name}}</view>
+              
+          </view>     
           <view class="factorList">
               <view class="factorName" :style="{background:getColor(value.ad.value)}" @click="factorClick('ad', value,'氨氮')">氨氮</view>
               <view class="factorName" :style="{background:getColor(value.cod.value)}" @click="factorClick('cod', value,'COD')">COD</view>
@@ -40,6 +42,11 @@
               <view class="factorName" :style="{background:getColor(value.zd.value)}" @click="factorClick('zd', value,'总氮')">总氮</view>
               <view class="factorName" :style="{background:getColor(value.zl.value)}" @click="factorClick('zl', value,'总磷')">总磷</view>
               <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总锌</view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总砷</view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总镍</view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总铜</view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">氟化物</view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">六价铬</view>
           </view>
           <view class="factorList">
             <view class="factorValue">{{value.ad.value}}</view>
@@ -48,6 +55,12 @@
             <view class="factorValue">{{value.ws.value}}</view>
             <view class="factorValue">{{value.zd.value}}</view>
             <view class="factorValue">{{value.zl.value}}</view>
+            <view class="factorValue">{{value.zzn.value}}</view>
+
+            <view class="factorValue">{{value.zzn.value}}</view>
+            <view class="factorValue">{{value.zzn.value}}</view>
+            <view class="factorValue">{{value.zzn.value}}</view>
+            <view class="factorValue">{{value.zzn.value}}</view>
             <view class="factorValue">{{value.zzn.value}}</view>
           </view>
         </view>
@@ -170,7 +183,7 @@ export default {
           let list = result.data;
           that.siteList.push({
             id: "",
-            stationName: "空",
+            stationName: "",
           });
           for (let i = 0; i < list.length; i++) {
             that.siteList.push({
@@ -394,6 +407,7 @@ export default {
   font-weight: 500;
   color: #000000;
   display: flex;
+  flex-wrap: wrap;
   justify-content:space-between;
 }
 

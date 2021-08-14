@@ -11,11 +11,9 @@
           :range="siteList"
           :value="index"
           :range-key="'stationName'"
-          style="width: 100%;"
-        >
-          <text class="content_value_name" style="margin-left: 20px"
-            >请选择站点：</text
-          >
+          style="width: 100%;">
+          <text class="content_value_name" style="margin-left: 20px" v-if="menuurl == 'airPollution_index' ||menuurl == 'surfaceWater_index'">请选择站点：</text>
+          <text class="content_value_name" style="margin-left: 20px" v-else>请选择企业：</text>
           <text class="content_value_name" v-if="siteList[index]">{{
             siteList[index].stationName
           }}</text>
@@ -133,7 +131,7 @@
             <view class="singleFactor">
               <view class="content_value_name">一氧化碳：</view>
               <view class="content_value">
-                <view>{{ item.CO }}</view>
+                <view>{{ item.co }}</view>
               </view>
             </view>
             <view class="singleFactor">
@@ -176,8 +174,11 @@
         </view>
         <view class="detailCard" v-else-if="menuType=='surfaceWater_index' || menuType=='pollutionSurfaceWater_index'">
           <view class="detailCard_header">
-            <view class="header_title">
+            <view class="header_title" v-if="menuType=='surfaceWater_index'">
               {{ item.stationName }}
+            </view>
+            <view class="header_title" v-else-if="menuType=='pollutionSurfaceWater_index'">
+              {{ item.enterpriseName }}-{{ item.outletName }}
             </view>
             <view class="header_title">
               {{ item.updateTime }}
@@ -666,8 +667,7 @@ export default {
   flex-wrap: nowrap;
   justify-content: space-between;
   height: 39px;
-  padding-left: 4%;
-  padding-right: 16%;
+  padding: 0px 5px;
   background: #f4f4f4;
   opacity: 1;
   border-radius: 12px 12px 0px 0px;
