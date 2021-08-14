@@ -174,6 +174,7 @@
 </template>
 <script>
 import bottomMenu from "../bottomMenu/index";
+import { appConfig } from '../../config/config.js'
 import {
   selectStatusByType,
   getWarningList,
@@ -329,22 +330,54 @@ export default {
       }else if(uni.getStorageSync("url") == "pollutionSurfaceGases_index"){
         var source =3
       }
-      var that = this;
-      getWarningList(that.start,that.end,processKey,source,that.statusId,siteId,that.current,that.size).then(
-        function (result) {
-          let list = result.data.data.records;
-          that.totalPage = result.data.data.total;
-          if (list.length == 0) {
-            that.isNoData = true;
-          }
-          if (list) {
-            for (let i = 0; i < list.length; i++) {
-              that.tableFactorList.push(list[i]);
+      var that = this; 
+      var start = that.start +' 00:00:00';
+      var end = that.end +' 23:59:59';
+      const tokeValue=uni.getStorageSync("access-user")
+      uni.request({
+          url: appConfig.WEB_API + '/bu/airWarningManage/selectPollutionInfoPage',
+          method: 'get',
+          data: {
+            start: start, 
+            end: end,
+            processKey: processKey,
+            source: source,
+            statusId: that.statusId,
+            enterpriseId: siteId,
+            current: that.current,
+            size: that.size,
+          },
+          header:{
+            "dutjt-Auth":'bearer ' +tokeValue
+          },
+          success: (res) => {
+            let list = res.data.data.records;
+            that.totalPage = res.data.data.total;
+            if (list.length == 0) {
+              that.isNoData = true;
+            }
+            if (list) {
+              for (let i = 0; i < list.length; i++) {
+                that.tableFactorList.push(list[i]);
+              }
             }
           }
-        },
-        function (err) {}
-      );
+      });
+      // getWarningList(start,end,processKey,source,that.statusId,siteId,that.current,that.size).then(
+      //   function (result) {
+      //     let list = result.data.data.records;
+      //     that.totalPage = result.data.data.total;
+      //     if (list.length == 0) {
+      //       that.isNoData = true;
+      //     }
+      //     if (list) {
+      //       for (let i = 0; i < list.length; i++) {
+      //         that.tableFactorList.push(list[i]);
+      //       }
+      //     }
+      //   },
+      //   function (err) {}
+      // );
     },
   },
   onReachBottom() {

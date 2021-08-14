@@ -54,7 +54,7 @@
       >
         小时
       </button>
-      <button
+      <!-- <button
         :class="
           active == 'day'
             ? 'cu-btn shadow-blur round bg-green'
@@ -64,7 +64,7 @@
         @click="selected($event)"
       >
         日
-      </button>
+      </button> -->
       <button
         :class="
           active == 'threedays'
@@ -403,7 +403,7 @@ export default {
       let id = e.currentTarget.dataset.cur;
       this.active = id;
       if (id == "auto") {
-        this.type = "hour";
+        this.type = "day";
       } else if (id == "hour") {
         this.type = "hour";
       } else if (id == "fiveMinute") {
@@ -413,6 +413,7 @@ export default {
         this.pageStart = this.getNextDate(this.formatSelectDate(curDate), 1);
         this.pageEnd = this.formatSelectDate(curDate);
       }else if(id == 'threedays'){
+        this.type = "day";
         this.pageStart = this.getNextDate(this.formatSelectDate(curDate), 3);
         this.pageEnd = this.formatSelectDate(curDate);
       }
@@ -667,7 +668,7 @@ export default {
   flex-wrap: nowrap;
   justify-content: space-between;
   height: 39px;
-  padding: 0px 5px;
+  padding: 0px 10px;
   background: #f4f4f4;
   opacity: 1;
   border-radius: 12px 12px 0px 0px;

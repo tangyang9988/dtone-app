@@ -32,9 +32,60 @@
               <view class="cardTitleWord">{{value.enterpriseName}}</view>
               <view class="cardTitleWord">{{value.monitorTime}}</view>
               <view class="cardTitleWord">{{value.name}}</view>
-              
-          </view>     
+          </view>
+          <view class="lineList">
           <view class="factorList">
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ph.value)}" @click="factorClick('ph', value,'PH')">PH</view>
+              <view class="factorValue">{{value.ph.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ws.value)}" @click="factorClick('ws', value,'污水流量')">流量</view>
+              <view class="factorValue">{{value.ws.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.cod.value)}" @click="factorClick('cod', value,'COD')">COD</view>
+              <view class="factorValue">{{value.cod.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ad.value)}" @click="factorClick('ad', value,'氨氮')">氨氮</view>
+              <view class="factorValue">{{value.ad.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.zl.value)}" @click="factorClick('zl', value,'总磷')">总磷</view>
+              <view class="factorValue">{{value.zl.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.zd.value)}" @click="factorClick('zd', value,'总氮')">总氮</view>
+              <view class="factorValue">{{value.zd.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总锌</view>
+              <view class="factorValue">{{value.zd.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总砷</view>
+              <view class="factorValue">{{value.zd.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总镍</view>
+              <view class="factorValue">{{value.zd.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总铜</view>
+              <view class="factorValue">{{value.zd.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">氟化物</view>
+              <view class="factorValue">{{value.zd.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">六价铬</view>
+              <view class="factorValue">{{value.zd.value}}</view>
+            </view>
+          </view>
+          </view>  
+          <!-- <view class="factorList">
               <view class="factorName" :style="{background:getColor(value.ad.value)}" @click="factorClick('ad', value,'氨氮')">氨氮</view>
               <view class="factorName" :style="{background:getColor(value.cod.value)}" @click="factorClick('cod', value,'COD')">COD</view>
               <view class="factorName" :style="{background:getColor(value.ph.value)}" @click="factorClick('ph', value,'PH')">PH</view>
@@ -47,8 +98,8 @@
               <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总铜</view>
               <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">氟化物</view>
               <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">六价铬</view>
-          </view>
-          <view class="factorList">
+          </view> -->
+          <!-- <view class="factorList">
             <view class="factorValue">{{value.ad.value}}</view>
             <view class="factorValue">{{value.cod.value}}</view>
             <view class="factorValue">{{value.ph.value}}</view>
@@ -56,13 +107,12 @@
             <view class="factorValue">{{value.zd.value}}</view>
             <view class="factorValue">{{value.zl.value}}</view>
             <view class="factorValue">{{value.zzn.value}}</view>
-
             <view class="factorValue">{{value.zzn.value}}</view>
             <view class="factorValue">{{value.zzn.value}}</view>
             <view class="factorValue">{{value.zzn.value}}</view>
             <view class="factorValue">{{value.zzn.value}}</view>
             <view class="factorValue">{{value.zzn.value}}</view>
-          </view>
+          </view> -->
         </view>
         <view class="noData" v-if="isNoData">没有更多数据啦</view>
       </view>
@@ -341,14 +391,16 @@ export default {
 
 .factorList {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-  flex-direction: row;
-  width: 100%;
-  margin-left:10px;
+  // justify-content: flex-start;
+  // align-items: center;
+  flex-wrap: nowrap;
+  // flex-direction: row;
 }
-
+.lineList{
+  overflow-x: scroll;
+  white-space: nowrap;
+  margin: 0 10px;
+}
 .singleFactor {
   display: flex;
   justify-content: left;
@@ -358,20 +410,20 @@ export default {
 }
 
 .factorName {
-  width:14%;
-  height:20px;
+  margin: 0 2px;
+  height: 20px;
   background-color: white;
-  text-align:center;
-  line-height:20px;
+  text-align: center;
+  line-height: 20px;
   border-radius: 1px;
 }
 
 .factorValue {
-  width:14%;
-  height:20px;
+  margin: 0 2px;
+  height: 20px;
   background-color: white;
-  text-align:center;
-  line-height:20px;
+  text-align: center;
+  line-height: 20px;
   border-radius: 1px;
 }
 

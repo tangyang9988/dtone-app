@@ -48,61 +48,105 @@
               <view class="cardTitleWord">{{value.monitorTime}}</view>
               <view class="cardTitleWord">{{value.name}}</view>
           </view>
-          <!-- <view class="factorList">
-            <view class="singleFactor" v-if="JSON.stringify(value.ch4)!='{}'">
-              <view class="factorName">{{value.ch4.factorDict}}:</view>
-              <view class="factorValue" >{{value.ch4.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.h2s)!='{}'">
-              <view class="factorName">{{value.h2s.factorDict}}:</view>
-              <view class="factorValue" >{{value.h2s.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.no)!='{}'">
-              <view class="factorName">{{value.no.factorDict}}:</view>
-              <view class="factorValue" >{{value.no.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.no2)!='{}'">
-              <view class="factorName">{{value.no2.factorDict}}:</view>
-              <view class="factorValue" >{{value.no2.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.nox)!='{}'">
-              <view class="factorName">{{value.nox.factorDict}}:</view>
-              <view class="factorValue" >{{value.nox.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.so2)!='{}'">
-              <view class="factorName">{{value.so2.factorDict}}:</view>
-              <view class="factorValue" >{{value.so2.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.yc)!='{}'">
-              <view class="factorName">{{value.yc.factorDict}}:</view>
-              <view class="factorValue" >{{value.yc.value}}</view>
-            </view>
-            <view class="singleFactor" v-if="JSON.stringify(value.yqls)!='{}'">
-              <view class="factorName">{{value.yqls.factorDict}}:</view>
-              <view class="factorValue" >{{value.yqls.value}}</view>
-            </view>
-              <view class="singleFactor" v-if="JSON.stringify(value.yqsd)!='{}'">
-              <view class="factorName">{{value.yqsd.factorDict}}:</view>
-              <view class="factorValue" >{{value.yqsd.value}}</view>
-            </view>
-          </view> -->
+          <view class="lineList">
           <view class="factorList">
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">甲烷</view>
-              <view class="factorName" :style="{background:getColor(value.no2.value)}"  @click="factorClick('no2', value,'NO2')">NO2</view>
-              <view class="factorName" :style="{background:getColor(value.nox.value)}"  @click="factorClick('nox', value,'NOX')">氮氧化合物</view>
-              <view class="factorName" :style="{background:getColor(value.so2.value)}"  @click="factorClick('so2', value,'SO2')">SO2</view>
+            <view>
               <view class="factorName" :style="{background:getColor(value.nmhc.value)}"  @click="factorClick('nmhc', value,'非甲烷总烃')">非甲烷总烃</view>
+              <view class="factorValue">{{value.nmhc.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.yqsd.value)}" @click="factorClick('yqsd', value,'yqsd')">流量</view>
+              <view class="factorValue">{{value.yqsd.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">烟尘</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zs烟尘</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">so2</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zsso2</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">no</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zsno</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">no2</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zsno2</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">nox</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zsnox</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">co</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zsnox</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">co2</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zsco2</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">co2</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">氟化物</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+            <view>
+              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">氯化氢</view>
+              <view class="factorValue">{{value.ch4.value}}</view>
+            </view>
+              <!-- <view class="factorName" :style="{background:getColor(value.no2.value)}"  @click="factorClick('no2', value,'NO2')">NO2</view> -->
+              <!-- <view class="factorName" :style="{background:getColor(value.nox.value)}"  @click="factorClick('nox', value,'NOX')">氮氧化合物</view> -->
+              <!-- <view class="factorName" :style="{background:getColor(value.nmhc.value)}"  @click="factorClick('nmhc', value,'非甲烷总烃')">非甲烷总烃</view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">流量</view>
               <view class="factorName" :style="{background:getColor(value.yc.value)}"  @click="factorClick('yc', value,'烟尘')">烟尘</view>
-              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">流速</view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">zs烟尘</view>
+              <view class="factorName" :style="{background:getColor(value.so2.value)}"  @click="factorClick('so2', value,'SO2')">so2</view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">zsso2</view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">no</view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">zsno</view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">no2</view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">zsno2 </view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">nox </view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">zsnox </view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">co </view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">zsco </view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">co2 </view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">zsco2 </view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">氟化物 </view>
+              <view class="factorName" :style="{background:getColor(value.yqls.value)}"  @click="factorClick('yqls', value,'流速')">氯化氢 </view> -->
           </view>
-          <view class="factorList">
-            <view class="factorValue">{{value.ch4.value}}</view>
-            <view class="factorValue">{{value.no2.value}}</view>
-            <view class="factorValue">{{value.nox.value}}</view>
-            <view class="factorValue">{{value.so2.value}}</view>
-            <view class="factorValue">{{value.nmhc.value}}</view>
-            <view class="factorValue">{{value.yc.value}}</view>
-            <view class="factorValue">{{value.yqls.value}}</view>
           </view>
         </view>
         <view class="noData" v-if="isNoData">没有更多数据啦</view>
@@ -372,15 +416,17 @@ export default {
   opacity: 1;
   border-radius: 12px;
 }
-
+.lineList{
+  overflow-x: scroll;
+  white-space: nowrap;
+  margin: 0 10px;
+}
 .factorList {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-  flex-direction: row;
-  width: 100%;
-  margin-left:10px;
+  // justify-content: flex-start;
+  // align-items: center;
+  flex-wrap: nowrap;
+  // flex-direction: row;
 }
 
 .singleFactor {
@@ -392,20 +438,20 @@ export default {
 }
 
 .factorName {
-  width:14%;
-  height:20px;
+  margin: 0 2px;
+  height: 20px;
   background-color: white;
-  text-align:center;
-  line-height:20px;
+  text-align: center;
+  line-height: 20px;
   border-radius: 1px;
 }
 
 .factorValue {
-  width:14%;
-  height:20px;
+  margin: 0 2px;
+  height: 20px;
   background-color: white;
-  text-align:center;
-  line-height:20px;
+  text-align: center;
+  line-height: 20px;
   border-radius: 1px;
 }
 .inlineFactor {

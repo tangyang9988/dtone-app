@@ -50,14 +50,15 @@ export const getHistoryList = (row) =>{
     data:row
   });
 }
-// 预警-污染源
-export const getWarningList = (start,end,processKey,source,status,enterpriseId,current,size) =>{
-  return request({  
-    url: appConfig.WEB_API + '/bu/airWarningManage/selectPollutionInfoPage',
-    method: 'get',
-    params: {start,end,processKey,source,status,enterpriseId,current,size}
-  });
-}
+// // 预警-污染源
+// export const getWarningList = (start,end,processKey,source,status,enterpriseId,current,size) =>{
+//   debugger
+//   return request({  
+//     url: appConfig.WEB_API + '/bu/airWarningManage/selectPollutionInfoPage',
+//     method: 'get',
+//     params: {start,end,processKey,source,status,enterpriseId,current,size}
+//   });
+// }
 // 空气待办待办列表
 export const airWaringSelectPage = (stationId,source,processKey,current,size,start,end) =>{
   return request({  
