@@ -33,6 +33,7 @@
         自定义
       </button>
       <button
+      :disabled="menuType == 'surfaceWater_index'"
         :class="
           active == 'fiveMinute'
             ? 'cu-btn shadow-blur round bg-green'
@@ -111,15 +112,15 @@
             <view class="header_title">
               {{ item.stationName }}
             </view>
-            <view class="header_title">
+            <view class="header_title" v-if="active=='hour'">
+              {{ item.updateTime==""?"": item.updateTime.slice(0,-6) }}
+            </view>
+            <view class="header_title" v-else-if="active=='day' || active=='threedays' || active=='auto'">
+              {{ item.updateTime==""?"": item.updateTime.slice(0,-8) }}
+            </view>
+            <view class="header_title" v-else>
               {{ item.updateTime }}
             </view>
-            <!-- <view class="header_title">
-              <view>趋势分析</view>
-            </view>
-            <view class="header_title ">
-              <img  src="../../static/images/icon/icon_data.png" class="icon_data" @click="historyData(item)"></img>
-            </view> -->
           </view>
           <view class="content">
             <view class="singleFactor">
@@ -180,7 +181,13 @@
             <view class="header_title" v-else-if="menuType=='pollutionSurfaceWater_index'">
               {{ item.enterpriseName }}-{{ item.outletName }}
             </view>
-            <view class="header_title">
+            <view class="header_title" v-if="active=='hour'">
+              {{ item.updateTime==""?"": item.updateTime.slice(0,-6) }}
+            </view>
+            <view class="header_title" v-else-if="active=='day' || active=='threedays' || active=='auto'">
+              {{ item.updateTime==""?"": item.updateTime.slice(0,-8) }}
+            </view>
+            <view class="header_title" v-else>
               {{ item.updateTime }}
             </view>
           </view>
@@ -241,7 +248,13 @@
             <view class="header_title">
               {{ item.outletName }}
             </view>
-            <view class="header_title">
+            <view class="header_title" v-if="active=='hour'">
+              {{ item.updateTime==""?"": item.updateTime.slice(0,-6) }}
+            </view>
+            <view class="header_title" v-else-if="active=='day' || active=='threedays' || active=='auto'">
+              {{ item.updateTime==""?"": item.updateTime.slice(0,-8) }}
+            </view>
+            <view class="header_title" v-else>
               {{ item.updateTime }}
             </view>
           </view>

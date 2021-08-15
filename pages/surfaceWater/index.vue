@@ -30,7 +30,7 @@
         <view v-for = "(value,key) in portRecord" :key="key" class="detailCard">
           <view class="cardTitle">
             <view class="cardTitleWord">{{value.siteName}}</view>
-            <view class="cardTitleWord">{{value.updateTime}}</view>
+            <view class="cardTitleWord">{{ value.updateTime==""?"": value.updateTime.slice(0,-6) }}</view>
           </view>
         <view class="factorList">
             <view class="factorName" :style="{background:getColor(value.zl.value)}" @click="factorClick('w21011', value,'总磷')">总磷</view>

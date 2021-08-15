@@ -60,28 +60,28 @@
               <view class="factorValue">{{value.zd.value}}</view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总锌</view>
-              <view class="factorValue">{{value.zd.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'总锌')">总锌</view>
+              <view class="factorValue">{{value.zzn.value}}</view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总砷</view>
-              <view class="factorValue">{{value.zd.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.zk.value)}" @click="factorClick('zk', value,'总砷')">总砷</view>
+              <view class="factorValue">{{value.zk.value}}</view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总镍</view>
-              <view class="factorValue">{{value.zd.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.zn.value)}" @click="factorClick('zn', value,'总镍')">总镍</view>
+              <view class="factorValue">{{value.zn.value}}</view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">总铜</view>
-              <view class="factorValue">{{value.zd.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.zcu.value)}" @click="factorClick('zcu', value,'总铜')">总铜</view>
+              <view class="factorValue">{{value.zcu.value}}</view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">氟化物</view>
-              <view class="factorValue">{{value.zd.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.fhww.value)}" @click="factorClick('fhww', value,'氟化物')">氟化物</view>
+              <view class="factorValue">{{value.fhww.value}}</view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.zzn.value)}" @click="factorClick('zzn', value,'氨氮')">六价铬</view>
-              <view class="factorValue">{{value.zd.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.ljg.value)}" @click="factorClick('ljg', value,'六价铬')">六价铬</view>
+              <view class="factorValue">{{value.ljg.value}}</view>
             </view>
           </view>
           </view>  

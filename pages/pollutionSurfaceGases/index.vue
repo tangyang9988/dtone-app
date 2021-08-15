@@ -55,77 +55,99 @@
               <view class="factorValue">{{value.nmhc.value}}</view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.yqsd.value)}" @click="factorClick('yqsd', value,'yqsd')">流量</view>
-              <view class="factorValue">{{value.yqsd.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.fq.value)}" @click="factorClick('fq', value,'流量')">流量</view>
+              <view class="factorValue">{{value.fq.value}}</view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">烟尘</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.yc.value)}" @click="factorClick('yc', value,'烟尘')">烟尘</view>
+              <view class="factorValue">{{value.yc.value}}</view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zs烟尘</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.yc.value)}" @click="factorClick('yc', value,'zs烟尘')">zs烟尘</view>
+              <view class="factorValue">{{value.yc.value}}</view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">so2</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.so2.value)}" @click="factorClick('so2', value,'so2')">so2</view>
+              <view class="factorValue">{{value.so2.value}}</view>
+            </view>
+            <view v-if="value.zsso2">
+              <view class="factorName" :style="{background:getColor(value.zsso2.value)}" @click="factorClick('zsso2', value,'zsso2')">zsso2</view>
+              <view class="factorValue">{{value.zsso2.value}}</view>
+            </view>
+            <view v-else>
+              <view class="factorName" :style="{background:getColor('')}" @click="factorClick('zsso2', value,'zsso2')">zsso2</view>
+              <view class="factorValue"></view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zsso2</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.no.value)}" @click="factorClick('no', value,'no')">no</view>
+              <view class="factorValue">{{value.no.value}}</view>
+            </view>
+            <view v-if="value.zsno">
+              <view class="factorName" :style="{background:getColor(value.zsno.value)}" @click="factorClick('zsno', value,'zsno')">zsno</view>
+              <view class="factorValue">{{value.zsno.value}}</view>
+            </view>
+            <view v-else>
+              <view class="factorName" :style="{background:getColor('')}" @click="factorClick('zsno', value,'zsno')">zsno</view>
+              <view class="factorValue"></view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">no</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.no2.value)}" @click="factorClick('no2', value,'no2')">no2</view>
+              <view class="factorValue">{{value.no2.value}}</view>
+            </view>
+            <view v-if="value.zsno2">
+              <view class="factorName" :style="{background:getColor(value.zsno2.value)}" @click="factorClick('zsno2', value,'zsno2')">zsno2</view>
+              <view class="factorValue">{{value.zsno2.value}}</view>
+            </view>
+            <view v-else>
+              <view class="factorName" :style="{background:getColor('')}" @click="factorClick('zsno2', value,'zsno2')">zsno2</view>
+              <view class="factorValue"></view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zsno</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.nox.value)}" @click="factorClick('nox', value,'nox')">nox</view>
+              <view class="factorValue">{{value.nox.value}}</view>
+            </view>
+            <view v-if="value.zsnox">
+              <view class="factorName" :style="{background:getColor(value.zsnox.value)}" @click="factorClick('zsnox', value,'zsnox')">zsnox</view>
+              <view class="factorValue">{{value.zsnox.value}}</view>
+            </view>
+            <view v-else>
+              <view class="factorName" :style="{background:getColor('')}" @click="factorClick('zsnox', value,'zsnox')">zsnox</view>
+              <view class="factorValue"></view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">no2</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.co.value)}" @click="factorClick('co', value,'co')">co</view>
+              <view class="factorValue">{{value.co.value}}</view>
+            </view>
+            <view v-if="value.zsco">
+              <view class="factorName" :style="{background:getColor(value.zsco.value)}" @click="factorClick('zsco', value,'zsco')">zsco</view>
+              <view class="factorValue">{{value.zsco.value}}</view>
+            </view>
+            <view v-else>
+              <view class="factorName" :style="{background:getColor('')}" @click="factorClick('zsco', value,'zsco')">zsco</view>
+              <view class="factorValue"></view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zsno2</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.co2.value)}" @click="factorClick('co2', value,'co2')">co2</view>
+              <view class="factorValue">{{value.co2.value}}</view>
+            </view>
+            <view v-if="value.zsco2">
+              <view class="factorName" :style="{background:getColor(value.zsco2.value)}" @click="factorClick('zsco2', value,'zsco2')">zsco2</view>
+              <view class="factorValue">{{value.zsco2.value}}</view>
+            </view>
+            <view v-else>
+              <view class="factorName" :style="{background:getColor('')}" @click="factorClick('zsco2', value,'zsco2')">zsco2</view>
+              <view class="factorValue"></view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">nox</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.fhwa.value)}" @click="factorClick('fhwa', value,'氟化物')">氟化物</view>
+              <view class="factorValue">{{value.fhwa.value}}</view>
             </view>
             <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zsnox</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
+              <view class="factorName" :style="{background:getColor(value.lhq.value)}" @click="factorClick('lhq', value,'氯化氢')">氯化氢</view>
+              <view class="factorValue">{{value.lhq.value}}</view>
             </view>
-            <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">co</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
-            </view>
-            <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zsnox</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
-            </view>
-            <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">co2</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
-            </view>
-            <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">zsco2</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
-            </view>
-            <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">co2</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
-            </view>
-            <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">氟化物</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
-            </view>
-            <view>
-              <view class="factorName" :style="{background:getColor(value.ch4.value)}" @click="factorClick('ch4', value,'CH4')">氯化氢</view>
-              <view class="factorValue">{{value.ch4.value}}</view>
-            </view>
+
+
               <!-- <view class="factorName" :style="{background:getColor(value.no2.value)}"  @click="factorClick('no2', value,'NO2')">NO2</view> -->
               <!-- <view class="factorName" :style="{background:getColor(value.nox.value)}"  @click="factorClick('nox', value,'NOX')">氮氧化合物</view> -->
               <!-- <view class="factorName" :style="{background:getColor(value.nmhc.value)}"  @click="factorClick('nmhc', value,'非甲烷总烃')">非甲烷总烃</view>
