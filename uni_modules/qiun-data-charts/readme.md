@@ -1,12 +1,15 @@
-[![uCharts/uCharts](https://gitee.com/uCharts/uCharts/widgets/widget_card.svg?colors=393222,ebdfc1,fffae5,d8ca9f,393222,a28b40)](https://gitee.com/uCharts/uCharts)
-
 ## [uCharts官方网站](https://www.ucharts.cn)
-
-## [DEMO演示及在线生成工具（v2.0文档）](https://demo.ucharts.cn)
-
-## [`howcode`UReport数据报表——图表组件在uniCloudAdmin中的应用](https://ext.dcloud.net.cn/plugin?id=4651)
-
+## [DEMO演示及在线生成工具（v2.0文档）https://demo.ucharts.cn](https://demo.ucharts.cn)
+## [优秀的nvue全端组件与模版库nPro](https://ext.dcloud.net.cn/plugin?id=5169)
+## [图表组件在项目中的应用 UReport数据报表](https://ext.dcloud.net.cn/plugin?id=4651) 
 ### [v1.0文档（将在9月30日作废，请尽快转v2.0）](http://doc.ucharts.cn)
+## [如何安装、更新 uni_modules 插件点这里，必看，必看，必看](https://uniapp.dcloud.io/uni_modules?id=%e4%bd%bf%e7%94%a8-uni_modules-%e6%8f%92%e4%bb%b6)
+## 点击右侧绿色【使用HBuilderX导入插件】即可使用，示例项目请点击右侧蓝色按钮【使用HBuilderX导入示例项目】。
+## 初次使用不显示问题详见[常见问题选项卡](https://demo.ucharts.cn)
+## <font color=#FF0000> 新手请先完整阅读【帮助文档】及【常见问题】3遍，右侧蓝色按钮【示例项目】请看2遍！ </font> 
+## <font color=#FF0000> 关于NVUE兼容的说明： </font> uCharts.js从2.3.0开始支持nuve（暂时只能通过原生canvas写法调用uCharts，nuve版本组件请见码云示例项目[uCharts-demo-nvue](https://gitee.com/uCharts/uCharts)），因其渲染方式是通过nvue的gcanvas组件来渲染，理论上性能不及renderjs的qiun-data-charts组件性能。官方仍然建议NVUE使用图表的页面改为vue页面，在App端，从性能来讲，由于通讯阻塞的问题，nvue的canvas性能不可能达到使用renderjs的vue页面的canvas。在App端，仍然推荐使用qiun-data-charts组件。[详见uni-app官方说明](https://uniapp.dcloud.io/component/canvas?id=canvas)
+
+[![uCharts/uCharts](https://gitee.com/uCharts/uCharts/widgets/widget_card.svg?colors=393222,ebdfc1,fffae5,d8ca9f,393222,a28b40)](https://gitee.com/uCharts/uCharts)
 
 ## 秋云图表组件使用帮助
 
@@ -18,14 +21,14 @@
 
 - 极简单的调用方式，默认配置下只需要传入`图表类型`及`图表数据`即可全端显示。
 - 提供强大的`在线配置生成工具`，可视化中的可视化，鼠标点一点就可以生成图表，可视化从此不再难配。
-- 兼容ECharts，并解决了ECharts无法使用formatter的问题，可选择`PC端或APP端单独使用ECharts`引擎渲染图表。
+- 兼容ECharts，可选择`PC端或APP端单独使用ECharts`引擎渲染图表。
 - H5及App采用`renderjs`渲染图表，动画流畅、性能翻倍。
 - 根据父容器尺寸`弹性显示图表`，再也不必为宽高匹配及多端适配问题发愁。
 - 支持`加载状态loading及error展示`，避免数据读取显示空白的尴尬。
 - chartData`配置与数据解耦`，即便使用ECharts引擎也不必担心拼接option的困扰。
 - localdata`后端数据直接渲染`，无需自行拼接chartData的categories及series，从后端拿回的数据简单处理即可生成图表。
 - 小程序端不必担心包体积过大问题，ECharts引擎将不会编译到各小程序端，u-charts.js编译后`仅为93kb`。
-- 未来将支持通过HbuilderX的`schema2code自动生成`全端全平台图表，敬请期待！！！
+- 未来将支持通过HbuilderX的[schema2code自动生成全端全平台图表](https://ext.dcloud.net.cn/plugin?id=4684)，敬请期待！！！
 - uCharts官方拥有3个2000人的QQ群支持，庞大的用户量证明我们一直在努力，本组件将持续更新，请各位放心使用，本组件问题请在`QQ3群`反馈，您的宝贵建议是我们努力的动力！！
 
 
@@ -43,7 +46,7 @@ uCharts的开源图表组件的开发，付出了大量的个人时间与精力�
 ## 快速上手
 ### <font color=#FF0000> 注意前提条件【版本要求：HBuilderX 3.1.0+】 </font> 
 - 1、插件市场点击右侧绿色按钮【使用HBuilderX导入插件】，或者【使用HBuilderX导入示例项目】查看完整示例工程
-- 2、如果通过其他方式获取本组件，请将 `uni_modules` 目录复制到您项目的根目录（注：vue-cli项目请将 `uni_modules` 目录复制到src目录，即 `src/uni_modules`）
+- 2、依赖uniapp的vue-cli项目：请将uni-modules目录复制到src目录，即src/uni_modules。（请升级uniapp依赖为最新版本）
 - 3、页面中直接按下面用法直接调用即可，无需在页面中注册组件qiun-data-charts
 - 4、注意父元素class='charts-box'这个样式需要有宽高
 
@@ -77,7 +80,6 @@ chartData:{
 ```
 chartData:{
   series: [{
-    name: "groupA",
     data: [
       {
         name: "一班",
@@ -186,9 +188,13 @@ localdata:[
 
 /pages/unicloud/unicloud.vue（展示读取uniCloud数据库后直接渲染图表的例子）
 
+/pages/updata/updata.vue（展示动态更新图表数据的例子）
+
 /pages/other/other.vue（展示图表交互的例子：动态更新图表数据，渲染完成事件，获取点击索引，自定义tooltip，图表保存为图片，强制展示错误信息等）
 
-/pages/format/format.vue（展示formatter用法的例子）
+/pages/format-u/format-u.vue（展示uCharts的formatter用法的例子）
+
+/pages/format-e/format-e.vue（展示ECharts的formatter用法的例子）
 
 /pages/tab/tab.vue（展示再tab选项卡中用法的例子，即父容器采用v-show或v-if时需要注意的问题）
 
@@ -203,18 +209,20 @@ localdata:[
 
 |属性名|类型|默认值|必填|说明|
 | -- | -- | -- | -- | -- |
-|type|String|null|`是`|图表类型，如全端用uCharts，可选值为pie、ring、rose、word、funnel、map、arcbar、line、column、area、radar、gauge、candle、mix <font color=#FF0000>（您也可以根据需求自定义新图表类型，需要在config-ucharts.js或config-echarts.js内添加，可参考config-ucharts.js内的"demotype"类型）</font>|
+|type|String|null|`是`|图表类型，如全端用uCharts，可选值为pie、ring、rose、word、funnel、map、arcbar、line、column、bar、area、radar、gauge、candle、mix、tline、tarea、scatter、bubble <font color=#FF0000>（您也可以根据需求自定义新图表类型，需要在config-ucharts.js或config-echarts.js内添加，可参考config-ucharts.js内的"demotype"类型）</font>|
 |chartData|Object|见说明|`是`|图表数据，常用的标准数据格式为{categories: [],series: []}，请按不同图表类型传入对应的标准数据。|
 |localdata|Array|[]|`是`|图表数据，如果您觉得拼接上面chartData比较繁琐，可以通过使用localdata渲染，组件会根据传入的type类型，自动拼接categories或series数据（使用localdata就不必再传入chartData，详见 /pages/other/other.vue 中使用localdata渲染图表的例子）。【localdata和collection（uniCloud数据库）同时存在，优先使用localdata；如果localdata和chartData同时存在，优先使用chartData。<font color=#FF0000> 即chartData>localdata>collection的优先级</font>渲染图表】。|
 |opts|Object|{}|否|uCharts图表配置参数(option)，请参考[【在线生成工具】](https://demo.ucharts.cn)<font color=#FF0000>注：传入的opts会覆盖默认config-ucharts.js中的配置，只需传入与config-ucharts.js中属性不一致的opts即可实现【同类型的图表显示不同的样式】。</font>|
-|eopts|Object|{}|否|ECharts图表配置参数(option)，请参考[【ECharts配置手册】](https://echarts.apache.org/zh/option.html)传入eopts。<font color=#FF0000>注：传入的eopts会覆盖默认config-echarts.js中的配置，以实现同类型的图表显示不同的样式。</font>|
+|eopts|Object|{}|否|ECharts图表配置参数(option)，请参考[【ECharts配置手册】](https://echarts.apache.org/zh/option.html)传入eopts。<font color=#FF0000>注：1、传入的eopts会覆盖默认config-echarts.js中的配置，以实现同类型的图表显示不同的样式。2、eopts不能传递function，如果option配置参数需要function，请将option写在config-echarts.js中即可实现。</font>|
 |loadingType|Number|2|否|加载动画样式，0为不显示加载动画，1-5为不同的样式，见下面示例。|
 |errorShow|Boolean|true|否|是否在页面上显示错误提示，true为显示错误提示图片，false时会显示空白区域|
+|errorReload|Boolean|true|否|是否启用点击错误提示图表重新加载，true为允许点击重新加载，false为禁用点击重新加载事件|
 |errorMessage|String|null|否|自定义错误信息，强制显示错误图片及错误信息，当上面errorShow为true时可用。（组件会监听该属性的变化，只要有变化，就会强制显示错误信息！）。说明：1、一般用于页面网络不好或其他情况导致图表loading动画一直显示，可以传任意(不为null或者"null"或者空"")字符串强制显示错误图片及说明。2、如果组件使用了data-come属性读取uniCloud数据，组件会自动判断错误状态并展示错误图标，不必使用此功能。3、当状态从非null改变为null或者空时，会强制调用reload重新加载并渲染图表数据。|
 |echartsH5|Boolean|false|否|是否在H5端使用ECharts引擎渲染图表|
+|directory|String|'/'|否|二级目录名称，如果开启上面echartsH5即H5端用ECharts引擎渲染图表，并且项目未发布在website根目录，需要填写此项配置。例如二级目录是h5，则需要填写`/h5/`，左右两侧需要带`/`，发布到三级或更多层目录示例`/web/v2/h5/`|
 |echartsApp|Boolean|false|否|是否在APP端使用ECharts引擎渲染图表|
 |canvasId|String|见说明|否|默认生成32位随机字符串。如果指定canvasId，可方便后面调用指定图表实例，否则需要通过渲染完成事件获取自动生成随机的canvasId|
-|canvas2d|Boolean|false|否|是否开启canvas2d模式，用于解决微信小程序层级过高问题，仅微信小程序端可用，其他端会强制关闭canvas2d模式。<font color=#FF0000>注：开启canvas2d模式，必须要传入上面的canvasId（随机字符串，不能是动态绑定的值，不能是数字），否则微信小程序可能会获取不到dom导致无法渲染图表！**开启后，开发者工具显示不正常，预览正常（不能“真机调试”）**</font>|
+|canvas2d|Boolean|false|否|是否开启canvas2d模式，用于解决微信小程序层级过高问题，仅微信小程序端可用，其他端会强制关闭canvas2d模式。<font color=#FF0000>注：开启canvas2d模式，必须要传入上面的canvasId（随机字符串，不能是动态绑定的值，不能是数字），否则微信小程序可能会获取不到dom导致无法渲染图表！**开启后，开发者工具显示不正常，预览正常（不能“真机调试”,不能“真机调试”,不能“真机调试”）**</font>|
 |background|String|none|否|背景颜色，默认透明none，可选css的16进制color值，如#FFFFFF|
 |animation|Boolean|true|否|是否开启图表动画效果|
 |inScrollView|Boolean|false|否|图表组件是否在scroll-view中，如果在请传true，否则会出现点击事件坐标不准确的现象|
@@ -232,7 +240,8 @@ localdata:[
 |ontap|Boolean|true|否|是否监听@tap@cilck事件，禁用后不会触发组件点击事件|
 |ontouch|Boolean|false|否|（仅uCharts）是否监听@touchstart@touchmove@touchend事件（赋值为true时，非PC端在图表区域内无法拖动页面滚动）|
 |onmouse|Boolean|true|否|是否监听@mousedown@mousemove@mouseup事件，禁用后鼠标经过图表上方不会显示tooltip|
-|onmovetip|Boolean|false|否|（仅uCharts）是否开启跟手显示tooltip功能（前提条件，1、需要开启touch功能，即:ontouch="true"；2、并且opts.enableScroll=false即关闭图表的滚动条功能）（建议微信小程序开启canvas2d功能，否则原生canvas组件会很卡）|
+|on movetip|Boolean|false|否|（仅uCharts）是否开启跟手显示tooltip功能（前提条件，1、需要开启touch功能，即:ontouch="true"；2、并且opts.enableScroll=false即关闭图表的滚动条功能）（建议微信小程序开启canvas2d功能，否则原生canvas组件会很卡）|
+|tapLegend|Boolean|true|否|（仅uCharts）是否开启图例点击交互事件 |
 
 ## 组件事件及方法
 
@@ -340,9 +349,9 @@ tooltipCustom属性如下：
 │ ── └──u-charts-v2.0.0.js──────# uCharts基础库v2.0.0版本，部分API与之前版本不同
 ├── static
 │ └── app-plus──────────────────# 条件编译目录，仅编译到APP端
-│ ── └──echarts.min.js──────────# Echarts基础库v5.0.2
+│ ── └──echarts.min.js──────────# Echarts基础库v4.2.1
 │ └── h5────────────────────────# 条件编译目录，仅编译到H5端
-│ ── └──echarts.min.js──────────# Echarts基础库v5.0.2
+│ ── └──echarts.min.js──────────# Echarts基础库v4.2.1
 ```
 
 
@@ -390,23 +399,44 @@ tooltipCustom属性如下：
 
 - `图表无法显示问题`：
 	* 请先检查您的HBuilderX版本，要求高于3.1.0+。
-  * 如果是首次导入插件不显示，请重启HBuilderX或者重启项目或者重启开发者工具，避免缓存导致不能显示。
-	* 其次请检查组件父元素绑定的CSS样式（示例中class="charts-box"这个样式），是否没有正确的宽高，组件内图表会自适应父级结构的尺寸。
-	* 最后检查父级是否使用了v-show来控制显示。如果页面初始化时组件处于隐藏状态，组件则无法正确获取宽高尺寸，此时需要组件内绑定reshow属性（逻辑应与父级的v-show的逻辑相同），强制重新渲染图表，例如:reshow="父级v-show绑定的事件"。
-- `图表抖动问题`：如果开启了animation动画效果，由于组件内开启了chartData和opts的监听，当数据变化时会重新渲染图表，建议整体改变chartData及opts的属性值，而不要通过循环或遍历来改变this实例下的chartData及opts，例如先定义一个临时变量，拼接好数据后再整体赋值。
+	* 1、如果是首次导入插件不显示，或者报以下未注册`qiun-data-charts`的错误：
+	> Unknown custom element: &lt; qiun-data-charts &gt; - did you register the component correctly? For recursive components, make sure to provide the "name" option.
+	* 2、<font color=#FF0000>请【重启HBuilderX】或者【重启项目】或者【重启开发者工具】或者【删除APP基座】重新运行，避免缓存问题导致不能显示。</font>
+  * 3、如果是基于uniapp的vue-cli项目，1、请 npm update 升级uniapp依赖为最新版本；2、请尝试清理node-modules，重新install，还不行就删除项目，再重新install。如果仍然不行，请检查uniapp依赖是否为最新版本，再重试以上步骤。如果仍然不行，请使用<font color=#FF0000>【非uni_modules版本】</font>组件，最新非uni_modules版本在码云发布，[点击此处获取](https://gitee.com/uCharts/uCharts/tree/master/qiun-data-charts%EF%BC%88%E9%9D%9Euni-modules%EF%BC%89)。。
+	* 4、请检查控制台是否有报错或提示信息，如果没有报错，也没有提示信息，并且检查视图中class="charts-box"这个元素的宽高均为0，请修改父元素的css样式或进行下面第4步检查。
+	* 5、检查父级是否使用了v-show来控制显示。如果页面初始化时组件处于隐藏状态，组件则无法正确获取宽高尺寸，此时<font color=#FF0000>需要组件内绑定reshow属性（逻辑应与父级的v-show的逻辑相同）</font>，强制重新渲染图表，例如:reshow="父级v-show绑定的事件"。
+	* 6、如果在微信小程序端开启了canvas2d模式<font color=#FF0000>（不能使用真机调试，请直接预览）</font>不显示图表：
+		* a、请务必在组件上定义canvasId，不能为纯数字、不能为变量、不能重复、尽量长一些。
+		* b、请检查微信小程序的基础库，修改至2.16.0或者最新版本的基础库。
+		* c、请检查父元素或父组件是否用v-if来控制显示，如有请改为v-show，并将v-show的逻辑绑定至组件。
+- `formatter格式化问题`：无论是uCharts还是ECharts，因为组件不能传递function，所有的formatter均需要变成别名format来定义，并在config-ucharts.js或config-echarts.js配置对应的formatter方法，组件会根据format的值自动替换配置文件中的formatter方法。（参考示例项目pages/format/format.vue）
+- `图表抖动问题`：如果开启了animation动画效果，由于组件内开启了chartData和opts的监听，当数据变化时会重新渲染图表，<font color=#FF0000>建议整体改变chartData及opts的属性值</font>，而不要通过循环或遍历来改变this实例下的chartData及opts，例如先定义一个临时变量，拼接好数据后再整体赋值。（参考示例项目pages/updata/updata.vue）
+- `微信小程序报错Maximum call stack size exceeded问题`:由于组件内开启了chartData和opts的监听，当数据变化时会重新渲染图表，<font color=#FF0000>建议整体改变chartData及opts的属性值</font>，而不要通过循环或遍历来改变this实例下的chartData及opts，例如先定义一个临时变量，拼接好数据后再整体赋值。（参考示例项目pages/updata/updata.vue）
 - `Loading状态问题`：如不使用uniClinetDB获取数据源，并且需要展示Loading状态，请先清空series，使组件变更为Loading状态，即this.chartData.series=[]即可展示，然后再从服务端获取数据，拼接完成后再传入this.chartData。如果不需要展示Loading状态，则不需要以上步骤，获取到数据，拼接好标准格式后，直接赋值即可。
-- `微信小程序图表层级过高问题`：因canvas在微信小程序是原生组件，如果使用自定义tabbar或者自定义导航栏，图表则会超出预期，此时需要给组件的canvas2d传值true来使用type='2d'的功能，开启此模式后，开发者工具显示不正常，图表层级会变高，而正常预览或者发布上线则是正常状态，开发者不必担心，一切以真机预览为准（因微信开发者工具显示不正确，canvas2d这种模式下给调试带来了困难，开发时，可以先用:canvas2d="false"来调试，调试无误后再改成true）。
-- `在图表上滑动无法使页面滚动问题`：此问题是因为监听了touchstart、touchmove和touchend三个事件，或者您开启了disableScroll属性，如果您的图表不需要开启图表内的滚动条功能，请禁用这三个方法的监听，即:ontouch="false"或者:disableScroll="false"即可（此时图表组件默认通过@tap事件来监听点击，可正常显示Tooltip提示窗）。
-- `开启滚动条无法拖动图表问题`：此问题正与以上问题相反，是因为禁用了监听touchstart、touchmove和touchend三个事件，请启用这三个方法的监听，即:ontouch="true"即可。
-- `地图变形问题`：此问题是因为您引用的geojson地图数据的坐标系可能是地球坐标(WGS84)导致，您需要额外自行处理成火星坐标或者百度坐标，常用工具为coordtransform.js，电梯直达[https://github.com/wandergis/coordtransform](https://github.com/wandergis/coordtransform)
+- `微信小程序图表层级过高问题`：因canvas在微信小程序是原生组件，如果使用自定义tabbar或者自定义导航栏，图表则会超出预期，此时需要给组件的canvas2d传值true来使用type='2d'的功能，开启此模式后，<font color=#FF0000>一定要在组件上自定义canvasId，不能为数字，不能动态绑定，要为随机字符串！不能“真机调试”，不能“真机调试”，不能“真机调试”</font>开发者工具显示不正常，图表层级会变高，而正常预览或者发布上线则是正常状态，开发者不必担心，一切以真机预览为准（因微信开发者工具显示不正确，canvas2d这种模式下给调试带来了困难，开发时，可以先用:canvas2d="false"来调试，预览无误后再改成true）。
+- `开启canvas2d后图表不显示问题`：开启canvas2d后，需要手动指定canvasId，并且父元素不能含有v-if，否则会导致获取不到dom节点问题，请将v-if改成v-show，更多开启canvas2d不显示问题，请参考示例项目pages/layout/layout.vue文件，对照示例项目修改您的项目。
+- `MiniPorgramError U.createEvent is ot a function`：此问题一般是微信小程序开启了canvas2d，并点击了“真机调试导致”，参考上面【微信小程序图表层级过高问题】解决办法，开启2d后，不可以真机调试，只能开发者工具调试或者扫二维码“预览”。
+- `在图表上滑动无法使页面滚动问题`：此问题是因为监听了touchstart、touchmove和touchend三个事件，或者开启了disableScroll属性，如果您的图表不需要开启图表内的滚动条功能，请禁用这三个方法的监听，即:ontouch="false"或者:disableScroll="false"即可（此时图表组件默认通过@tap事件来监听点击，可正常显示Tooltip提示窗）。
+- `开启滚动条无法拖动图表问题`：此问题正与以上问题相反，是因为禁用了监听touchstart、touchmove和touchend三个事件，请启用这三个方法的监听，即在组件上加入 :ontouch="true" 即可。注意，不要忘记在opts里需要配置enableScroll:true，另外如果需要显示滚动条，需要在xAxis中配置scrollShow:ture，及itemCount（单屏数据密度）数量的配置。
+- `开启滚动条后图表两侧有白边问题`：此问题是因为组件上的background为none或者没有指定，请在组件上加入background="#000000"(您的背景色)。如果父元素为图片，尽量不要开启滚动条，此时图表是透明色，可以显示父元素背景图片。
+- `开启滚动条后动态打点更新数据滚动条位置问题`：开启滚动条后动态打点，需要把opts中update需要赋值为true，来启用uCharts的updateData方法来更新视图，详见示例项目pages/updata/updata.vue。
+- `地图变形问题`：此问题是因为您引用的geojson地图数据的坐标系可能是地球坐标(WGS84)导致，需要开启【是否进行WGS84转墨卡托投影】功能。开启后因大量的数据运算tooltip可能会不跟手，建议自行转换为墨卡托坐标系，可参照源码内function lonlat2mercator()。其他地图数据下载地址：[http://datav.aliyun.com/tools/atlas/](http://datav.aliyun.com/tools/atlas/)
+- `支付宝（钉钉）小程序无法点击问题`：请检查支付宝小程序开发者工具中，点击【详情】，在弹出的【项目详情】中【取消】启用小程序基础库 2.0 构建，一定不要勾选此项。
+- `uni-simple-router中使用问题`：如果使用uni-simple-router路由插件，H5开启完全路由模式（即h5:{vueRouterDev:true}）时，会导致组件内uni.xxx部分方法失效，引发节点获取不正常报错，请使用普通模式即可。
+- `Y轴刻度标签数字重复问题`：此问题一般是series数据内数值较小，而Y轴网格数量较多，并且Y轴刻度点显示整数导致。解决方法1，Y轴刻度值保留两位小数，组件上传值 :opts="{yAxis:{data:[{tofix:2}]}}"；解决方法2，修改Y轴网格数量为series中的最大值的数量，例如series中最大值为3，那么修改yAxis.splitNumber=3即可；解决方法3，根据Y轴网格数量修改Y轴最大值 :opts="{yAxis:{data:[{max:5}]}}"。
+- `柱状图柱子高度不符合预期问题`：此问题是Y轴最小值未默认为0的问题导致，组件上传值 :opts="{yAxis:{data:[{min:0}]}}"即可解决。
+- `饼图类百分比改其他文案的问题`：参考示例项目pages/format-u/format-u.vue，在chartData的series中使用format。
+
+## [更多常见问题以官方网站【常见问题】为准](http://demo.ucharts.cn)
 
 ## QQ群号码
-
+## <font color=#FF0000> 请先完整阅读【帮助文档】及【常见问题】3遍，右侧蓝色按钮【示例项目】请看2遍！不看文档不看常见问题进群就问的拒绝回答问题！咨询量太大请理解作者！ </font> 
 - 放在下面是为了让您先看文档，看好群分类，再进群！！
 - 交流群1：371774600（已满）
 - 交流群2：619841586（不回答本组件问题，只回答uCharts基础库问题）
 - 交流群3：955340127<font color=#FF0000>（优先解答本组件问题，其他问题群友互助）</font>
 - 口令`uniapp`
+
 
 ## 相关链接
 - [DCloud插件市场地址](https://ext.dcloud.net.cn/plugin?id=271)
@@ -415,7 +445,7 @@ tooltipCustom属性如下：
 - [uCharts码云开源托管地址](https://gitee.com/uCharts/uCharts) [![star](https://gitee.com/uCharts/uCharts/badge/star.svg?theme=gvp)](https://gitee.com/uCharts/uCharts/stargazers)
 - [uCharts基础库更新记录](https://gitee.com/uCharts/uCharts/wikis/%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95?sort_id=1535998)
 - [uCharts改造教程](https://gitee.com/uCharts/uCharts/wikis/%E6%94%B9%E9%80%A0uCharts%E6%89%93%E9%80%A0%E4%B8%93%E5%B1%9E%E5%9B%BE%E8%A1%A8?sort_id=1535997)
-- [`howcode`UReport数据报表——图表组件在uniCloudAdmin中的应用](https://ext.dcloud.net.cn/plugin?id=4651)
+- [图表组件在项目中的应用 UReport数据报表](https://ext.dcloud.net.cn/plugin?id=4651) 
 - [ECharts官网](https://echarts.apache.org/zh/index.html)
 - [ECharts配置手册](https://echarts.apache.org/zh/option.html)
 - [`wkiwi`提供的w-loading组件地址](https://ext.dcloud.net.cn/plugin?id=504)

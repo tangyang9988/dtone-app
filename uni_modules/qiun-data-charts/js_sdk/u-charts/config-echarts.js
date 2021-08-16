@@ -50,6 +50,15 @@ module.exports = {
       	// #endif
       }
       return result;
+    },
+    legendFormat:function(name){
+      return "自定义图例+"+name;
+    },
+    yAxisFormatDemo:function (value, index) {
+      return value + '元';
+    },
+    seriesFormatDemo:function(res){
+      return res.name + '年' + res.value + '元';
     }
   },
   //这里演示了自定义您的图表类型的option，可以随意命名，之后在组件上 type="demotype" 后，组件会调用这个花括号里的option，如果组件上还存在eopts参数，会将demotype与eopts中option合并后渲染图表。
