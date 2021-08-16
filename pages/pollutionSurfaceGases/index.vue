@@ -45,8 +45,10 @@
         <view v-for = "(value,key) in portRecord" :key="key" class="detailCard">
           <view class="cardTitle">
               <view class="cardTitleWord">{{value.enterpriseName}}</view>
-              <view class="cardTitleWord">{{value.monitorTime}}</view>
-              <view class="cardTitleWord">{{value.name}}</view>
+              <view style="  display: flex;flex-wrap: wrap;justify-content:space-between;">
+                <view class="cardTitleWord">{{value.name}}</view>
+                <view class="cardTitleWord">{{value.monitorTime}}</view>
+              </view>
           </view>
           <view class="lineList">
           <view class="factorList">
@@ -310,7 +312,6 @@ export default {
             for (let i = 0; i < allRecords.length; i++) {
               that.portRecord.push(allRecords[i]);
             }
-            console.log(that.portRecord)
           },
           function (err) {
             that.isHide = false;
@@ -526,9 +527,6 @@ export default {
   font-family: PingFang SC;
   font-weight: 500;
   color: #000000;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content:space-between;
 }
 
 .cardTitleIcon1 {

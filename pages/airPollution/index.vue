@@ -569,7 +569,16 @@ export default {
     this.getPortDetail();
     this.getAqiRank();
   },
-  onLoad() {},
+  // onPullDownRefresh() {
+  //   setTimeout(function () {
+  //       uni.stoptPullDownRefresh();
+  //   }, 1000);
+  //   this.getServerData();
+  //   this.getPortDetail();
+  //   this.getAqiRank();
+  // },
+  onLoad() {
+  },
   onReady() {},
   created() {},
 };
