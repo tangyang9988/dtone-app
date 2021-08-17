@@ -12,7 +12,7 @@
           :value="index"
           :range-key="'stationName'"
           style="width: 100%;">
-          <text class="content_value_name" style="margin-left: 20px" v-if="menuurl == 'airPollution_index' ||menuurl == 'surfaceWater_index'">请选择站点：</text>
+          <text class="content_value_name" style="margin-left: 20px" v-if="menuType == 'airPollution_index' ||menuType == 'surfaceWater_index'">请选择站点：</text>
           <text class="content_value_name" style="margin-left: 20px" v-else>请选择企业：</text>
           <text class="content_value_name" v-if="siteList[index]">{{
             siteList[index].stationName
@@ -174,24 +174,51 @@
           </view>
         </view>
         <view class="detailCard" v-else-if="menuType=='surfaceWater_index' || menuType=='pollutionSurfaceWater_index'">
-          <view class="detailCard_header">
-            <view class="header_title" v-if="menuType=='surfaceWater_index'">
-              {{ item.stationName }}
-            </view>
-            <view class="header_title" v-else-if="menuType=='pollutionSurfaceWater_index'">
-              {{ item.enterpriseName }}-{{ item.outletName }}
-            </view>
-            <view class="header_title" v-if="active=='hour'">
-              {{ item.updateTime==""?"": item.updateTime.slice(0,-6) }}
-            </view>
-            <view class="header_title" v-else-if="active=='day' || active=='threedays' || active=='auto'">
-              {{ item.updateTime==""?"": item.updateTime.slice(0,-8) }}
-            </view>
-            <view class="header_title" v-else>
-              {{ item.updateTime }}
-            </view>
+          <view class="detailCard_header" v-if="menuType=='surfaceWater_index'">
+              <view class="header_title" >
+                {{ item.stationName }}
+              </view>
+              <view class="header_title">
+                {{ item.updateTime }}
+              </view>
+          </view>
+          <view class="detailCard_header_water" v-else-if="menuType=='pollutionSurfaceWater_index'">
+              <view class="header_title" >
+                {{ item.enterpriseName }}
+              </view>
+              <view style="display: flex;flex-wrap: wrap;justify-content:space-between;">
+                  <view  class="header_title">{{ item.outletName }}</view>
+                  <view class="header_title" v-if="active=='hour'">
+                    {{ item.updateTime==""?"": item.updateTime.slice(0,-6) }}
+                  </view>
+                  <view class="header_title" v-else-if="active=='day' || active=='threedays' || active=='auto'">
+                    {{ item.updateTime==""?"": item.updateTime.slice(0,-8) }}
+                  </view>
+                  <view class="header_title" v-else>
+                    {{ item.updateTime }}
+                  </view>
+              </view>
+
           </view>
           <view class="content">
+            <view class="singleFactor">
+              <view class="content_value_name">PH：</view>
+              <view class="content_value">
+                <view>{{ item.ph }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">流量：</view>
+              <view class="content_value">
+                <view>{{ item.ws }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">COD：</view>
+              <view class="content_value">
+                <view>{{ item.cod }}</view>
+              </view>
+            </view>
             <view class="singleFactor">
               <view class="content_value_name">氨氮：</view>
               <view class="content_value">
@@ -211,83 +238,74 @@
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">高锰酸盐：</view>
+              <view class="content_value_name">总锌：</view>
               <view class="content_value">
-                <view>{{ item.codmn }}</view>
-              </view>
-            </view>
-
-            <view class="singleFactor">
-              <view class="content_value_name">电导率：</view>
-              <view class="content_value">
-                <view>{{ item.ec }}</view>
+                <view>{{ item.zzn }}</view>
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">PH：</view>
+              <view class="content_value_name">总砷：</view>
               <view class="content_value">
-                <view>{{ item.ph }}</view>
+                <view>{{ item.zk }}</view>
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">水温：</view>
+              <view class="content_value_name">总镍：</view>
               <view class="content_value">
-                <view>{{ item.sw }}</view>
+                <view>{{ item.zn }}</view>
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">浊度：</view>
+              <view class="content_value_name">总铜：</view>
               <view class="content_value">
-                <view>{{ item.tub }}</view>
+                <view>{{ item.zcuzt }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">氟化物：</view>
+              <view class="content_value">
+                <view>{{ item.fhww }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">六价铬：</view>
+              <view class="content_value">
+                <view>{{ item.ljg }}</view>
               </view>
             </view>
           </view>
         </view>
         <view class="detailCard" v-else-if="menuType=='pollutionSurfaceGases_index'">
-          <view class="detailCard_header">
-            <view class="header_title">
-              {{ item.outletName }}
+          <view class="detailCard_header_water">
+            <view class="header_title" >
+              {{ item.enterpriseName }}
             </view>
-            <view class="header_title" v-if="active=='hour'">
-              {{ item.updateTime==""?"": item.updateTime.slice(0,-6) }}
-            </view>
-            <view class="header_title" v-else-if="active=='day' || active=='threedays' || active=='auto'">
-              {{ item.updateTime==""?"": item.updateTime.slice(0,-8) }}
-            </view>
-            <view class="header_title" v-else>
-              {{ item.updateTime }}
+            <view style="display: flex;flex-wrap: wrap;justify-content:space-between;">
+              <view class="header_title">
+                {{ item.outletName }}
+              </view>
+              <view class="header_title" v-if="active=='hour'">
+                {{ item.updateTime==""?"": item.updateTime.slice(0,-6) }}
+              </view>
+              <view class="header_title" v-else-if="active=='day' || active=='threedays' || active=='auto'">
+                {{ item.updateTime==""?"": item.updateTime.slice(0,-8) }}
+              </view>
+              <view class="header_title" v-else>
+                {{ item.updateTime }}
+              </view>
             </view>
           </view>
           <view class="content">
             <view class="singleFactor">
-              <view class="content_value_name">甲烷：</view>
-              <view class="content_value">
-                <view>{{ item.ch4 }}</view>
-              </view>
-            </view>
-            <view class="singleFactor">
-              <view class="content_value_name">二氧化氮：</view>
-              <view class="content_value">
-                <view>{{ item.no2 }}</view>
-              </view>
-            </view>
-            <view class="singleFactor">
-              <view class="content_value_name">氮氧化合物：</view>
-              <view class="content_value">
-                <view>{{ item.nox }}</view>
-              </view>
-            </view>
-            <view class="singleFactor">
-              <view class="content_value_name">二氧化硫：</view>
-              <view class="content_value">
-                <view>{{ item.so2 }}</view>
-              </view>
-            </view>
-
-            <view class="singleFactor">
               <view class="content_value_name">非甲烷总烃：</view>
               <view class="content_value">
                 <view>{{ item.nmhc }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">流量:</view>
+              <view class="content_value">
+                <view>{{ item.fq }}</view>
               </view>
             </view>
             <view class="singleFactor">
@@ -297,9 +315,93 @@
               </view>
             </view>
             <view class="singleFactor">
-              <view class="content_value_name">流速：</view>
+              <view class="content_value_name">zs烟尘：</view>
               <view class="content_value">
-                <view>{{ item.yqls }}</view>
+                <view>{{ item.yc }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">SO2：</view>
+              <view class="content_value">
+                <view>{{ item.so2 }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">ZSSO2：</view>
+              <view class="content_value">
+                <view>{{ item.zsso2 }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">NO：</view>
+              <view class="content_value">
+                <view>{{ item.no }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">ZSNO：</view>
+              <view class="content_value">
+                <view>{{ item.zsno }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">NO2：</view>
+              <view class="content_value">
+                <view>{{ item.no2 }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">ZSNO2：</view>
+              <view class="content_value">
+                <view>{{ item.zsno2 }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">NOX：</view>
+              <view class="content_value">
+                <view>{{ item.nox }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">ZSNOX：</view>
+              <view class="content_value">
+                <view>{{ item.zsnox }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">CO：</view>
+              <view class="content_value">
+                <view>{{ item.co }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">ZSCO：</view>
+              <view class="content_value">
+                <view>{{ item.zsco }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">CO2：</view>
+              <view class="content_value">
+                <view>{{ item.co2 }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">ZSCO2：</view>
+              <view class="content_value">
+                <view>{{ item.zsco2 }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">氟化物：</view>
+              <view class="content_value">
+                <view>{{ item.fhwa }}</view>
+              </view>
+            </view>
+            <view class="singleFactor">
+              <view class="content_value_name">氯化氢：</view>
+              <view class="content_value">
+                <view>{{ item.lhq }}</view>
               </view>
             </view>
           </view>
@@ -682,6 +784,12 @@ export default {
   justify-content: space-between;
   height: 39px;
   padding: 0px 10px;
+  background: #f4f4f4;
+  opacity: 1;
+  border-radius: 12px 12px 0px 0px;
+}
+.detailCard_header_water {
+  padding: 0px 10px 10px 10px;
   background: #f4f4f4;
   opacity: 1;
   border-radius: 12px 12px 0px 0px;

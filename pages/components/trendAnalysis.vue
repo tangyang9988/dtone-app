@@ -117,7 +117,7 @@ export default {
   display: none;
 }
 .chartColum{
-  width:3500px;
+  width:3000px;
 }
 .rightButton {
   position: absolute;

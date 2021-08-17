@@ -16,63 +16,63 @@
 			"path": "pages/home/home",			
 			"style": {
 				"navigationBarTitleText": "uni-app",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/bottomMenu/index",			
 			"style": {
 				"navigationBarTitleText": "uni-app",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/airPollution/index",			
 			"style": {
 				"navigationBarTitleText": "uni-app",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/airPollution/history",			
 			"style": {
 				"navigationBarTitleText": "uni-app",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/airPollution/alert",			
 			"style": {
 				"navigationBarTitleText": "uni-app",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/airPollution/waiting",			
 			"style": {
 				"navigationBarTitleText": "uni-app",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/surfaceWater/index",			
 			"style": {
 				"navigationBarTitleText": "uni-app",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/pollutionSurfaceWater/index",			
 			"style": {
 				"navigationBarTitleText": "uni-app",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/pollutionSurfaceGases/index",			
 			"style": {
 				"navigationBarTitleText": "uni-app",
-				"enablePullDownRefresh": true
+				"enablePullDownRefresh": false
 			}
 		}
 
